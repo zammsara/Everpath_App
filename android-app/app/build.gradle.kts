@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.everpath"
+    namespace = "com.everpath"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "com.example.everpath"
+        applicationId = "com.everpath"
         minSdk = 24
         targetSdk = 36
         versionCode = 1

@@ -1,4 +1,4 @@
-package com.example.everpath
+package com.everpath.everpath
 
 import org.junit.Test
 

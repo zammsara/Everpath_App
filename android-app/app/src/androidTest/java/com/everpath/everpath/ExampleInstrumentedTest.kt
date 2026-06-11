@@ -1,4 +1,4 @@
-package com.example.everpath
+package com.everpath.everpath
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

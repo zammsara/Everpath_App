@@ -1,4 +1,4 @@
-package com.example.everpath.ui.theme
+package com.everpath.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

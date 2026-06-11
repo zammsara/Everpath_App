@@ -1,10 +1,10 @@
-package com.example.everpath
+package com.everpath
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.everpath.ui.theme.EverpathTheme
+import com.everpath.ui.theme.EverpathTheme
 
 class MainActivity : ComponentActivity() {
 

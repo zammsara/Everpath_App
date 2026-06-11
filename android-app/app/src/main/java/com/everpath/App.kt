@@ -1,4 +1,4 @@
-package com.example.everpath
+package com.everpath
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
