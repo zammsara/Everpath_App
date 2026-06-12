@@ -45,14 +45,14 @@ fun EverpathCanvas(
                     drawLine(
                         color = connectionColor,
                         start = androidx.compose.ui.geometry.Offset(
-                            x = source.x,
-                            y = source.y
+                            x = source.x + 90f,
+                            y = source.y + 50f
                         ),
                         end = androidx.compose.ui.geometry.Offset(
-                            x = target.x,
-                            y = target.y
+                            x = target.x + 90f,
+                            y = target.y + 50f
                         ),
-                        strokeWidth = 6f
+                        strokeWidth = 4f
                     )
 
                 }
