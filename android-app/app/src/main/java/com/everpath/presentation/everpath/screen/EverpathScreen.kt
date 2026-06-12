@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.everpath.presentation.everpath.components.EverpathCanvas
+import com.everpath.presentation.everpath.preview.GoalConnectionMockData
 import com.everpath.presentation.everpath.preview.GoalNodePositionMockData
 import com.everpath.presentation.everpath.viewmodel.EverpathViewModel
 
@@ -18,6 +19,7 @@ fun EverpathScreen(
 
     EverpathCanvas(
         goalNodes = uiState.value.goalNodes,
-        positions = GoalNodePositionMockData.positions
+        positions = GoalNodePositionMockData.positions,
+        connections = GoalConnectionMockData.connections
     )
 }
