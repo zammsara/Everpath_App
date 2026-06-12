@@ -11,6 +11,11 @@ import androidx.compose.ui.unit.dp
 import com.everpath.domain.model.GoalConnection
 import com.everpath.domain.model.GoalNode
 import com.everpath.presentation.everpath.model.GoalNodePosition
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun EverpathCanvas(
@@ -22,8 +27,17 @@ fun EverpathCanvas(
 
     val connectionColor = MaterialTheme.colorScheme.primary
 
+    val horizontalScrollState = rememberScrollState()
+    val verticalScrollState = rememberScrollState()
+
     Box(
         modifier = modifier.fillMaxSize()
+            .horizontalScroll(horizontalScrollState)
+            .verticalScroll(verticalScrollState)
+            .size(
+                width = 1200.dp,
+                height = 1200.dp
+            )
     ) {
 
         Canvas(
