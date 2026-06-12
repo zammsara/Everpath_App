@@ -6,9 +6,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.everpath.presentation.everpath.viewmodel.EverpathViewModel
 
 @Composable
-fun EverpathScreen() {
+fun EverpathScreen(
+    viewModel: EverpathViewModel = viewModel()
+) {
+
+    val uiState = viewModel
+        .uiState
+        .collectAsStateWithLifecycle()
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -16,7 +25,7 @@ fun EverpathScreen() {
     ) {
 
         Text(
-            text = "Everpath"
+            text = "Goal Nodes: ${uiState.value.goalNodes.size}"
         )
 
     }
