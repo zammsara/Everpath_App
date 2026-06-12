@@ -3,6 +3,7 @@ package com.everpath.presentation.everpath.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -19,7 +20,10 @@ fun GoalNodeCard(
 ) {
 
     Card(
-        modifier = modifier,
+        modifier = modifier.size(
+            width = 180.dp,
+            height = 100.dp
+        ),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
         )
@@ -27,8 +31,7 @@ fun GoalNodeCard(
 
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
+                .padding(12.dp)
         ) {
 
             Text(
