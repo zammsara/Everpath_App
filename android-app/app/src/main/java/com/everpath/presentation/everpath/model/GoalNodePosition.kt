@@ -1,4 +1,4 @@
-package com.everpath.domain.model
+package com.everpath.presentation.everpath.model
 
 data class GoalNodePosition(
     val goalNodeId: String,
