@@ -6,6 +6,7 @@ import com.everpath.presentation.everpath.state.EverpathUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class EverpathViewModel : ViewModel() {
 
@@ -17,4 +18,17 @@ class EverpathViewModel : ViewModel() {
 
     val uiState: StateFlow<EverpathUiState> =
         _uiState.asStateFlow()
+
+    fun selectGoal(goalId: String) {
+
+        _uiState.update { currentState ->
+
+            currentState.copy(
+                selectedGoalId = goalId
+            )
+
+        }
+
+    }
+
 }
