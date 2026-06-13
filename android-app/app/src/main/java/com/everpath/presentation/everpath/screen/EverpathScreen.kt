@@ -1,6 +1,8 @@
 package com.everpath.presentation.everpath.screen
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -11,6 +13,13 @@ import com.everpath.presentation.everpath.preview.GoalConnectionMockData
 import com.everpath.presentation.everpath.preview.GoalNodePositionMockData
 import com.everpath.presentation.everpath.viewmodel.EverpathViewModel
 import com.everpath.presentation.everpath.viewmodel.EverpathViewModelFactory
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.ui.Modifier
+import com.everpath.presentation.everpath.components.CreateGoalDialog
 
 @Composable
 fun EverpathScreen() {
@@ -44,14 +53,68 @@ fun EverpathScreen() {
         .uiState
         .collectAsStateWithLifecycle()
 
-    EverpathCanvas(
-        goalNodes = uiState.value.goalNodes,
-        positions = GoalNodePositionMockData.positions,
-        connections = GoalConnectionMockData.connections,
-        selectedGoalId = uiState.value.selectedGoalId,
-        onGoalClick = { goalId ->
-            viewModel.selectGoal(goalId)
+    val showCreateGoalDialog =
+        remember {
+            mutableStateOf(false)
         }
-    )
+
+    Scaffold(
+
+        floatingActionButton = {
+
+            FloatingActionButton(
+                onClick = {
+                    showCreateGoalDialog.value = true
+                }
+            ) {
+
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Crear Goal"
+                )
+
+            }
+
+        }
+
+    ) { paddingValues ->
+
+        EverpathCanvas(
+            goalNodes = uiState.value.goalNodes,
+            positions = GoalNodePositionMockData.positions,
+            connections = GoalConnectionMockData.connections,
+            selectedGoalId = uiState.value.selectedGoalId,
+            onGoalClick = { goalId ->
+                viewModel.selectGoal(goalId)
+            },
+            modifier = Modifier.padding(
+                paddingValues
+            )
+        )
+
+    }
+
+    if (showCreateGoalDialog.value) {
+
+        CreateGoalDialog(
+
+            onDismiss = {
+                showCreateGoalDialog.value = false
+            },
+
+            onSave = { title, description ->
+
+                viewModel.createGoal(
+                    title = title,
+                    description = description
+                )
+
+                showCreateGoalDialog.value = false
+
+            }
+
+        )
+
+    }
 
 }
