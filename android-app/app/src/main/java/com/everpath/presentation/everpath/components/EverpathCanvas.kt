@@ -20,6 +20,7 @@ fun EverpathCanvas(
     goalNodes: List<GoalNode>,
     positions: List<GoalNodePosition>,
     connections: List<GoalConnection>,
+    onGoalClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -95,6 +96,9 @@ fun EverpathCanvas(
 
                 GoalNodeCard(
                     goalNode = goalNode,
+                    onClick = {
+                        onGoalClick(goalNode.id)
+                    },
                     modifier = Modifier.offset(
                         x = position.x.dp,
                         y = position.y.dp

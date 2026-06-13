@@ -20,6 +20,9 @@ fun EverpathScreen(
     EverpathCanvas(
         goalNodes = uiState.value.goalNodes,
         positions = GoalNodePositionMockData.positions,
-        connections = GoalConnectionMockData.connections
+        connections = GoalConnectionMockData.connections,
+        onGoalClick = { goalId ->
+            viewModel.selectGoal(goalId)
+        }
     )
 }
