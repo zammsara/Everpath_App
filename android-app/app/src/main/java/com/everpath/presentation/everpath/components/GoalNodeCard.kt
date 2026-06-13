@@ -1,5 +1,6 @@
 package com.everpath.presentation.everpath.components
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,6 +18,7 @@ import com.everpath.domain.model.GoalNode
 @Composable
 fun GoalNodeCard(
     goalNode: GoalNode,
+    isSelected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -25,11 +27,24 @@ fun GoalNodeCard(
         modifier = modifier.size(
             width = 180.dp,
             height = 100.dp
-        ).clickable(
-            onClick = onClick
-        ),
+        ).border(
+            width = if (isSelected) 3.dp else 1.dp,
+            color = if (isSelected)
+                MaterialTheme.colorScheme.primary
+            else
+                MaterialTheme.colorScheme.outline,
+            shape = CardDefaults.shape
+        )
+            .clickable(
+                onClick = onClick
+            ),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
+            defaultElevation =
+                if (isSelected) {
+                    12.dp
+                } else {
+                    4.dp
+                }
         )
     ) {
 
