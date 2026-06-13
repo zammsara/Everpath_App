@@ -26,4 +26,5 @@ fun EverpathScreen(
             viewModel.selectGoal(goalId)
         }
     )
+
 }
