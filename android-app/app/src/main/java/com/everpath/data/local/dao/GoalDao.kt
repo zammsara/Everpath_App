@@ -40,4 +40,11 @@ interface GoalDao {
     suspend fun deleteGoal(
         goal: GoalEntity
     )
+
+    @Query(
+        "DELETE FROM goal_nodes WHERE id = :goalId"
+    )
+    suspend fun deleteGoalById(
+        goalId: String
+    )
 }

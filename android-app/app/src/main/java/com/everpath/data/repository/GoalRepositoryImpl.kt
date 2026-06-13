@@ -44,13 +44,6 @@ class GoalRepositoryImpl(
     override suspend fun deleteGoalNode(
         id: String
     ) {
-
-        val goal = goalDao
-            .getGoalById(id)
-            ?: return
-
-        goalDao.deleteGoal(
-            goal.goal
-        )
+        goalDao.deleteGoalById(id)
     }
 }
