@@ -22,6 +22,7 @@ import com.everpath.presentation.everpath.components.CreateGoalDialog
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.ui.unit.dp
 import com.everpath.presentation.everpath.components.EditGoalDialog
 
 @Composable
@@ -98,7 +99,11 @@ fun EverpathScreen() {
 
         floatingActionButton = {
 
-            Column {
+            Column(
+                modifier = Modifier.padding(
+                    bottom = 80.dp
+                )
+            ) {
 
                 if (
                     uiState.value.selectedGoalId != null
