@@ -23,6 +23,5 @@ object GoalNodePositionMockData {
             x = 600f,
             y = 400f
         )
-
     )
 }
