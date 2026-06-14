@@ -10,7 +10,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.everpath.EverpathApplication
 import com.everpath.presentation.everpath.components.EverpathCanvas
 import com.everpath.presentation.everpath.preview.GoalConnectionMockData
-import com.everpath.presentation.everpath.preview.GoalNodePositionMockData
 import com.everpath.presentation.everpath.viewmodel.EverpathViewModel
 import com.everpath.presentation.everpath.viewmodel.EverpathViewModelFactory
 import androidx.compose.material3.FloatingActionButton
@@ -43,7 +42,11 @@ fun EverpathScreen() {
             saveGoalPositionUseCase =
                 application
                     .appContainer
-                    .saveGoalPositionUseCase
+                    .saveGoalPositionUseCase,
+            getGoalPositionsUseCase =
+                application
+                    .appContainer
+                    .getGoalPositionsUseCase
         )
 
     }
@@ -85,7 +88,7 @@ fun EverpathScreen() {
 
         EverpathCanvas(
             goalNodes = uiState.value.goalNodes,
-            positions = GoalNodePositionMockData.positions,
+            positions = uiState.value.positions,
             connections = GoalConnectionMockData.connections,
             selectedGoalId = uiState.value.selectedGoalId,
             onGoalClick = { goalId ->

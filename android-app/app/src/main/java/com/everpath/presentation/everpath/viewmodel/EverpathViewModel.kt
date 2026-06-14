@@ -8,7 +8,9 @@ import com.everpath.domain.enums.LifeAreaType
 import com.everpath.domain.model.GoalNode
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
 import com.everpath.domain.usecase.goal.SaveGoalNodeUseCase
+import com.everpath.domain.usecase.goalposition.GetGoalPositionsUseCase
 import com.everpath.domain.usecase.goalposition.SaveGoalPositionUseCase
+import com.everpath.presentation.everpath.model.GoalNodePosition
 import com.everpath.presentation.everpath.state.EverpathUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +22,8 @@ import java.util.UUID
 class EverpathViewModel(
     private val getGoalNodesUseCase: GetGoalNodesUseCase,
     private val saveGoalNodeUseCase: SaveGoalNodeUseCase,
-    private val saveGoalPositionUseCase: SaveGoalPositionUseCase
+    private val saveGoalPositionUseCase: SaveGoalPositionUseCase,
+    private val getGoalPositionsUseCase: GetGoalPositionsUseCase
 ) : ViewModel() {
 
 
@@ -36,6 +39,7 @@ class EverpathViewModel(
 
     init {
         observeGoals()
+        observePositions()
     }
 
     private fun observeGoals() {
@@ -50,6 +54,37 @@ class EverpathViewModel(
                         currentState.copy(
                             goalNodes = goals,
                             isLoading = false
+                        )
+
+                    }
+
+                }
+
+        }
+
+    }
+
+    private fun observePositions() {
+
+        viewModelScope.launch {
+
+            getGoalPositionsUseCase()
+                .collect { positions ->
+
+                    _uiState.update { currentState ->
+
+                        currentState.copy(
+
+                            positions = positions.map {
+
+                                GoalNodePosition(
+                                    goalNodeId = it.goalId,
+                                    x = it.x,
+                                    y = it.y
+                                )
+
+                            }
+
                         )
 
                     }
