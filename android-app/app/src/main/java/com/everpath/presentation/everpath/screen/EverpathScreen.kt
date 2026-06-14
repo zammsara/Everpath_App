@@ -21,6 +21,8 @@ import androidx.compose.ui.Modifier
 import com.everpath.presentation.everpath.components.CreateGoalDialog
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material.icons.filled.Edit
+import com.everpath.presentation.everpath.components.EditGoalDialog
 
 @Composable
 fun EverpathScreen() {
@@ -66,7 +68,20 @@ fun EverpathScreen() {
         .uiState
         .collectAsStateWithLifecycle()
 
+    val selectedGoal =
+        uiState.value.goalNodes.find {
+
+            it.id ==
+                    uiState.value.selectedGoalId
+
+        }
+
     val showCreateGoalDialog =
+        remember {
+            mutableStateOf(false)
+        }
+
+    val showEditGoalDialog =
         remember {
             mutableStateOf(false)
         }
@@ -80,6 +95,19 @@ fun EverpathScreen() {
                 if (
                     uiState.value.selectedGoalId != null
                 ) {
+
+                    FloatingActionButton(
+                        onClick = {
+                            showEditGoalDialog.value = true
+                        }
+                    ) {
+
+                        Icon(
+                            imageVector = Icons.Default.Edit,
+                            contentDescription = "Editar Goal"
+                        )
+
+                    }
 
                     FloatingActionButton(
                         onClick = {
@@ -146,6 +174,38 @@ fun EverpathScreen() {
                 )
 
                 showCreateGoalDialog.value = false
+
+            }
+
+        )
+
+    }
+
+    if (
+        showEditGoalDialog.value &&
+        selectedGoal != null
+    ) {
+
+        EditGoalDialog(
+
+            initialTitle =
+                selectedGoal.title,
+
+            initialDescription =
+                selectedGoal.description,
+
+            onDismiss = {
+                showEditGoalDialog.value = false
+            },
+
+            onSave = { title, description ->
+
+                viewModel.updateGoal(
+                    title = title,
+                    description = description
+                )
+
+                showEditGoalDialog.value = false
 
             }
 
