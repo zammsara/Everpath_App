@@ -17,8 +17,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.ui.Modifier
 import com.everpath.presentation.everpath.components.CreateGoalDialog
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.foundation.layout.Column
 
 @Composable
 fun EverpathScreen() {
@@ -46,7 +49,11 @@ fun EverpathScreen() {
             getGoalPositionsUseCase =
                 application
                     .appContainer
-                    .getGoalPositionsUseCase
+                    .getGoalPositionsUseCase,
+            deleteGoalNodeUseCase =
+                application
+                    .appContainer
+                    .deleteGoalNodeUseCase
         )
 
     }
@@ -69,16 +76,39 @@ fun EverpathScreen() {
 
         floatingActionButton = {
 
-            FloatingActionButton(
-                onClick = {
-                    showCreateGoalDialog.value = true
-                }
-            ) {
+            Column {
 
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Crear Goal"
-                )
+                if (
+                    uiState.value.selectedGoalId != null
+                ) {
+
+                    FloatingActionButton(
+                        onClick = {
+                            viewModel.deleteSelectedGoal()
+                        }
+                    ) {
+
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Eliminar Goal"
+                        )
+
+                    }
+
+                }
+
+                FloatingActionButton(
+                    onClick = {
+                        showCreateGoalDialog.value = true
+                    }
+                ) {
+
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Crear Goal"
+                    )
+
+                }
 
             }
 

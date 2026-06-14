@@ -2,6 +2,7 @@ package com.everpath.presentation.everpath.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.everpath.domain.usecase.goal.DeleteGoalNodeUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
 import com.everpath.domain.usecase.goal.SaveGoalNodeUseCase
 import com.everpath.domain.usecase.goalposition.GetGoalPositionsUseCase
@@ -11,7 +12,8 @@ class EverpathViewModelFactory(
     private val getGoalNodesUseCase: GetGoalNodesUseCase,
     private val saveGoalNodeUseCase: SaveGoalNodeUseCase,
     private val saveGoalPositionUseCase: SaveGoalPositionUseCase,
-    private val getGoalPositionsUseCase: GetGoalPositionsUseCase
+    private val getGoalPositionsUseCase: GetGoalPositionsUseCase,
+    private val deleteGoalNodeUseCase: DeleteGoalNodeUseCase
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
@@ -29,7 +31,8 @@ class EverpathViewModelFactory(
                 getGoalNodesUseCase = getGoalNodesUseCase,
                 saveGoalNodeUseCase = saveGoalNodeUseCase,
                 saveGoalPositionUseCase = saveGoalPositionUseCase,
-                getGoalPositionsUseCase = getGoalPositionsUseCase
+                getGoalPositionsUseCase = getGoalPositionsUseCase,
+                deleteGoalNodeUseCase = deleteGoalNodeUseCase
             ) as T
 
         }

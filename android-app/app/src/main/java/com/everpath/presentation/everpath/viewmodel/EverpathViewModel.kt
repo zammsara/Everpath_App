@@ -6,6 +6,7 @@ import com.everpath.data.local.entity.GoalPositionEntity
 import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.enums.LifeAreaType
 import com.everpath.domain.model.GoalNode
+import com.everpath.domain.usecase.goal.DeleteGoalNodeUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
 import com.everpath.domain.usecase.goal.SaveGoalNodeUseCase
 import com.everpath.domain.usecase.goalposition.GetGoalPositionsUseCase
@@ -23,7 +24,8 @@ class EverpathViewModel(
     private val getGoalNodesUseCase: GetGoalNodesUseCase,
     private val saveGoalNodeUseCase: SaveGoalNodeUseCase,
     private val saveGoalPositionUseCase: SaveGoalPositionUseCase,
-    private val getGoalPositionsUseCase: GetGoalPositionsUseCase
+    private val getGoalPositionsUseCase: GetGoalPositionsUseCase,
+    private val deleteGoalNodeUseCase: DeleteGoalNodeUseCase
 ) : ViewModel() {
 
 
@@ -131,6 +133,26 @@ class EverpathViewModel(
             saveGoalPositionUseCase(position)
 
         }
+    }
+
+    fun deleteSelectedGoal() {
+
+        val goalId =
+            _uiState.value.selectedGoalId
+                ?: return
+
+        viewModelScope.launch {
+
+            deleteGoalNodeUseCase(goalId)
+
+            _uiState.update {
+                it.copy(
+                    selectedGoalId = null
+                )
+            }
+
+        }
+
     }
 
     fun selectGoal(
