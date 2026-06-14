@@ -33,6 +33,11 @@ fun CreateGoalDialog(
             mutableStateOf("")
         }
 
+    val isValid =
+        title.value
+            .trim()
+            .isNotEmpty()
+
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
@@ -74,6 +79,9 @@ fun CreateGoalDialog(
         confirmButton = {
 
             Button(
+
+                enabled = isValid,
+
                 onClick = {
 
                     onSave(
@@ -82,6 +90,7 @@ fun CreateGoalDialog(
                     )
 
                 }
+
             ) {
 
                 Text("Guardar")
