@@ -41,6 +41,16 @@ class GoalRepositoryImpl(
         )
     }
 
+    override suspend fun updateGoalNode(
+        goalNode: GoalNode
+    ) {
+
+        goalDao.updateGoal(
+            goalNode.toEntity()
+        )
+
+    }
+
     override suspend fun deleteGoalNode(
         id: String
     ) {

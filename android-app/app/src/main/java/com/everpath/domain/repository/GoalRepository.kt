@@ -11,5 +11,7 @@ interface GoalRepository {
 
     suspend fun saveGoalNode(goalNode: GoalNode)
 
+    suspend fun updateGoalNode(goalNode: GoalNode)
+
     suspend fun deleteGoalNode(id: String)
 }

@@ -11,6 +11,7 @@ import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
 import com.everpath.domain.usecase.goal.SaveGoalNodeUseCase
 import com.everpath.data.repository.GoalPositionRepositoryImpl
 import com.everpath.domain.repository.GoalPositionRepository
+import com.everpath.domain.usecase.goal.UpdateGoalNodeUseCase
 import com.everpath.domain.usecase.goalposition.*
 
 class AppContainer(
@@ -62,6 +63,11 @@ class AppContainer(
     val saveGoalPositionUseCase =
         SaveGoalPositionUseCase(
             goalPositionRepository
+        )
+
+    val updateGoalNodeUseCase =
+        UpdateGoalNodeUseCase(
+            goalRepository
         )
 
     val deleteGoalPositionUseCase =

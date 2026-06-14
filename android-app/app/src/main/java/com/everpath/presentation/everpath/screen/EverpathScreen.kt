@@ -43,14 +43,22 @@ fun EverpathScreen() {
                 application
                     .appContainer
                     .saveGoalNodeUseCase,
+
+            updateGoalNodeUseCase =
+                application
+                    .appContainer
+                    .updateGoalNodeUseCase,
+
             saveGoalPositionUseCase =
                 application
                     .appContainer
                     .saveGoalPositionUseCase,
+
             getGoalPositionsUseCase =
                 application
                     .appContainer
                     .getGoalPositionsUseCase,
+
             deleteGoalNodeUseCase =
                 application
                     .appContainer

@@ -10,6 +10,7 @@ import com.everpath.domain.model.GoalNode
 import com.everpath.domain.usecase.goal.DeleteGoalNodeUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
 import com.everpath.domain.usecase.goal.SaveGoalNodeUseCase
+import com.everpath.domain.usecase.goal.UpdateGoalNodeUseCase
 import com.everpath.domain.usecase.goalposition.GetGoalPositionsUseCase
 import com.everpath.domain.usecase.goalposition.SaveGoalPositionUseCase
 import com.everpath.presentation.everpath.model.GoalNodePosition
@@ -25,6 +26,7 @@ class EverpathViewModel(
     private val getGoalNodesUseCase: GetGoalNodesUseCase,
     private val saveGoalNodeUseCase: SaveGoalNodeUseCase,
     private val saveGoalPositionUseCase: SaveGoalPositionUseCase,
+    private val updateGoalNodeUseCase: UpdateGoalNodeUseCase,
     private val getGoalPositionsUseCase: GetGoalPositionsUseCase,
     private val deleteGoalNodeUseCase: DeleteGoalNodeUseCase
 ) : ViewModel() {
@@ -173,7 +175,7 @@ class EverpathViewModel(
 
         viewModelScope.launch {
 
-            saveGoalNodeUseCase(
+            updateGoalNodeUseCase(
                 updatedGoal
             )
 
