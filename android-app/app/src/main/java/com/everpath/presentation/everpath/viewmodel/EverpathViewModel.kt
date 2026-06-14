@@ -149,6 +149,38 @@ class EverpathViewModel(
         }
     }
 
+    fun updateGoal(
+        title: String,
+        description: String
+    ) {
+
+        val selectedGoalId =
+            _uiState.value.selectedGoalId
+                ?: return
+
+        val currentGoal =
+            _uiState.value.goalNodes
+                .find {
+                    it.id == selectedGoalId
+                }
+                ?: return
+
+        val updatedGoal =
+            currentGoal.copy(
+                title = title,
+                description = description
+            )
+
+        viewModelScope.launch {
+
+            saveGoalNodeUseCase(
+                updatedGoal
+            )
+
+        }
+
+    }
+
     fun deleteSelectedGoal() {
 
         val goalId =
