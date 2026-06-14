@@ -7,4 +7,20 @@ sealed class AppDestination(
     data object Everpath : AppDestination(
         route = "everpath"
     )
+
+    data object GoalDetail : AppDestination(
+        route = "goal_detail"
+    )
+
+    data object Activities : AppDestination(
+        route = "activities"
+    )
+
+    data object Quests : AppDestination(
+        route = "quests"
+    )
+
+    data object Profile : AppDestination(
+        route = "profile"
+    )
 }

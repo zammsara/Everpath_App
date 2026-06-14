@@ -3,23 +3,68 @@ package com.everpath.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.everpath.presentation.everpath.screen.EverpathScreen
+import com.everpath.presentation.goaldetail.screen.GoalDetailScreen
+import com.everpath.presentation.profile.screen.ProfileScreen
+import com.everpath.presentation.quest.screen.QuestScreen
+import com.everpath.presentation.today.screen.TodayScreen
+import androidx.navigation.NavHostController
 
 @Composable
-fun AppNavHost() {
-
-    val navController = rememberNavController()
-
+fun AppNavHost(
+    navController: NavHostController
+) {
     NavHost(
         navController = navController,
-        startDestination = AppDestination.Everpath.route
+        startDestination =
+            AppDestination.Everpath.route
     ) {
 
         composable(
-            route = AppDestination.Everpath.route
+            route =
+                AppDestination.Everpath.route
         ) {
+
             EverpathScreen()
+
         }
+
+        composable(
+            route =
+                AppDestination.GoalDetail.route
+        ) {
+
+            GoalDetailScreen()
+
+        }
+
+        composable(
+            route =
+                AppDestination.Activities.route
+        ) {
+
+            TodayScreen()
+
+        }
+
+        composable(
+            route =
+                AppDestination.Quests.route
+        ) {
+
+            QuestScreen()
+
+        }
+
+        composable(
+            route =
+                AppDestination.Profile.route
+        ) {
+
+            ProfileScreen()
+
+        }
+
     }
+
 }
