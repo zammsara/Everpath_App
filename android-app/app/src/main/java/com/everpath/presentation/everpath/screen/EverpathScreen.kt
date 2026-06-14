@@ -23,7 +23,6 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.filled.Edit
 import com.everpath.presentation.everpath.components.EditGoalDialog
-import com.everpath.presentation.everpath.components.GoalDetailsCard
 
 @Composable
 fun EverpathScreen() {
@@ -152,30 +151,18 @@ fun EverpathScreen() {
 
     ) { paddingValues ->
 
-        Column {
-
-            EverpathCanvas(
-                goalNodes = uiState.value.goalNodes,
-                positions = uiState.value.positions,
-                connections = uiState.value.connections,
-                selectedGoalId = uiState.value.selectedGoalId,
-                onGoalClick = { goalId ->
-                    viewModel.selectGoal(goalId)
-                },
-                modifier = Modifier.padding(
-                    paddingValues
-                )
+        EverpathCanvas(
+            goalNodes = uiState.value.goalNodes,
+            positions = uiState.value.positions,
+            connections = uiState.value.connections,
+            selectedGoalId = uiState.value.selectedGoalId,
+            onGoalClick = { goalId ->
+                viewModel.selectGoal(goalId)
+            },
+            modifier = Modifier.padding(
+                paddingValues
             )
-
-            if (selectedGoal != null) {
-
-                GoalDetailsCard(
-                    goalNode = selectedGoal
-                )
-
-            }
-
-        }
+        )
 
     }
 
