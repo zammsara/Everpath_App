@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.everpath.data.local.entity.GoalPositionEntity
 import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.enums.LifeAreaType
+import com.everpath.domain.model.GoalConnection
 import com.everpath.domain.model.GoalNode
 import com.everpath.domain.usecase.goal.DeleteGoalNodeUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
@@ -50,11 +51,24 @@ class EverpathViewModel(
 
             getGoalNodesUseCase()
                 .collect { goals ->
+                    val connections =
+                        goals
+                            .zipWithNext()
+                            .mapIndexed { index, pair ->
+
+                                GoalConnection(
+                                    id = "connection_$index",
+                                    sourceGoalId = pair.first.id,
+                                    targetGoalId = pair.second.id
+                                )
+
+                            }
 
                     _uiState.update { currentState ->
 
                         currentState.copy(
                             goalNodes = goals,
+                            connections = connections,
                             isLoading = false
                         )
 

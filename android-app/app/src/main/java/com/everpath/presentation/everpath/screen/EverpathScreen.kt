@@ -9,7 +9,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.everpath.EverpathApplication
 import com.everpath.presentation.everpath.components.EverpathCanvas
-import com.everpath.presentation.everpath.preview.GoalConnectionMockData
 import com.everpath.presentation.everpath.viewmodel.EverpathViewModel
 import com.everpath.presentation.everpath.viewmodel.EverpathViewModelFactory
 import androidx.compose.material3.FloatingActionButton
@@ -119,7 +118,7 @@ fun EverpathScreen() {
         EverpathCanvas(
             goalNodes = uiState.value.goalNodes,
             positions = uiState.value.positions,
-            connections = GoalConnectionMockData.connections,
+            connections = uiState.value.connections,
             selectedGoalId = uiState.value.selectedGoalId,
             onGoalClick = { goalId ->
                 viewModel.selectGoal(goalId)
