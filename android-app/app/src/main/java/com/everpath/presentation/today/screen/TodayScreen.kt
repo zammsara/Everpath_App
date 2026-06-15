@@ -16,7 +16,7 @@ fun TodayScreen() {
     ) {
 
         Text(
-            text = "Today Screen"
+            text = "Proximamente.. \nPantalla Hoy"
         )
 
     }

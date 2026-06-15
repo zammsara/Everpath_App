@@ -16,7 +16,7 @@ fun QuestScreen() {
     ) {
 
         Text(
-            text = "Quest Screen"
+            text = "Proximamente.. \nPantalla de Misiones"
         )
 
     }

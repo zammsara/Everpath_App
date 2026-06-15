@@ -16,7 +16,7 @@ fun ProfileScreen() {
     ) {
 
         Text(
-            text = "Profile Screen"
+            text = "Proximamente.. \nPantalla de Perfil"
         )
 
     }

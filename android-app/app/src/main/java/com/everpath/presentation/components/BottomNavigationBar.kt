@@ -49,7 +49,7 @@ fun BottomNavigationBar(
             },
 
             label = {
-                Text("Map")
+                Text("Mapa")
             }
 
         )
@@ -75,7 +75,7 @@ fun BottomNavigationBar(
             },
 
             label = {
-                Text("Today")
+                Text("Hoy")
             }
 
         )
@@ -101,7 +101,7 @@ fun BottomNavigationBar(
             },
 
             label = {
-                Text("Quests")
+                Text("Misiones")
             }
 
         )
@@ -128,7 +128,7 @@ fun BottomNavigationBar(
             },
 
             label = {
-                Text("Profile")
+                Text("Perfil")
             }
 
         )

@@ -14,6 +14,9 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
 
 @Composable
 fun EverpathCanvas(
@@ -39,6 +42,20 @@ fun EverpathCanvas(
                 height = 1200.dp
             )
     ) {
+
+        if (goalNodes.isEmpty()) {
+
+            Text(
+                text =
+                    "Todavía no tienes metas.\n\nPresiona el botón + para crear tu primera meta.",
+                modifier = Modifier
+                    .fillMaxSize()
+                    .align(Alignment.Center)
+            )
+
+            return@Box
+
+        }
 
         Canvas(
             modifier = Modifier.size(
