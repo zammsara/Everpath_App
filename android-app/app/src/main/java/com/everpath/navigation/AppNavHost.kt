@@ -9,6 +9,8 @@ import com.everpath.presentation.profile.screen.ProfileScreen
 import com.everpath.presentation.quest.screen.QuestScreen
 import com.everpath.presentation.today.screen.TodayScreen
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 
 @Composable
 fun AppNavHost(
@@ -44,11 +46,31 @@ fun AppNavHost(
         }
 
         composable(
-            route =
-                AppDestination.GoalDetail.route
-        ) {
 
-            GoalDetailScreen()
+            route =
+                AppDestination.GoalDetail.route,
+
+            arguments = listOf(
+
+                navArgument(
+                    "goalId"
+                ) {
+                    type = NavType.StringType
+                }
+
+            )
+
+        ) { backStackEntry ->
+
+            val goalId =
+                backStackEntry
+                    .arguments
+                    ?.getString("goalId")
+                    ?: ""
+
+            GoalDetailScreen(
+                goalId = goalId
+            )
 
         }
 
