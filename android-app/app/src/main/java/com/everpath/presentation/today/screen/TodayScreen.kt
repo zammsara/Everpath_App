@@ -16,7 +16,18 @@ fun TodayScreen() {
     ) {
 
         Text(
-            text = "Today Screen"
+            text = """
+                Pantalla de Inicio
+                
+                Aquí el usuario podrá visualizar:
+                
+                • Resumen general de progreso.
+                • Misiones activas.
+                • Hábitos en seguimiento.
+                • Estadísticas personales.
+                • Actividad reciente.
+                • Accesos rápidos a las funciones principales.
+            """.trimIndent()
         )
 
     }

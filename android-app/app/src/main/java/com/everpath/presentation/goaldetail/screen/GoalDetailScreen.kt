@@ -16,7 +16,7 @@ fun GoalDetailScreen() {
     ) {
 
         Text(
-            text = "Goal Detail Screen"
+            text = "Detalles de las metas"
         )
 
     }

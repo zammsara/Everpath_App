@@ -16,7 +16,16 @@ fun ProfileScreen() {
     ) {
 
         Text(
-            text = "Profile Screen"
+            text = """
+                Pantalla de Perfil
+                
+                Aquí el usuario podrá:
+                
+                • Visualizar su información personal.
+                • Consultar estadísticas generales.
+                • Gestionar configuraciones.
+                • Editar datos de perfil.
+            """.trimIndent()
         )
 
     }

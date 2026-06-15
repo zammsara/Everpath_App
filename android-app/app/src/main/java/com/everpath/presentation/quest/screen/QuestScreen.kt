@@ -16,7 +16,18 @@ fun QuestScreen() {
     ) {
 
         Text(
-            text = "Quest Screen"
+            text = """
+                Pantalla de Misiones
+                
+                Aquí el usuario podrá:
+                
+                • Crear nuevas misiones.
+                • Consultar misiones activas.
+                • Ver el progreso de cada misión.
+                • Relacionar hábitos con misiones.
+                • Marcar objetivos como completados.
+                • Visualizar detalles y conexiones.
+            """.trimIndent()
         )
 
     }
