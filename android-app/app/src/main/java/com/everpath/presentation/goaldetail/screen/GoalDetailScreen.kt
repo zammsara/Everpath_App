@@ -3,24 +3,31 @@ package com.everpath.presentation.goaldetail.screen
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavHostController
 import com.everpath.EverpathApplication
+import com.everpath.presentation.everpath.components.EditGoalDialog
 import com.everpath.presentation.goaldetail.viewmodel.GoalDetailViewModel
 import com.everpath.presentation.goaldetail.viewmodel.GoalDetailViewModelFactory
 
 @Composable
 fun GoalDetailScreen(
-    goalId: String
+    goalId: String,
+    navController: NavHostController
 ) {
 
     val application =
@@ -30,10 +37,22 @@ fun GoalDetailScreen(
     val factory = remember {
 
         GoalDetailViewModelFactory(
+
             getGoalNodeByIdUseCase =
                 application
                     .appContainer
-                    .getGoalNodeByIdUseCase
+                    .getGoalNodeByIdUseCase,
+
+            updateGoalNodeUseCase =
+                application
+                    .appContainer
+                    .updateGoalNodeUseCase,
+
+            deleteGoalNodeUseCase =
+                application
+                    .appContainer
+                    .deleteGoalNodeUseCase
+
         )
 
     }
@@ -42,6 +61,16 @@ fun GoalDetailScreen(
         viewModel(
             factory = factory
         )
+
+    val showEditDialog =
+        remember {
+            mutableStateOf(false)
+        }
+
+    val showDeleteDialog =
+        remember {
+            mutableStateOf(false)
+        }
 
     val goal =
         viewModel.goal
@@ -100,6 +129,118 @@ fun GoalDetailScreen(
         Text(
             text =
                 "Actividades: ${goal.value!!.activities.size}"
+        )
+
+        Button(
+            onClick = {
+                showEditDialog.value = true
+            }
+        ) {
+
+            Text("Editar")
+
+        }
+
+        Button(
+            onClick = {
+                showDeleteDialog.value = true
+            }
+        ) {
+
+            Text("Eliminar")
+
+        }
+
+    }
+
+    if (
+        showEditDialog.value &&
+        goal.value != null
+    ) {
+
+        EditGoalDialog(
+
+            initialTitle =
+                goal.value!!.title,
+
+            initialDescription =
+                goal.value!!.description,
+
+            onDismiss = {
+                showEditDialog.value = false
+            },
+
+            onSave = { title, description ->
+
+                viewModel.updateGoal(
+                    title,
+                    description
+                )
+
+                showEditDialog.value = false
+
+            }
+
+        )
+
+    }
+
+    if (showDeleteDialog.value) {
+
+        AlertDialog(
+
+            onDismissRequest = {
+                showDeleteDialog.value = false
+            },
+
+            title = {
+                Text("Eliminar Meta")
+            },
+
+            text = {
+                Text(
+                    "¿Deseas eliminar esta meta?"
+                )
+            },
+
+            confirmButton = {
+
+                TextButton(
+
+                    onClick = {
+
+                        viewModel.deleteGoal {
+
+                            navController.popBackStack()
+
+                        }
+
+                    }
+
+                ) {
+
+                    Text("Eliminar")
+
+                }
+
+            },
+
+            dismissButton = {
+
+                TextButton(
+
+                    onClick = {
+                        showDeleteDialog.value = false
+                    }
+
+                ) {
+
+                    Text("Cancelar")
+
+                }
+
+            }
+
         )
 
     }

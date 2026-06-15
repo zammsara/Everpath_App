@@ -69,7 +69,8 @@ fun AppNavHost(
                     ?: ""
 
             GoalDetailScreen(
-                goalId = goalId
+                goalId = goalId,
+                navController = navController
             )
 
         }
