@@ -16,7 +16,19 @@ fun GoalDetailScreen() {
     ) {
 
         Text(
-            text = "Detalles de las metas"
+            text = """
+                Pantalla de Detalle de Meta
+                
+                Aquí el usuario podrá:
+                
+                • Visualizar la información completa de una meta.
+                • Consultar el porcentaje de progreso.
+                • Leer la descripción y propósito de la meta.
+                • Ver actividades y hábitos relacionados.
+                • Gestionar conexiones con otras metas.
+                • Editar o actualizar el estado de la meta.
+                • Dar seguimiento a los avances alcanzados.
+            """.trimIndent()
         )
 
     }
