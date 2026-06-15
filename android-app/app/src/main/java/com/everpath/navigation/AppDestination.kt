@@ -9,8 +9,18 @@ sealed class AppDestination(
     )
 
     data object GoalDetail : AppDestination(
-        route = "goal_detail"
-    )
+        route = "goal_detail/{goalId}"
+    ) {
+
+        fun createRoute(
+            goalId: String
+        ): String {
+
+            return "goal_detail/$goalId"
+
+        }
+
+    }
 
     data object Activities : AppDestination(
         route = "activities"

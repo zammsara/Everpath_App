@@ -25,7 +25,21 @@ fun AppNavHost(
                 AppDestination.Everpath.route
         ) {
 
-            EverpathScreen()
+            EverpathScreen(
+
+                onGoalSelected = { goalId ->
+
+                    navController.navigate(
+
+                        AppDestination
+                            .GoalDetail
+                            .createRoute(goalId)
+
+                    )
+
+                }
+
+            )
 
         }
 

@@ -26,7 +26,9 @@ import androidx.compose.ui.unit.dp
 import com.everpath.presentation.everpath.components.EditGoalDialog
 
 @Composable
-fun EverpathScreen() {
+fun EverpathScreen(
+    onGoalSelected: (String) -> Unit
+) {
 
     val application =
         LocalContext.current.applicationContext
@@ -162,7 +164,11 @@ fun EverpathScreen() {
             connections = uiState.value.connections,
             selectedGoalId = uiState.value.selectedGoalId,
             onGoalClick = { goalId ->
+
                 viewModel.selectGoal(goalId)
+
+                onGoalSelected(goalId)
+
             },
             modifier = Modifier.padding(
                 paddingValues
