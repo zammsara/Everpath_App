@@ -23,6 +23,8 @@ import com.everpath.EverpathApplication
 import com.everpath.presentation.everpath.components.EditGoalDialog
 import com.everpath.presentation.goaldetail.viewmodel.GoalDetailViewModel
 import com.everpath.presentation.goaldetail.viewmodel.GoalDetailViewModelFactory
+import com.everpath.presentation.activity.viewmodel.ActivityViewModel
+import com.everpath.presentation.activity.viewmodel.ActivityViewModelFactory
 
 @Composable
 fun GoalDetailScreen(
@@ -57,9 +59,42 @@ fun GoalDetailScreen(
 
     }
 
+    val activityFactory = remember {
+
+        ActivityViewModelFactory(
+
+            getActivitiesByGoalIdUseCase =
+                application
+                    .appContainer
+                    .getActivitiesByGoalIdUseCase,
+
+            saveActivityUseCase =
+                application
+                    .appContainer
+                    .saveActivityUseCase,
+
+            updateActivityUseCase =
+                application
+                    .appContainer
+                    .updateActivityUseCase,
+
+            deleteActivityUseCase =
+                application
+                    .appContainer
+                    .deleteActivityUseCase
+
+        )
+
+    }
+
     val viewModel: GoalDetailViewModel =
         viewModel(
             factory = factory
+        )
+
+    val activityViewModel: ActivityViewModel =
+        viewModel(
+            factory = activityFactory
         )
 
     val showEditDialog =
