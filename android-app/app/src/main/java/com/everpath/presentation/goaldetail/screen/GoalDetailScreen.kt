@@ -111,9 +111,18 @@ fun GoalDetailScreen(
         viewModel.uiState
             .collectAsStateWithLifecycle()
 
+    val activityUiState =
+        activityViewModel
+            .uiState
+            .collectAsStateWithLifecycle()
+
     LaunchedEffect(goalId) {
 
         viewModel.loadGoal(
+            goalId
+        )
+
+        activityViewModel.loadActivities(
             goalId
         )
 
