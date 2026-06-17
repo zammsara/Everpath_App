@@ -25,6 +25,7 @@ import com.everpath.presentation.goaldetail.viewmodel.GoalDetailViewModel
 import com.everpath.presentation.goaldetail.viewmodel.GoalDetailViewModelFactory
 import com.everpath.presentation.activity.viewmodel.ActivityViewModel
 import com.everpath.presentation.activity.viewmodel.ActivityViewModelFactory
+import com.everpath.presentation.activity.components.ActivityList
 
 @Composable
 fun GoalDetailScreen(
@@ -171,8 +172,36 @@ fun GoalDetailScreen(
         )
 
         Text(
-            text =
-                "Actividades: ${uiState.value.goal!!.activities.size}"
+            text = "Actividades",
+            style =
+                MaterialTheme
+                    .typography
+                    .titleLarge,
+            modifier = Modifier.padding(
+                top = 16.dp
+            )
+        )
+
+        ActivityList(
+
+            activities =
+                activityUiState
+                    .value
+                    .activities,
+
+            selectedActivityId =
+                activityUiState
+                    .value
+                    .selectedActivityId,
+
+            onActivityClick = { activityId ->
+
+                activityViewModel.selectActivity(
+                    activityId
+                )
+
+            }
+
         )
 
         Button(
