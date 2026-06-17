@@ -13,6 +13,13 @@ import com.everpath.data.repository.GoalPositionRepositoryImpl
 import com.everpath.domain.repository.GoalPositionRepository
 import com.everpath.domain.usecase.goal.UpdateGoalNodeUseCase
 import com.everpath.domain.usecase.goalposition.*
+import com.everpath.data.repository.ActivityRepositoryImpl
+import com.everpath.domain.repository.ActivityRepository
+import com.everpath.domain.usecase.activity.DeleteActivityUseCase
+import com.everpath.domain.usecase.activity.GetActivitiesByGoalIdUseCase
+import com.everpath.domain.usecase.activity.GetActivityByIdUseCase
+import com.everpath.domain.usecase.activity.SaveActivityUseCase
+import com.everpath.domain.usecase.activity.UpdateActivityUseCase
 
 class AppContainer(
     context: Context
@@ -28,6 +35,14 @@ class AppContainer(
     private val goalRepository: GoalRepository =
         GoalRepositoryImpl(
             goalDao = database.goalDao()
+        )
+
+    private val activityRepository:
+            ActivityRepository =
+
+        ActivityRepositoryImpl(
+            activityDao =
+                database.activityDao()
         )
 
     private val goalPositionRepository:
@@ -73,5 +88,30 @@ class AppContainer(
     val deleteGoalPositionUseCase =
         DeleteGoalPositionUseCase(
             goalPositionRepository
+        )
+
+    val getActivitiesByGoalIdUseCase =
+        GetActivitiesByGoalIdUseCase(
+            activityRepository
+        )
+
+    val getActivityByIdUseCase =
+        GetActivityByIdUseCase(
+            activityRepository
+        )
+
+    val saveActivityUseCase =
+        SaveActivityUseCase(
+            activityRepository
+        )
+
+    val updateActivityUseCase =
+        UpdateActivityUseCase(
+            activityRepository
+        )
+
+    val deleteActivityUseCase =
+        DeleteActivityUseCase(
+            activityRepository
         )
 }
