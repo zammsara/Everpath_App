@@ -8,15 +8,14 @@ fun ActivityEntity.toDomain(): Activity {
 
     return Activity(
         id = id,
+        goalId = goalId,
         title = title,
         description = description,
         status = ActivityStatus.valueOf(status)
     )
 }
 
-fun Activity.toEntity(
-    goalId: String
-): ActivityEntity {
+fun Activity.toEntity(): ActivityEntity {
 
     return ActivityEntity(
         id = id,
