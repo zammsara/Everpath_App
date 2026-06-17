@@ -42,4 +42,11 @@ interface ActivityDao {
     suspend fun deleteActivity(
         activity: ActivityEntity
     )
+
+    @Query(
+        "DELETE FROM activities WHERE id = :activityId"
+    )
+    suspend fun deleteActivityById(
+        activityId: String
+    )
 }
