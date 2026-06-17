@@ -2,25 +2,29 @@ package com.everpath.presentation.goaldetail.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.everpath.domain.model.GoalNode
 import com.everpath.domain.usecase.goal.DeleteGoalNodeUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodeByIdUseCase
 import com.everpath.domain.usecase.goal.UpdateGoalNodeUseCase
+import com.everpath.presentation.goaldetail.state.GoalDetailUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class GoalDetailViewModel(
-    private val getGoalNodeByIdUseCase:GetGoalNodeByIdUseCase,
-    private val updateGoalNodeUseCase:UpdateGoalNodeUseCase,
-    private val deleteGoalNodeUseCase:DeleteGoalNodeUseCase
+    private val getGoalNodeByIdUseCase: GetGoalNodeByIdUseCase,
+    private val updateGoalNodeUseCase: UpdateGoalNodeUseCase,
+    private val deleteGoalNodeUseCase: DeleteGoalNodeUseCase
 ) : ViewModel() {
 
-    private val _goal =
-        MutableStateFlow<GoalNode?>(null)
+    private val _uiState =
+        MutableStateFlow(
+            GoalDetailUiState()
+        )
 
-    val goal: StateFlow<GoalNode?> =
-        _goal
+    val uiState: StateFlow<GoalDetailUiState> =
+        _uiState.asStateFlow()
 
     fun loadGoal(
         goalId: String
@@ -28,10 +32,19 @@ class GoalDetailViewModel(
 
         viewModelScope.launch {
 
-            _goal.value =
+            val goal =
                 getGoalNodeByIdUseCase(
                     goalId
                 )
+
+            _uiState.update {
+
+                it.copy(
+                    goal = goal,
+                    isLoading = false
+                )
+
+            }
 
         }
 
@@ -43,7 +56,7 @@ class GoalDetailViewModel(
     ) {
 
         val currentGoal =
-            _goal.value
+            _uiState.value.goal
                 ?: return
 
         val updatedGoal =
@@ -58,8 +71,13 @@ class GoalDetailViewModel(
                 updatedGoal
             )
 
-            _goal.value =
-                updatedGoal
+            _uiState.update {
+
+                it.copy(
+                    goal = updatedGoal
+                )
+
+            }
 
         }
 
@@ -70,7 +88,7 @@ class GoalDetailViewModel(
     ) {
 
         val currentGoal =
-            _goal.value
+            _uiState.value.goal
                 ?: return
 
         viewModelScope.launch {

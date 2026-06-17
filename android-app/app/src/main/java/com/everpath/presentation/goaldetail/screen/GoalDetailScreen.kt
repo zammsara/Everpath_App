@@ -72,8 +72,8 @@ fun GoalDetailScreen(
             mutableStateOf(false)
         }
 
-    val goal =
-        viewModel.goal
+    val uiState =
+        viewModel.uiState
             .collectAsStateWithLifecycle()
 
     LaunchedEffect(goalId) {
@@ -84,7 +84,7 @@ fun GoalDetailScreen(
 
     }
 
-    if (goal.value == null) {
+    if (uiState.value.goal == null) {
 
         CircularProgressIndicator()
 
@@ -99,7 +99,7 @@ fun GoalDetailScreen(
     ) {
 
         Text(
-            text = goal.value!!.title,
+            text = uiState.value.goal!!.title,
             style =
                 MaterialTheme
                     .typography
@@ -107,7 +107,7 @@ fun GoalDetailScreen(
         )
 
         Text(
-            text = goal.value!!.description,
+            text = uiState.value.goal!!.description,
             modifier = Modifier.padding(
                 top = 8.dp
             )
@@ -115,7 +115,7 @@ fun GoalDetailScreen(
 
         Text(
             text =
-                "Área: ${goal.value!!.lifeArea}",
+                "Área: ${uiState.value.goal!!.lifeArea}",
             modifier = Modifier.padding(
                 top = 16.dp
             )
@@ -123,12 +123,12 @@ fun GoalDetailScreen(
 
         Text(
             text =
-                "Estado: ${goal.value!!.status}"
+                "Estado: ${uiState.value.goal!!.status}"
         )
 
         Text(
             text =
-                "Actividades: ${goal.value!!.activities.size}"
+                "Actividades: ${uiState.value.goal!!.activities.size}"
         )
 
         Button(
@@ -155,16 +155,16 @@ fun GoalDetailScreen(
 
     if (
         showEditDialog.value &&
-        goal.value != null
+        uiState.value.goal != null
     ) {
 
         EditGoalDialog(
 
             initialTitle =
-                goal.value!!.title,
+                uiState.value.goal!!.title,
 
             initialDescription =
-                goal.value!!.description,
+                uiState.value.goal!!.description,
 
             onDismiss = {
                 showEditDialog.value = false
