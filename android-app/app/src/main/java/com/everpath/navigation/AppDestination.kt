@@ -22,6 +22,22 @@ sealed class AppDestination(
 
     }
 
+    object ActivityDetail : AppDestination(
+
+        "activity_detail/{activityId}"
+
+    ) {
+
+        fun createRoute(
+            activityId: String
+        ): String {
+
+            return "activity_detail/$activityId"
+
+        }
+
+    }
+
     data object Activities : AppDestination(
         route = "activities"
     )
