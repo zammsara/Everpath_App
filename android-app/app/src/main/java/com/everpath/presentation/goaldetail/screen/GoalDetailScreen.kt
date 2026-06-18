@@ -223,14 +223,6 @@ fun GoalDetailScreen(
             )
         )
 
-            Button(
-                onClick = {
-                    showCreateActivityDialog.value = true
-                }
-            ) {
-                Text("Nueva Actividad")
-            }
-
         ActivityList(
 
             activities =
