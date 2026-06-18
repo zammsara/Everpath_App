@@ -23,6 +23,7 @@ import com.everpath.EverpathApplication
 import com.everpath.presentation.activity.components.EditActivityDialog
 import com.everpath.presentation.activitydetail.viewmodel.ActivityDetailViewModel
 import com.everpath.presentation.activitydetail.viewmodel.ActivityDetailViewModelFactory
+import com.everpath.domain.enums.ActivityStatus
 
 @Composable
 fun ActivityDetailScreen(
@@ -113,9 +114,23 @@ fun ActivityDetailScreen(
             )
         )
 
+        val statusText = when (
+            activity.value!!.status
+        ) {
+
+            ActivityStatus.PENDING ->
+                "Pendiente"
+
+            ActivityStatus.IN_PROGRESS ->
+                "En progreso"
+
+            ActivityStatus.COMPLETED ->
+                "Completada"
+
+        }
+
         Text(
-            text =
-                "Estado: ${activity.value!!.status}",
+            text = "Estado: $statusText",
             modifier = Modifier.padding(
                 top = 16.dp
             )
@@ -156,17 +171,25 @@ fun ActivityDetailScreen(
             initialDescription =
                 activity.value!!.description,
 
+            initialStatus =
+                activity.value!!.status,
+
             onDismiss = {
 
                 showEditDialog.value = false
 
             },
 
-            onSave = { title, description ->
+            onSave = { title, description, status ->
 
                 viewModel.updateActivity(
-                    title,
-                    description
+
+                    title = title,
+
+                    description = description,
+
+                    status = status
+
                 )
 
                 showEditDialog.value = false

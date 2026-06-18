@@ -2,6 +2,7 @@ package com.everpath.presentation.activitydetail.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.everpath.domain.enums.ActivityStatus
 import com.everpath.domain.model.Activity
 import com.everpath.domain.usecase.activity.DeleteActivityUseCase
 import com.everpath.domain.usecase.activity.GetActivityByIdUseCase
@@ -46,7 +47,8 @@ class ActivityDetailViewModel(
 
     fun updateActivity(
         title: String,
-        description: String
+        description: String,
+        status: ActivityStatus
     ) {
 
         val currentActivity =
@@ -56,7 +58,8 @@ class ActivityDetailViewModel(
         val updatedActivity =
             currentActivity.copy(
                 title = title,
-                description = description
+                description = description,
+                status = status
             )
 
         viewModelScope.launch {

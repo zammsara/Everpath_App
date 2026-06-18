@@ -5,21 +5,28 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.everpath.domain.enums.ActivityStatus
 
 @Composable
 fun EditActivityDialog(
     initialTitle: String,
     initialDescription: String,
+    initialStatus: ActivityStatus,
     onDismiss: () -> Unit,
     onSave: (
         title: String,
-        description: String
+        description: String,
+        status: ActivityStatus
     ) -> Unit
 ) {
 
@@ -31,6 +38,16 @@ fun EditActivityDialog(
     val description =
         remember {
             mutableStateOf(initialDescription)
+        }
+
+    val status =
+        remember {
+            mutableStateOf(initialStatus)
+        }
+
+    val expanded =
+        remember {
+            mutableStateOf(false)
         }
 
     AlertDialog(
@@ -46,30 +63,104 @@ fun EditActivityDialog(
             Column {
 
                 OutlinedTextField(
+
                     value = title.value,
+
                     onValueChange = {
                         title.value = it
                     },
+
                     label = {
                         Text("Título")
                     },
+
                     modifier =
                         Modifier.fillMaxWidth()
+
                 )
 
                 OutlinedTextField(
+
                     value = description.value,
+
                     onValueChange = {
                         description.value = it
                     },
+
                     label = {
                         Text("Descripción")
                     },
+
                     modifier =
                         Modifier
                             .fillMaxWidth()
                             .padding(top = 8.dp)
+
                 )
+
+                Button(
+
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp),
+
+                    onClick = {
+
+                        expanded.value = true
+
+                    }
+
+                ) {
+
+                    Text(
+
+                        text =
+                            "Estado: ${status.value}"
+
+                    )
+
+                }
+
+                DropdownMenu(
+
+                    expanded =
+                        expanded.value,
+
+                    onDismissRequest = {
+
+                        expanded.value = false
+
+                    }
+
+                ) {
+
+                    ActivityStatus.entries.forEach {
+
+                        DropdownMenuItem(
+
+                            text = {
+
+                                Text(
+                                    it.name
+                                )
+
+                            },
+
+                            onClick = {
+
+                                status.value = it
+
+                                expanded.value =
+                                    false
+
+                            }
+
+                        )
+
+                    }
+
+                }
 
             }
 
@@ -82,8 +173,13 @@ fun EditActivityDialog(
                 onClick = {
 
                     onSave(
+
                         title.value,
-                        description.value
+
+                        description.value,
+
+                        status.value
+
                     )
 
                 }
@@ -99,7 +195,9 @@ fun EditActivityDialog(
         dismissButton = {
 
             TextButton(
+
                 onClick = onDismiss
+
             ) {
 
                 Text("Cancelar")
