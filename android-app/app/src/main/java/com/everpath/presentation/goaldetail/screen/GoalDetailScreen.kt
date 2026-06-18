@@ -32,6 +32,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import com.everpath.navigation.AppDestination
 
 @Composable
 fun GoalDetailScreen(
@@ -230,15 +231,15 @@ fun GoalDetailScreen(
                     .value
                     .activities,
 
-            selectedActivityId =
-                activityUiState
-                    .value
-                    .selectedActivityId,
-
             onActivityClick = { activityId ->
 
-                activityViewModel.selectActivity(
-                    activityId
+                navController.navigate(
+
+                    AppDestination
+                        .ActivityDetail
+                        .createRoute(
+                            activityId
+                        )
                 )
 
             }

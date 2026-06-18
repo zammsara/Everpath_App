@@ -1,5 +1,6 @@
 package com.everpath.navigation
 
+import com.everpath.presentation.activitydetail.screen.ActivityDetailScreen
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
@@ -74,6 +75,45 @@ fun AppNavHost(
             GoalDetailScreen(
                 goalId = goalId,
                 navController = navController
+            )
+
+        }
+
+        composable(
+
+            route =
+                AppDestination.ActivityDetail.route,
+
+            arguments = listOf(
+
+                navArgument(
+                    "activityId"
+                ) {
+
+                    type = NavType.StringType
+
+                }
+
+            )
+
+        ) { backStackEntry ->
+
+            val activityId =
+                backStackEntry
+                    .arguments
+                    ?.getString(
+                        "activityId"
+                    )
+                    ?: ""
+
+            ActivityDetailScreen(
+
+                activityId =
+                    activityId,
+
+                navController =
+                    navController
+
             )
 
         }

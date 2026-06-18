@@ -7,7 +7,6 @@ import com.everpath.domain.model.Activity
 @Composable
 fun ActivityList(
     activities: List<Activity>,
-    selectedActivityId: String?,
     onActivityClick: (String) -> Unit
 ) {
 
