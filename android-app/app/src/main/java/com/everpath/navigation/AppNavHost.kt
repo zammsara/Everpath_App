@@ -1,6 +1,7 @@
 package com.everpath.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.everpath.presentation.everpath.screen.EverpathScreen
@@ -14,12 +15,14 @@ import androidx.navigation.navArgument
 
 @Composable
 fun AppNavHost(
-    navController: NavHostController
+    navController: NavHostController,
+    modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
         startDestination =
-            AppDestination.Everpath.route
+            AppDestination.Everpath.route,
+        modifier = modifier
     ) {
 
         composable(

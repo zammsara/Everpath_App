@@ -26,6 +26,12 @@ import com.everpath.presentation.goaldetail.viewmodel.GoalDetailViewModelFactory
 import com.everpath.presentation.activity.viewmodel.ActivityViewModel
 import com.everpath.presentation.activity.viewmodel.ActivityViewModelFactory
 import com.everpath.presentation.activity.components.ActivityList
+import com.everpath.presentation.activity.components.CreateActivityDialog
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 
 @Composable
 fun GoalDetailScreen(
@@ -108,6 +114,11 @@ fun GoalDetailScreen(
             mutableStateOf(false)
         }
 
+    val showCreateActivityDialog =
+        remember {
+            mutableStateOf(false)
+        }
+
     val uiState =
         viewModel.uiState
             .collectAsStateWithLifecycle()
@@ -137,11 +148,41 @@ fun GoalDetailScreen(
 
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
+    Scaffold(
+
+        floatingActionButton = {
+
+            FloatingActionButton(
+
+                onClick = {
+
+                    showCreateActivityDialog.value =
+                        true
+
+                }
+
+            ) {
+
+                Icon(
+                    imageVector =
+                        Icons.Default.Add,
+
+                    contentDescription =
+                        "Agregar Actividad"
+                )
+
+            }
+
+        }
+
+    ) { paddingValues ->
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(16.dp)
+        ) {
 
         Text(
             text = uiState.value.goal!!.title,
@@ -181,6 +222,14 @@ fun GoalDetailScreen(
                 top = 16.dp
             )
         )
+
+            Button(
+                onClick = {
+                    showCreateActivityDialog.value = true
+                }
+            ) {
+                Text("Nueva Actividad")
+            }
 
         ActivityList(
 
@@ -222,6 +271,7 @@ fun GoalDetailScreen(
 
             Text("Eliminar")
 
+            }
         }
 
     }
@@ -311,6 +361,42 @@ fun GoalDetailScreen(
                     Text("Cancelar")
 
                 }
+
+            }
+
+        )
+
+    }
+
+    if (
+        showCreateActivityDialog.value &&
+        uiState.value.goal != null
+    ) {
+
+        CreateActivityDialog(
+
+            onDismiss = {
+
+                showCreateActivityDialog.value =
+                    false
+
+            },
+
+            onSave = { title, description ->
+
+                activityViewModel.createActivity(
+
+                    goalId =
+                        uiState.value.goal!!.id,
+
+                    title = title,
+
+                    description = description
+
+                )
+
+                showCreateActivityDialog.value =
+                    false
 
             }
 
