@@ -11,15 +11,20 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import com.everpath.domain.enums.GoalStatus
 
 @Composable
 fun EditGoalDialog(
     initialTitle: String,
     initialDescription: String,
+    initialStatus: GoalStatus,
     onDismiss: () -> Unit,
     onSave: (
         String,
-        String
+        String,
+        GoalStatus
     ) -> Unit
 ) {
 
@@ -33,6 +38,18 @@ fun EditGoalDialog(
             mutableStateOf(initialDescription)
         }
 
+    val status =
+        remember {
+            mutableStateOf(
+                initialStatus
+            )
+        }
+
+    val expanded =
+        remember {
+            mutableStateOf(false)
+        }
+
     val isValid =
         title.value
             .trim()
@@ -40,15 +57,12 @@ fun EditGoalDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-
         title = {
             Text("Editar Goal")
         },
-
         text = {
 
             Column {
-
                 OutlinedTextField(
                     value = title.value,
                     onValueChange = {
@@ -75,41 +89,71 @@ fun EditGoalDialog(
                             .padding(top = 8.dp)
                 )
 
-            }
+                Button(
+                    onClick = {
+                        expanded.value =
+                            true
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp)
+                ) {
+                    Text(
+                        text =
+                            "Estado: ${status.value}"
+                    )
+                }
 
+                DropdownMenu(
+                    expanded =
+                        expanded.value,
+                    onDismissRequest = {
+                        expanded.value =
+                            false
+                    }
+                ) {
+                    GoalStatus.entries
+                        .forEach {
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        it.name
+                                    )
+                                },
+                                onClick = {
+                                    status.value =
+                                        it
+                                    expanded.value =
+                                        false
+                                }
+                            )
+                        }
+                }
+            }
         },
 
         confirmButton = {
 
             Button(
-
                 enabled = isValid,
-
                 onClick = {
-
                     onSave(
                         title.value,
-                        description.value
+                        description.value,
+                        status.value
                     )
-
                 }
 
             ) {
-
                 Text("Guardar")
-
             }
-
         },
 
         dismissButton = {
-
             TextButton(
                 onClick = onDismiss
             ) {
-
                 Text("Cancelar")
-
             }
 
         }

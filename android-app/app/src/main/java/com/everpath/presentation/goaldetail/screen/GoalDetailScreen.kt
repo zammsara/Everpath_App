@@ -2,6 +2,7 @@ package com.everpath.presentation.goaldetail.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -32,6 +33,9 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.LinearProgressIndicator
+import com.everpath.domain.enums.ActivityStatus
+import com.everpath.domain.enums.GoalStatus
 import com.everpath.navigation.AppDestination
 
 @Composable
@@ -141,6 +145,62 @@ fun GoalDetailScreen(
 
     }
 
+    LaunchedEffect(
+        activityUiState.value.activities
+    ) {
+
+        val activities =
+            activityUiState
+                .value
+                .activities
+
+        if (
+            activities.isNotEmpty()
+        ) {
+
+            val allCompleted =
+
+                activities.all {
+
+                    it.status ==
+                            ActivityStatus.COMPLETED
+
+                }
+
+            if (
+                allCompleted &&
+                uiState.value.goal?.status !=
+                GoalStatus.COMPLETED
+            ) {
+
+                viewModel.updateGoalStatus(
+
+                    GoalStatus.COMPLETED
+
+                )
+
+            }
+
+            else if (
+
+                !allCompleted &&
+                uiState.value.goal?.status ==
+                GoalStatus.COMPLETED
+
+            ) {
+
+                viewModel.updateGoalStatus(
+
+                    GoalStatus.ACTIVE
+
+                )
+
+            }
+
+        }
+
+    }
+
     if (uiState.value.goal == null) {
 
         CircularProgressIndicator()
@@ -185,6 +245,29 @@ fun GoalDetailScreen(
                 .padding(16.dp)
         ) {
 
+            val totalActivities =
+                activityUiState.value.activities.size
+
+            val completedActivities =
+                activityUiState.value.activities.count {
+
+                    it.status.name == "COMPLETED"
+
+                }
+
+            val progressPercentage =
+
+                if (totalActivities == 0) {
+
+                    0
+
+                } else {
+
+                    (completedActivities * 100) /
+                            totalActivities
+
+                }
+
         Text(
             text = uiState.value.goal!!.title,
             style =
@@ -208,10 +291,77 @@ fun GoalDetailScreen(
             )
         )
 
-        Text(
-            text =
-                "Estado: ${uiState.value.goal!!.status}"
-        )
+            Text(
+
+                text = when (
+
+                    uiState.value.goal!!.status
+
+                ) {
+
+                    GoalStatus.ACTIVE ->
+                        "Estado: Activa"
+
+                    GoalStatus.COMPLETED ->
+                        "Estado: Completada"
+
+                    GoalStatus.LOCKED ->
+                        "Estado: Bloqueada"
+
+                    GoalStatus.ARCHIVED ->
+                        "Estado: Archivada"
+
+                },
+
+                color = when (
+
+                    uiState.value.goal!!.status
+
+                ) {
+
+                    GoalStatus.ACTIVE ->
+                        androidx.compose.ui.graphics.Color.Blue
+
+                    GoalStatus.COMPLETED ->
+                        androidx.compose.ui.graphics.Color(0xFF4CAF50)
+
+                    GoalStatus.LOCKED ->
+                        androidx.compose.ui.graphics.Color.Gray
+
+                    GoalStatus.ARCHIVED ->
+                        androidx.compose.ui.graphics.Color.DarkGray
+
+                }
+
+            )
+
+            Text(
+
+                text =
+                    "Progreso: $completedActivities/$totalActivities actividades ($progressPercentage%)",
+
+                modifier = Modifier.padding(
+                    top = 12.dp
+                )
+
+            )
+
+
+            LinearProgressIndicator(
+
+                progress = {
+
+                    activityUiState
+                        .value
+                        .progress
+
+                },
+
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
+
+            )
 
         Text(
             text = "Actividades",
@@ -223,6 +373,7 @@ fun GoalDetailScreen(
                 top = 16.dp
             )
         )
+
 
         ActivityList(
 
@@ -282,23 +433,39 @@ fun GoalDetailScreen(
             initialDescription =
                 uiState.value.goal!!.description,
 
+            initialStatus =
+                uiState.value.goal!!.status,
+
             onDismiss = {
-                showEditDialog.value = false
+
+                showEditDialog.value =
+                    false
+
             },
 
-            onSave = { title, description ->
+            onSave = {
+
+                    title,
+                    description,
+                    status ->
 
                 viewModel.updateGoal(
-                    title,
-                    description
-                )
 
-                showEditDialog.value = false
+                    title =
+                        title,
+
+                    description =
+                        description,
+
+                    status =
+                        status
+
+                )
+                showEditDialog.value =
+                    false
 
             }
-
         )
-
     }
 
     if (showDeleteDialog.value) {

@@ -41,27 +41,22 @@ fun EverpathScreen(
                 application
                     .appContainer
                     .getGoalNodesUseCase,
-
             saveGoalNodeUseCase =
                 application
                     .appContainer
                     .saveGoalNodeUseCase,
-
             updateGoalNodeUseCase =
                 application
                     .appContainer
                     .updateGoalNodeUseCase,
-
             saveGoalPositionUseCase =
                 application
                     .appContainer
                     .saveGoalPositionUseCase,
-
             getGoalPositionsUseCase =
                 application
                     .appContainer
                     .getGoalPositionsUseCase,
-
             deleteGoalNodeUseCase =
                 application
                     .appContainer
@@ -98,15 +93,12 @@ fun EverpathScreen(
         }
 
     Scaffold(
-
         floatingActionButton = {
-
             Column(
                 modifier = Modifier.padding(
                     bottom = 80.dp
                 )
             ) {
-
                 if (
                     uiState.value.selectedGoalId != null
                 ) {
@@ -116,12 +108,10 @@ fun EverpathScreen(
                             showEditGoalDialog.value = true
                         }
                     ) {
-
                         Icon(
                             imageVector = Icons.Default.Edit,
                             contentDescription = "Editar Goal"
                         )
-
                     }
 
                     FloatingActionButton(
@@ -129,14 +119,11 @@ fun EverpathScreen(
                             viewModel.deleteSelectedGoal()
                         }
                     ) {
-
                         Icon(
                             imageVector = Icons.Default.Delete,
                             contentDescription = "Eliminar Goal"
                         )
-
                     }
-
                 }
 
                 FloatingActionButton(
@@ -144,60 +131,43 @@ fun EverpathScreen(
                         showCreateGoalDialog.value = true
                     }
                 ) {
-
                     Icon(
                         imageVector = Icons.Default.Add,
                         contentDescription = "Crear Goal"
                     )
-
                 }
-
             }
-
         }
 
     ) { paddingValues ->
-
         EverpathCanvas(
             goalNodes = uiState.value.goalNodes,
             positions = uiState.value.positions,
             connections = uiState.value.connections,
             selectedGoalId = uiState.value.selectedGoalId,
             onGoalClick = { goalId ->
-
                 viewModel.selectGoal(goalId)
-
                 onGoalSelected(goalId)
-
             },
             modifier = Modifier.padding(
                 paddingValues
             )
         )
-
     }
 
     if (showCreateGoalDialog.value) {
-
         CreateGoalDialog(
-
             onDismiss = {
                 showCreateGoalDialog.value = false
             },
-
             onSave = { title, description ->
-
                 viewModel.createGoal(
                     title = title,
                     description = description
                 )
-
                 showCreateGoalDialog.value = false
-
             }
-
         )
-
     }
 
     if (
@@ -206,26 +176,27 @@ fun EverpathScreen(
     ) {
 
         EditGoalDialog(
-
             initialTitle =
                 selectedGoal.title,
-
             initialDescription =
                 selectedGoal.description,
-
+            initialStatus =
+                selectedGoal.status,
             onDismiss = {
                 showEditGoalDialog.value = false
             },
-
-            onSave = { title, description ->
-
+            onSave = {
+                    title,
+                    description,
+                    status ->
                 viewModel.updateGoal(
                     title = title,
-                    description = description
+                    description = description,
+                    status = status
+
                 )
-
-                showEditGoalDialog.value = false
-
+                showEditGoalDialog.value =
+                    false
             }
 
         )

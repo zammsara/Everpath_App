@@ -9,5 +9,6 @@ data class GoalNode(
     val description: String,
     val lifeArea: LifeAreaType,
     val status: GoalStatus,
-    val activities: List<Activity>
+    val activities: List<Activity>,
+    val progress: Float
 )

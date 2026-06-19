@@ -13,7 +13,6 @@ class GoalRepositoryImpl(
 ) : GoalRepository {
 
     override fun getGoalNodes(): Flow<List<GoalNode>> {
-
         return goalDao
             .getAllGoals()
             .map { goals ->
@@ -23,19 +22,22 @@ class GoalRepositoryImpl(
             }
     }
 
-    override suspend fun getGoalNodeById(
+    override fun getGoalNodeById(
         id: String
-    ): GoalNode? {
-
+    ): Flow<GoalNode?> {
         return goalDao
             .getGoalById(id)
-            ?.toDomain()
+            .map { goalWithActivities ->
+
+                goalWithActivities?.toDomain()
+
+            }
+
     }
 
     override suspend fun saveGoalNode(
         goalNode: GoalNode
     ) {
-
         goalDao.insertGoal(
             goalNode.toEntity()
         )
@@ -44,7 +46,6 @@ class GoalRepositoryImpl(
     override suspend fun updateGoalNode(
         goalNode: GoalNode
     ) {
-
         goalDao.updateGoal(
             goalNode.toEntity()
         )

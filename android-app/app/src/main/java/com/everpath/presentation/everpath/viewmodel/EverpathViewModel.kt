@@ -127,7 +127,8 @@ class EverpathViewModel(
             description = description,
             lifeArea = LifeAreaType.HEALTH,
             status = GoalStatus.ACTIVE,
-            activities = emptyList()
+            activities = emptyList(),
+            progress = 0f
         )
 
         val position =
@@ -153,7 +154,8 @@ class EverpathViewModel(
 
     fun updateGoal(
         title: String,
-        description: String
+        description: String,
+        status: GoalStatus
     ) {
 
         val selectedGoalId =
@@ -170,7 +172,8 @@ class EverpathViewModel(
         val updatedGoal =
             currentGoal.copy(
                 title = title,
-                description = description
+                description = description,
+                status = status
             )
 
         viewModelScope.launch {
@@ -184,35 +187,27 @@ class EverpathViewModel(
     }
 
     fun deleteSelectedGoal() {
-
         val goalId =
             _uiState.value.selectedGoalId
                 ?: return
 
         viewModelScope.launch {
-
             deleteGoalNodeUseCase(goalId)
-
             _uiState.update {
                 it.copy(
                     selectedGoalId = null
                 )
             }
-
         }
-
     }
 
     fun selectGoal(
         goalId: String
     ) {
-
         _uiState.update { currentState ->
-
             currentState.copy(
                 selectedGoalId = goalId
             )
-
         }
 
     }

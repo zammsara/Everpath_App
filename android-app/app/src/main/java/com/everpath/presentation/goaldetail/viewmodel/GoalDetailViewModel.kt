@@ -2,6 +2,7 @@ package com.everpath.presentation.goaldetail.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.usecase.goal.DeleteGoalNodeUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodeByIdUseCase
 import com.everpath.domain.usecase.goal.UpdateGoalNodeUseCase
@@ -32,17 +33,18 @@ class GoalDetailViewModel(
 
         viewModelScope.launch {
 
-            val goal =
-                getGoalNodeByIdUseCase(
-                    goalId
-                )
+            getGoalNodeByIdUseCase(
+                goalId
+            ).collect { goal ->
 
-            _uiState.update {
+                _uiState.update {
 
-                it.copy(
-                    goal = goal,
-                    isLoading = false
-                )
+                    it.copy(
+                        goal = goal,
+                        isLoading = false
+                    )
+
+                }
 
             }
 
@@ -52,7 +54,42 @@ class GoalDetailViewModel(
 
     fun updateGoal(
         title: String,
-        description: String
+        description: String,
+        status: GoalStatus
+    ) {
+
+        val currentGoal =
+            _uiState.value.goal
+                ?: return
+
+        val updatedGoal =
+
+            currentGoal.copy(
+                title = title,
+                description = description,
+                status = status
+            )
+
+        viewModelScope.launch {
+
+            updateGoalNodeUseCase(
+                updatedGoal
+            )
+
+            _uiState.update {
+
+                it.copy(
+                    goal = updatedGoal
+                )
+
+            }
+
+        }
+
+    }
+
+    fun updateGoalStatus(
+        status: GoalStatus
     ) {
 
         val currentGoal =
@@ -61,8 +98,7 @@ class GoalDetailViewModel(
 
         val updatedGoal =
             currentGoal.copy(
-                title = title,
-                description = description
+                status = status
             )
 
         viewModelScope.launch {

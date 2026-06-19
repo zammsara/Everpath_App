@@ -7,7 +7,7 @@ interface GoalRepository {
 
     fun getGoalNodes(): Flow<List<GoalNode>>
 
-    suspend fun getGoalNodeById(id: String): GoalNode?
+    fun getGoalNodeById(id: String): Flow<GoalNode?>
 
     suspend fun saveGoalNode(goalNode: GoalNode)
 

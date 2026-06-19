@@ -19,10 +19,11 @@ interface GoalDao {
     fun getAllGoals(): Flow<List<GoalWithActivities>>
 
     @Transaction
-    @Query("SELECT * FROM goal_nodes WHERE id = :goalId")
-    suspend fun getGoalById(
-        goalId: String
-    ): GoalWithActivities?
+    @Query(
+        "SELECT * FROM goal_nodes WHERE id = :goalId"
+    )
+    fun getGoalById(         goalId: String
+    ): Flow<GoalWithActivities?>
 
     @Insert(
         onConflict = OnConflictStrategy.REPLACE
