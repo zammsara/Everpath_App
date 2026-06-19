@@ -298,23 +298,19 @@ class EverpathViewModel(
             )
         }
 
-        //Restablece la cámara a su posición inicial.
-        fun resetViewport() {
+    }
 
-            _uiState.update { currentState ->
-
-                currentState.copy(
-                    viewportState =
-                        currentState.viewportState.copy(
-                            offsetX = 0f,
-                            offsetY = 0f
-                        )
-                )
-
-            }
-
+    //Restablece la cámara a su posición inicial.
+    fun resetViewport() {
+        _uiState.update { currentState ->
+            currentState.copy(
+                viewportState =
+                    currentState.viewportState.copy(
+                        offsetX = 0f,
+                        offsetY = 0f
+                    )
+            )
         }
-
     }
 
     fun createGoal(

@@ -22,7 +22,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.geometry.Offset
 import com.everpath.presentation.everpath.util.ConnectionHitTest
-import kotlin.math.abs
+import com.everpath.presentation.everpath.state.MapViewportState
 
 /**
  * Renderiza el mapa visual de Everpath y las conexiones entre Goals.
@@ -33,6 +33,7 @@ fun EverpathCanvas(
     positions: List<GoalNodePosition>,
     connections: List<GoalConnection>,
     draggingPositions: Map<String, GoalNodePosition>,
+    viewportState: MapViewportState,
 
     selectedGoalId: String?,
     selectedConnectionId: String?,
@@ -118,22 +119,30 @@ fun EverpathCanvas(
                                 val start =
                                     Offset(
                                         x =
-                                            source.x.dp.toPx() +
+                                            (source.x + viewportState.offsetX)
+                                                .dp
+                                                .toPx() +
                                                     cardWidthPx / 2f,
 
                                         y =
-                                            source.y.dp.toPx() +
+                                            (source.y + viewportState.offsetY)
+                                                .dp
+                                                .toPx() +
                                                     cardHeightPx / 2f
                                     )
 
                                 val end =
                                     Offset(
                                         x =
-                                            target.x.dp.toPx() +
+                                            (target.x + viewportState.offsetX)
+                                                .dp
+                                                .toPx() +
                                                     cardWidthPx / 2f,
 
                                         y =
-                                            target.y.dp.toPx() +
+                                            (target.y + viewportState.offsetY)
+                                                .dp
+                                                .toPx() +
                                                     cardHeightPx / 2f
                                     )
 
@@ -178,11 +187,25 @@ fun EverpathCanvas(
                     val cardWidthPx = 180.dp.toPx()
                     val cardHeightPx = 100.dp.toPx()
 
-                    val sourceX = source.x.dp.toPx()
-                    val sourceY = source.y.dp.toPx()
+                    val sourceX =
+                        (source.x + viewportState.offsetX)
+                            .dp
+                            .toPx()
 
-                    val targetX = target.x.dp.toPx()
-                    val targetY = target.y.dp.toPx()
+                    val sourceY =
+                        (source.y + viewportState.offsetY)
+                            .dp
+                            .toPx()
+
+                    val targetX =
+                        (target.x + viewportState.offsetX)
+                            .dp
+                            .toPx()
+
+                    val targetY =
+                        (target.y + viewportState.offsetY)
+                            .dp
+                            .toPx()
 
                     drawLine(
                         color =
@@ -220,55 +243,43 @@ fun EverpathCanvas(
         }
 
         goalNodes.forEach { goalNode ->
-
             val savedPosition =
                 positions.find {
                     it.goalNodeId == goalNode.id
                 }
-
             val currentPosition =
                 draggingPositions[goalNode.id]
                     ?: savedPosition
 
             if (currentPosition != null) {
-
                 GoalNodeCard(
                     goalNode = goalNode,
-
                     isSelected =
                         goalNode.id == selectedGoalId,
-
                     onClick = {
                         onGoalClick(goalNode.id)
                     },
-
                     onDragStart = {
                         onDragStart(goalNode.id)
                     },
-
                     onDrag = { dragX, dragY ->
                         onDrag(goalNode.id, dragX, dragY)
                     },
-
                     onDragEnd = {
                         onDragEnd(goalNode.id)
                     },
-
                     modifier =
                         Modifier
                             .offset(
-                                x = currentPosition.x.dp,
-                                y = currentPosition.y.dp
+                                x = (currentPosition.x + viewportState.offsetX).dp,
+                                y = (currentPosition.y + viewportState.offsetY).dp
                             )
                             .size(
                                 width = 180.dp,
                                 height = 100.dp
                             )
                 )
-
             }
-
         }
-
     }
 }

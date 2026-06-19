@@ -247,6 +247,7 @@ fun EverpathScreen(
                 draggingPositions = uiState.value.draggingPositions,
                 selectedGoalId = uiState.value.selectedGoalId,
                 selectedConnectionId = uiState.value.selectedConnectionId,
+                viewportState = uiState.value.viewportState,
                 onConnectionClick = { connectionId ->
                     viewModel.selectConnection(connectionId)
                 },
