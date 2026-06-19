@@ -22,8 +22,13 @@ fun GoalNodeCard(
     goalNode: GoalNode,
     isSelected: Boolean,
     onClick: () -> Unit,
+
+    onDragStart: () -> Unit = {},
+    onDrag: (Float, Float) -> Unit = { _, _ -> },
+    onDragEnd: () -> Unit = {},
+
     modifier: Modifier = Modifier
-) {
+){
 
     Card(
         modifier = modifier.size(

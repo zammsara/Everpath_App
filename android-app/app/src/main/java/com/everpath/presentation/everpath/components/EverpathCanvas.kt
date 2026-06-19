@@ -219,16 +219,32 @@ fun EverpathCanvas(
                     goalNode = goalNode,
                     isSelected =
                         goalNode.id == selectedGoalId,
+
                     onClick = {
                         onGoalClick(goalNode.id)
                     },
-                    modifier = Modifier.offset(
-                        x = position.x.dp,
-                        y = position.y.dp
-                    ).size(
-                        width = 180.dp,
-                        height = 100.dp
-                    ),
+
+                    onDragStart = {
+
+                    },
+
+                    onDrag = { _, _ ->
+
+                    },
+
+                    onDragEnd = {
+
+                    },
+
+                    modifier = Modifier
+                        .offset(
+                            x = position.x.dp,
+                            y = position.y.dp
+                        )
+                        .size(
+                            width = 180.dp,
+                            height = 100.dp
+                        )
                 )
 
             }

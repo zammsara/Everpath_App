@@ -9,6 +9,8 @@ data class EverpathUiState(
     val positions: List<GoalNodePosition> = emptyList(),
     val connections: List<GoalConnection> = emptyList(),
 
+    val draggingPositions: Map<String, GoalNodePosition> = emptyMap(),
+
     val selectedGoalId: String? = null,
     val selectedConnectionId: String? = null,
 

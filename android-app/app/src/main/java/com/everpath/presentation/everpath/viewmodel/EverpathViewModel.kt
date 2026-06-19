@@ -132,6 +132,43 @@ class EverpathViewModel(
         }
     }
 
+    fun updateDraggingPosition(
+        goalId: String,
+        x: Float,
+        y: Float
+    ) {
+        _uiState.update {
+            it.copy(
+                draggingPositions =
+                    it.draggingPositions +
+                            (
+                                    goalId to
+                                            GoalNodePosition(
+                                                goalNodeId = goalId,
+                                                x = x,
+                                                y = y
+                                            )
+                                    )
+            )
+        }
+    }
+
+   fun clearDraggingPosition(
+        goalId: String
+    ) {
+
+        _uiState.update {
+
+            it.copy(
+                draggingPositions =
+                    it.draggingPositions -
+                            goalId
+            )
+
+        }
+
+    }
+
     fun createGoal(
         title: String,
         description: String
