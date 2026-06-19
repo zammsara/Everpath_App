@@ -22,6 +22,9 @@ import com.everpath.domain.usecase.activity.SaveActivityUseCase
 import com.everpath.domain.usecase.activity.UpdateActivityUseCase
 import com.everpath.data.repository.GoalConnectionRepositoryImpl
 import com.everpath.domain.repository.GoalConnectionRepository
+import com.everpath.domain.usecase.goalconnection.DeleteGoalConnectionUseCase
+import com.everpath.domain.usecase.goalconnection.GetGoalConnectionsUseCase
+import com.everpath.domain.usecase.goalconnection.SaveGoalConnectionUseCase
 
 
 /**
@@ -130,5 +133,20 @@ class AppContainer(
     val deleteActivityUseCase =
         DeleteActivityUseCase(
             activityRepository
+        )
+
+    val getGoalConnectionsUseCase =
+        GetGoalConnectionsUseCase(
+            goalConnectionRepository
+        )
+
+    val saveGoalConnectionUseCase =
+        SaveGoalConnectionUseCase(
+            goalConnectionRepository
+        )
+
+    val deleteGoalConnectionUseCase =
+        DeleteGoalConnectionUseCase(
+            goalConnectionRepository
         )
 }
