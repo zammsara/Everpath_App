@@ -15,6 +15,9 @@ import com.everpath.domain.usecase.goalposition.GetGoalPositionsUseCase
 import com.everpath.domain.usecase.goalposition.SaveGoalPositionUseCase
 import com.everpath.presentation.everpath.model.GoalNodePosition
 import com.everpath.presentation.everpath.state.EverpathUiState
+import com.everpath.domain.usecase.goalconnection.GetGoalConnectionsUseCase
+import com.everpath.domain.usecase.goalconnection.SaveGoalConnectionUseCase
+import com.everpath.domain.usecase.goalconnection.DeleteGoalConnectionUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,13 +25,26 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
 
+
+/**
+ * ViewModel principal del mapa Everpath.
+ *
+ * Es responsable de coordinar la comunicación entre
+ * la capa de presentación y los casos de uso del dominio.
+ *
+ * Mantiene actualizado el EverpathUiState que consume
+ * la interfaz de usuario.
+ */
 class EverpathViewModel(
     private val getGoalNodesUseCase: GetGoalNodesUseCase,
     private val saveGoalNodeUseCase: SaveGoalNodeUseCase,
     private val saveGoalPositionUseCase: SaveGoalPositionUseCase,
     private val updateGoalNodeUseCase: UpdateGoalNodeUseCase,
     private val getGoalPositionsUseCase: GetGoalPositionsUseCase,
-    private val deleteGoalNodeUseCase: DeleteGoalNodeUseCase
+    private val deleteGoalNodeUseCase: DeleteGoalNodeUseCase,
+    private val getGoalConnectionsUseCase: GetGoalConnectionsUseCase,
+    private val saveGoalConnectionUseCase: SaveGoalConnectionUseCase,
+    private val deleteGoalConnectionUseCase: DeleteGoalConnectionUseCase
 ) : ViewModel() {
 
 
@@ -45,6 +61,7 @@ class EverpathViewModel(
     init {
         observeGoals()
         observePositions()
+        observeConnections()
     }
 
     private fun observeGoals() {
@@ -53,24 +70,10 @@ class EverpathViewModel(
 
             getGoalNodesUseCase()
                 .collect { goals ->
-                    val connections =
-                        goals
-                            .zipWithNext()
-                            .mapIndexed { index, pair ->
-
-                                GoalConnection(
-                                    id = "connection_$index",
-                                    sourceGoalId = pair.first.id,
-                                    targetGoalId = pair.second.id
-                                )
-
-                            }
-
                     _uiState.update { currentState ->
 
                         currentState.copy(
                             goalNodes = goals,
-                            connections = connections,
                             isLoading = false
                         )
 
@@ -105,6 +108,25 @@ class EverpathViewModel(
 
                         )
 
+                    }
+
+                }
+
+        }
+
+    }
+
+   private fun observeConnections() {
+
+        viewModelScope.launch {
+
+            getGoalConnectionsUseCase()
+                .collect { connections ->
+
+                    _uiState.update {
+                        it.copy(
+                            connections = connections
+                        )
                     }
 
                 }

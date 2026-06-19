@@ -25,6 +25,13 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.ui.unit.dp
 import com.everpath.presentation.everpath.components.EditGoalDialog
 
+/**
+ * Pantalla principal del mapa Everpath.
+ *
+ * Actúa como punto de entrada de la funcionalidad central
+ * de la aplicación y conecta la interfaz gráfica con el
+ * EverpathViewModel.
+ */
 @Composable
 fun EverpathScreen(
     onGoalSelected: (String) -> Unit
@@ -60,7 +67,21 @@ fun EverpathScreen(
             deleteGoalNodeUseCase =
                 application
                     .appContainer
-                    .deleteGoalNodeUseCase
+                    .deleteGoalNodeUseCase,
+            getGoalConnectionsUseCase =
+                application
+                    .appContainer
+                    .getGoalConnectionsUseCase,
+
+            saveGoalConnectionUseCase =
+                application
+                    .appContainer
+                    .saveGoalConnectionUseCase,
+
+            deleteGoalConnectionUseCase =
+                application
+                    .appContainer
+                    .deleteGoalConnectionUseCase
         )
 
     }
