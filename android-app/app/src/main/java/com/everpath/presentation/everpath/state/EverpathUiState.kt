@@ -15,6 +15,8 @@ data class EverpathUiState(
     val connectionSourceGoalId: String? = null,
     val isConnectionMode: Boolean = false,
 
+    val viewportState: MapViewportState = MapViewportState(),
+
     val isLoading: Boolean = false,
     val errorMessage: String? = null
 )
