@@ -30,6 +30,16 @@ class GoalPositionRepositoryImpl(
         goalPositionDao.savePosition(position)
     }
 
+    override suspend fun updateGoalPosition(
+        position: GoalPositionEntity
+    ) {
+
+        goalPositionDao.savePosition(
+            position
+        )
+
+    }
+
     override suspend fun deleteGoalPosition(
         goalId: String
     ) {

@@ -7,6 +7,10 @@ import androidx.room.Query
 import com.everpath.data.local.entity.GoalPositionEntity
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * DAO encargado de persistir las posiciones visuales
+ * de las metas dentro del mapa Everpath.
+ */
 @Dao
 interface GoalPositionDao {
 

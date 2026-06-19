@@ -11,6 +11,7 @@ import com.everpath.domain.usecase.goalposition.SaveGoalPositionUseCase
 import com.everpath.domain.usecase.goalconnection.GetGoalConnectionsUseCase
 import com.everpath.domain.usecase.goalconnection.SaveGoalConnectionUseCase
 import com.everpath.domain.usecase.goalconnection.DeleteGoalConnectionUseCase
+import com.everpath.domain.usecase.goalposition.UpdateGoalPositionUseCase
 
 /**
  * Factory encargada de crear instancias de EverpathViewModel.
@@ -24,6 +25,7 @@ class EverpathViewModelFactory(
     private val saveGoalNodeUseCase: SaveGoalNodeUseCase,
     private val updateGoalNodeUseCase: UpdateGoalNodeUseCase,
     private val saveGoalPositionUseCase: SaveGoalPositionUseCase,
+    private val updateGoalPositionUseCase: UpdateGoalPositionUseCase,
     private val getGoalPositionsUseCase: GetGoalPositionsUseCase,
     private val deleteGoalNodeUseCase: DeleteGoalNodeUseCase,
     private val getGoalConnectionsUseCase: GetGoalConnectionsUseCase,
@@ -47,6 +49,7 @@ class EverpathViewModelFactory(
                 saveGoalNodeUseCase = saveGoalNodeUseCase,
                 updateGoalNodeUseCase = updateGoalNodeUseCase,
                 saveGoalPositionUseCase = saveGoalPositionUseCase,
+                updateGoalPositionUseCase = updateGoalPositionUseCase,
                 getGoalPositionsUseCase = getGoalPositionsUseCase,
                 deleteGoalNodeUseCase = deleteGoalNodeUseCase,
                 getGoalConnectionsUseCase = getGoalConnectionsUseCase,

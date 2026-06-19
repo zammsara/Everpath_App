@@ -100,6 +100,11 @@ class AppContainer(
             goalPositionRepository
         )
 
+    val updateGoalPositionUseCase =
+        UpdateGoalPositionUseCase(
+            goalPositionRepository
+        )
+
     val updateGoalNodeUseCase =
         UpdateGoalNodeUseCase(
             goalRepository

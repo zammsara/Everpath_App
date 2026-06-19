@@ -18,6 +18,7 @@ import com.everpath.presentation.everpath.state.EverpathUiState
 import com.everpath.domain.usecase.goalconnection.GetGoalConnectionsUseCase
 import com.everpath.domain.usecase.goalconnection.SaveGoalConnectionUseCase
 import com.everpath.domain.usecase.goalconnection.DeleteGoalConnectionUseCase
+import com.everpath.domain.usecase.goalposition.UpdateGoalPositionUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -39,6 +40,7 @@ class EverpathViewModel(
     private val getGoalNodesUseCase: GetGoalNodesUseCase,
     private val saveGoalNodeUseCase: SaveGoalNodeUseCase,
     private val saveGoalPositionUseCase: SaveGoalPositionUseCase,
+    private val updateGoalPositionUseCase: UpdateGoalPositionUseCase,
     private val updateGoalNodeUseCase: UpdateGoalNodeUseCase,
     private val getGoalPositionsUseCase: GetGoalPositionsUseCase,
     private val deleteGoalNodeUseCase: DeleteGoalNodeUseCase,
@@ -130,6 +132,28 @@ class EverpathViewModel(
                     }
 
                 }
+
+        }
+
+    }
+
+    fun updateGoalPosition(
+        goalId: String,
+        x: Float,
+        y: Float
+    ) {
+
+        viewModelScope.launch {
+
+            updateGoalPositionUseCase(
+
+                GoalPositionEntity(
+                    goalId = goalId,
+                    x = x,
+                    y = y
+                )
+
+            )
 
         }
 

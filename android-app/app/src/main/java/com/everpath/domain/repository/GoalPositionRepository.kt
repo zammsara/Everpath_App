@@ -16,6 +16,10 @@ interface GoalPositionRepository {
         position: GoalPositionEntity
     )
 
+    suspend fun updateGoalPosition(
+        position: GoalPositionEntity
+    )
+
     suspend fun deleteGoalPosition(
         goalId: String
     )
