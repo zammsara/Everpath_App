@@ -89,6 +89,7 @@ fun EverpathCanvas(
                 )
                 .pointerInput(connections) {
                     detectTapGestures { tapOffset ->
+                        var clickedConnectionId: String? = null
                         connections.forEach { connection ->
 
                             val source =
@@ -118,34 +119,24 @@ fun EverpathCanvas(
 
                                 val start =
                                     Offset(
-                                        x =
-                                            (source.x + viewportState.offsetX)
+                                        x = (source.x + viewportState.offsetX)
                                                 .dp
-                                                .toPx() +
-                                                    cardWidthPx / 2f,
+                                                .toPx() + cardWidthPx / 2f,
 
-                                        y =
-                                            (source.y + viewportState.offsetY)
+                                        y = (source.y + viewportState.offsetY)
                                                 .dp
-                                                .toPx() +
-                                                    cardHeightPx / 2f
+                                                .toPx() + cardHeightPx / 2f
                                     )
-
                                 val end =
                                     Offset(
-                                        x =
-                                            (target.x + viewportState.offsetX)
+                                        x = (target.x + viewportState.offsetX)
                                                 .dp
-                                                .toPx() +
-                                                    cardWidthPx / 2f,
+                                                .toPx() + cardWidthPx / 2f,
 
-                                        y =
-                                            (target.y + viewportState.offsetY)
+                                        y = (target.y + viewportState.offsetY)
                                                 .dp
-                                                .toPx() +
-                                                    cardHeightPx / 2f
+                                                .toPx() + cardHeightPx / 2f
                                     )
-
                                 if (
                                     ConnectionHitTest
                                         .isPointNearLine(
@@ -154,13 +145,17 @@ fun EverpathCanvas(
                                             lineEnd = end
                                         )
                                 ) {
-
-                                    onConnectionClick(
+                                    clickedConnectionId =
                                         connection.id
-                                    )
-                                    return@detectTapGestures
                                 }
                             }
+                        }
+                        if (clickedConnectionId != null) {
+                            onConnectionClick(
+                                clickedConnectionId!!
+                            )
+                        } else {
+                            onBackgroundClick()
                         }
                     }
                 }
