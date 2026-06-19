@@ -28,4 +28,6 @@ abstract class EverpathDatabase : RoomDatabase() {
     abstract fun activityDao(): ActivityDao
 
     abstract fun goalPositionDao(): GoalPositionDao
+
+    abstract fun goalConnectionDao(): GoalConnectionDao
 }

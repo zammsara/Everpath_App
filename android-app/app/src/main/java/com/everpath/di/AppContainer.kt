@@ -20,7 +20,16 @@ import com.everpath.domain.usecase.activity.GetActivitiesByGoalIdUseCase
 import com.everpath.domain.usecase.activity.GetActivityByIdUseCase
 import com.everpath.domain.usecase.activity.SaveActivityUseCase
 import com.everpath.domain.usecase.activity.UpdateActivityUseCase
+import com.everpath.data.repository.GoalConnectionRepositoryImpl
+import com.everpath.domain.repository.GoalConnectionRepository
 
+
+/**
+ * Contenedor principal de dependencias de Everpath.
+ *
+ * Centraliza la creación de Room, repositorios
+ * y casos de uso de la aplicación.
+ */
 class AppContainer(
     context: Context
 ) {
@@ -51,6 +60,14 @@ class AppContainer(
         GoalPositionRepositoryImpl(
             goalPositionDao =
                 database.goalPositionDao()
+        )
+
+    private val goalConnectionRepository:
+            GoalConnectionRepository =
+
+        GoalConnectionRepositoryImpl(
+            goalConnectionDao =
+                database.goalConnectionDao()
         )
 
     val getGoalNodesUseCase =
