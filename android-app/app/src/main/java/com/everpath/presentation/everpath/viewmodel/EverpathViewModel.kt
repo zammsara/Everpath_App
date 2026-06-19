@@ -67,55 +67,36 @@ class EverpathViewModel(
     }
 
     private fun observeGoals() {
-
         viewModelScope.launch {
-
             getGoalNodesUseCase()
                 .collect { goals ->
                     _uiState.update { currentState ->
-
                         currentState.copy(
                             goalNodes = goals,
                             isLoading = false
                         )
-
                     }
-
                 }
-
         }
-
     }
 
     private fun observePositions() {
-
         viewModelScope.launch {
-
             getGoalPositionsUseCase()
                 .collect { positions ->
-
                     _uiState.update { currentState ->
-
                         currentState.copy(
-
                             positions = positions.map {
-
                                 GoalNodePosition(
                                     goalNodeId = it.goalId,
                                     x = it.x,
                                     y = it.y
                                 )
-
                             }
-
                         )
-
                     }
-
                 }
-
         }
-
     }
 
    private fun observeConnections() {
@@ -130,11 +111,8 @@ class EverpathViewModel(
                             connections = connections
                         )
                     }
-
                 }
-
         }
-
     }
 
     fun updateGoalPosition(
@@ -144,26 +122,20 @@ class EverpathViewModel(
     ) {
 
         viewModelScope.launch {
-
             updateGoalPositionUseCase(
-
                 GoalPositionEntity(
                     goalId = goalId,
                     x = x,
                     y = y
                 )
-
             )
-
         }
-
     }
 
     fun createGoal(
         title: String,
         description: String
     ) {
-
         val goalId =
             UUID.randomUUID().toString()
 
@@ -180,21 +152,15 @@ class EverpathViewModel(
         val position =
             GoalPositionEntity(
                 goalId = goalId,
-
                 x = (
                         100f +
                                 (_uiState.value.goalNodes.size * 220f)
                         ),
-
                 y = 100f
             )
-
         viewModelScope.launch {
-
             saveGoalNodeUseCase(goal)
-
             saveGoalPositionUseCase(position)
-
         }
     }
 
@@ -203,7 +169,6 @@ class EverpathViewModel(
         description: String,
         status: GoalStatus
     ) {
-
         val selectedGoalId =
             _uiState.value.selectedGoalId
                 ?: return
@@ -223,13 +188,8 @@ class EverpathViewModel(
             )
 
         viewModelScope.launch {
-
-            updateGoalNodeUseCase(
-                updatedGoal
-            )
-
+            updateGoalNodeUseCase(updatedGoal)
         }
-
     }
 
     fun deleteSelectedGoal() {
@@ -267,9 +227,7 @@ class EverpathViewModel(
         targetGoalId: String
     ) {
 
-        if (sourceGoalId == targetGoalId) {
-            return
-        }
+        if (sourceGoalId == targetGoalId) {return}
 
         val existingConnections =
             _uiState.value.connections
@@ -279,7 +237,6 @@ class EverpathViewModel(
 
                 it.sourceGoalId ==
                         sourceGoalId
-
             }
 
         if (sourceAlreadyConnected) {
@@ -293,12 +250,9 @@ class EverpathViewModel(
                         sourceGoalId &&
                         it.targetGoalId ==
                         targetGoalId
-
             }
 
-        if (duplicatedConnection) {
-            return
-        }
+        if (duplicatedConnection) {return}
 
         val connection =
             GoalConnection(
@@ -308,35 +262,25 @@ class EverpathViewModel(
             )
 
         viewModelScope.launch {
-
-            saveGoalConnectionUseCase(
-                connection
-            )
-
+            saveGoalConnectionUseCase(connection)
         }
-
     }
 
     fun startConnectionMode() {
-
         val selectedGoalId =
             _uiState.value.selectedGoalId
                 ?: return
 
         _uiState.update {
-
             it.copy(
                 isConnectionMode = true,
                 connectionSourceGoalId =
                     selectedGoalId
             )
-
         }
-
     }
 
     fun cancelConnectionMode() {
-
         _uiState.update {
             it.copy(
                 connectionSourceGoalId = null
@@ -358,7 +302,6 @@ class EverpathViewModel(
         connectionId: String
     ) {
         _uiState.update {
-
             it.copy(
                 selectedConnectionId = connectionId,
                 selectedGoalId = null
@@ -372,11 +315,7 @@ class EverpathViewModel(
                 ?: return
 
         viewModelScope.launch {
-
-            deleteGoalConnectionUseCase(
-                connectionId
-            )
-
+            deleteGoalConnectionUseCase(connectionId)
             _uiState.update {
                 it.copy(
                     selectedConnectionId = null
@@ -397,14 +336,11 @@ class EverpathViewModel(
             val sourceGoalId =
                 currentState.connectionSourceGoalId
                     ?: return
-
             createConnection(
                 sourceGoalId = sourceGoalId,
                 targetGoalId = goalId
             )
-
             _uiState.update {
-
                 it.copy(
                     isConnectionMode = false,
                     connectionSourceGoalId = null,
@@ -412,10 +348,8 @@ class EverpathViewModel(
                 )
             }
             return
-
         }
         selectGoal(goalId)
-
     }
 
 }
