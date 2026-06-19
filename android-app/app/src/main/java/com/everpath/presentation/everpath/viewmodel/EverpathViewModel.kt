@@ -265,6 +265,58 @@ class EverpathViewModel(
 
     }
 
+    /**
+     * ---------------------------------------------------------
+     * Viewport
+     * ---------------------------------------------------------
+     *
+     * Gestiona la posición de la cámara virtual del mapa.
+     *
+     * Las coordenadas reales de las metas nunca cambian.
+     * Únicamente cambia el desplazamiento visual aplicado
+     * durante el renderizado.
+     */
+
+    //Desplaza la cámara del mapa.
+    fun moveViewport(
+        deltaX: Float,
+        deltaY: Float
+    ) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                viewportState =
+                    currentState.viewportState.copy(
+                        offsetX =
+                            currentState
+                                .viewportState
+                                .offsetX + deltaX,
+                        offsetY =
+                            currentState
+                                .viewportState
+                                .offsetY + deltaY
+                    )
+            )
+        }
+
+        //Restablece la cámara a su posición inicial.
+        fun resetViewport() {
+
+            _uiState.update { currentState ->
+
+                currentState.copy(
+                    viewportState =
+                        currentState.viewportState.copy(
+                            offsetX = 0f,
+                            offsetY = 0f
+                        )
+                )
+
+            }
+
+        }
+
+    }
+
     fun createGoal(
         title: String,
         description: String
