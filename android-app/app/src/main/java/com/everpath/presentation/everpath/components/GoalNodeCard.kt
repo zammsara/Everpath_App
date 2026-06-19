@@ -15,6 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.everpath.domain.model.GoalNode
 
+/**
+ * Componente visual que representa una Goal dentro del mapa.
+ */
 @Composable
 fun GoalNodeCard(
     goalNode: GoalNode,

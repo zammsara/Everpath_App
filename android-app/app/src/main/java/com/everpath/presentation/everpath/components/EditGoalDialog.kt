@@ -15,6 +15,9 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import com.everpath.domain.enums.GoalStatus
 
+/**
+ * Diálogo utilizado para editar una Goal existente.
+ */
 @Composable
 fun EditGoalDialog(
     initialTitle: String,

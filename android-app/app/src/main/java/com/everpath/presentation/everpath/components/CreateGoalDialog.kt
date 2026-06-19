@@ -14,6 +14,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+/**
+ * Diálogo utilizado para crear una nueva Goal.
+ */
 @Composable
 fun CreateGoalDialog(
     onDismiss: () -> Unit,

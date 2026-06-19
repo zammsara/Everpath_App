@@ -18,6 +18,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 
+/**
+ * Renderiza el mapa visual de Everpath y las conexiones entre Goals.
+ */
 @Composable
 fun EverpathCanvas(
     goalNodes: List<GoalNode>,
