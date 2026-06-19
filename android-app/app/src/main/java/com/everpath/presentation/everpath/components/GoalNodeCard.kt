@@ -11,6 +11,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import com.everpath.domain.model.GoalNode
 
@@ -31,20 +33,42 @@ fun GoalNodeCard(
 ){
 
     Card(
-        modifier = modifier.size(
-            width = 180.dp,
-            height = 100.dp
-        ).border(
-            width = if (isSelected) 3.dp else 1.dp,
-            color = if (isSelected)
-                MaterialTheme.colorScheme.primary
-            else
-                MaterialTheme.colorScheme.outline,
-            shape = CardDefaults.shape
-        )
-            .clickable(
-                onClick = onClick
-            ),
+        modifier =
+            modifier
+                .size(
+                    width = 180.dp,
+                    height = 100.dp
+                )
+                .border(
+                    width =
+                        if (isSelected) 3.dp
+                        else 1.dp,
+                    color =
+                        if (isSelected)
+                            MaterialTheme.colorScheme.primary
+                        else
+                            MaterialTheme.colorScheme.outline,
+                    shape = CardDefaults.shape
+                )
+                .pointerInput(Unit) {
+                    detectDragGestures(
+                        onDragStart = {
+                            onDragStart()
+                        },
+                        onDragEnd = {
+                            onDragEnd()
+                        }
+                    ) { change, dragAmount ->
+                        change.consume()
+                        onDrag(
+                            dragAmount.x,
+                            dragAmount.y
+                        )
+                    }
+                }
+                .clickable(
+                    onClick = onClick
+                ),
         elevation = CardDefaults.cardElevation(
             defaultElevation =
                 if (isSelected) {

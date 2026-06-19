@@ -32,12 +32,16 @@ fun EverpathCanvas(
     goalNodes: List<GoalNode>,
     positions: List<GoalNodePosition>,
     connections: List<GoalConnection>,
+    draggingPositions: Map<String, GoalNodePosition>,
 
     selectedGoalId: String?,
     selectedConnectionId: String?,
 
     onGoalClick: (String) -> Unit,
     onConnectionClick: (String) -> Unit,
+    onDragStart: (String) -> Unit,
+    onDrag: (String, Float, Float) -> Unit,
+    onDragEnd: (String) -> Unit,
 
     onBackgroundClick: () -> Unit,
 
@@ -87,16 +91,18 @@ fun EverpathCanvas(
                         connections.forEach { connection ->
 
                             val source =
-                                positions.find {
-                                    it.goalNodeId ==
-                                            connection.sourceGoalId
-                                }
+                                draggingPositions[connection.sourceGoalId]
+                                    ?: positions.find {
+                                        it.goalNodeId ==
+                                                connection.sourceGoalId
+                                    }
 
                             val target =
-                                positions.find {
-                                    it.goalNodeId ==
-                                            connection.targetGoalId
-                                }
+                                draggingPositions[connection.targetGoalId]
+                                    ?: positions.find {
+                                        it.goalNodeId ==
+                                                connection.targetGoalId
+                                    }
 
                             if (
                                 source != null &&
@@ -153,13 +159,19 @@ fun EverpathCanvas(
 
             connections.forEach { connection ->
 
-                val source = positions.find {
-                    it.goalNodeId == connection.sourceGoalId
-                }
+                val source =
+                    draggingPositions[connection.sourceGoalId]
+                        ?: positions.find {
+                            it.goalNodeId ==
+                                    connection.sourceGoalId
+                        }
 
-                val target = positions.find {
-                    it.goalNodeId == connection.targetGoalId
-                }
+                val target =
+                    draggingPositions[connection.targetGoalId]
+                        ?: positions.find {
+                            it.goalNodeId ==
+                                    connection.targetGoalId
+                        }
 
                 if (source != null && target != null) {
 
@@ -209,14 +221,20 @@ fun EverpathCanvas(
 
         goalNodes.forEach { goalNode ->
 
-            val position = positions.find {
-                it.goalNodeId == goalNode.id
-            }
+            val savedPosition =
+                positions.find {
+                    it.goalNodeId == goalNode.id
+                }
 
-            if (position != null) {
+            val currentPosition =
+                draggingPositions[goalNode.id]
+                    ?: savedPosition
+
+            if (currentPosition != null) {
 
                 GoalNodeCard(
                     goalNode = goalNode,
+
                     isSelected =
                         goalNode.id == selectedGoalId,
 
@@ -225,26 +243,27 @@ fun EverpathCanvas(
                     },
 
                     onDragStart = {
-
+                        onDragStart(goalNode.id)
                     },
 
-                    onDrag = { _, _ ->
-
+                    onDrag = { dragX, dragY ->
+                        onDrag(goalNode.id, dragX, dragY)
                     },
 
                     onDragEnd = {
-
+                        onDragEnd(goalNode.id)
                     },
 
-                    modifier = Modifier
-                        .offset(
-                            x = position.x.dp,
-                            y = position.y.dp
-                        )
-                        .size(
-                            width = 180.dp,
-                            height = 100.dp
-                        )
+                    modifier =
+                        Modifier
+                            .offset(
+                                x = currentPosition.x.dp,
+                                y = currentPosition.y.dp
+                            )
+                            .size(
+                                width = 180.dp,
+                                height = 100.dp
+                            )
                 )
 
             }

@@ -241,24 +241,37 @@ fun EverpathScreen(
             }
 
             EverpathCanvas(
-            goalNodes = uiState.value.goalNodes,
-            positions = uiState.value.positions,
-            connections = uiState.value.connections,
-            selectedGoalId = uiState.value.selectedGoalId,
-            selectedConnectionId = uiState.value.selectedConnectionId,
-            onConnectionClick = { connectionId ->
-                viewModel.selectConnection(connectionId)
-            },
-            onGoalClick = { goalId ->
-                viewModel.handleGoalSelection(goalId)
-            },
-            onBackgroundClick = {
-                viewModel.clearSelection()
-            },
-            modifier = Modifier.padding(
-                paddingValues
+                goalNodes = uiState.value.goalNodes,
+                positions = uiState.value.positions,
+                connections = uiState.value.connections,
+                draggingPositions = uiState.value.draggingPositions,
+                selectedGoalId = uiState.value.selectedGoalId,
+                selectedConnectionId = uiState.value.selectedConnectionId,
+                onConnectionClick = { connectionId ->
+                    viewModel.selectConnection(connectionId)
+                },
+                onGoalClick = { goalId ->
+                    viewModel.handleGoalSelection(goalId)
+                },
+                onDragStart = { goalId ->
+                    viewModel.startDragging(goalId)
+                },
+                onDrag = { goalId, dragX, dragY ->
+                    viewModel.dragGoal(
+                        goalId,
+                        dragX,
+                        dragY
+                    )
+                },
+                onDragEnd = { goalId ->
+                    viewModel.finishDragging(goalId)
+                },
+                onBackgroundClick = {
+                    viewModel.clearSelection()
+                },
+                modifier =
+                    Modifier.padding(paddingValues)
             )
-        )
     }
 
     if (showCreateGoalDialog.value) {

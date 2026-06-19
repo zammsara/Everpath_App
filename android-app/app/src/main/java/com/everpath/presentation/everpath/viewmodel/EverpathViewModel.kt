@@ -132,6 +132,102 @@ class EverpathViewModel(
         }
     }
 
+    /**
+     * Inicia el arrastre temporal de una meta.
+     */
+    fun startDragging(
+        goalId: String
+    ) {
+
+        val currentPosition =
+            _uiState.value.positions
+                .find {
+                    it.goalNodeId == goalId
+                }
+                ?: return
+
+        _uiState.update {
+
+            it.copy(
+                draggingPositions =
+                    it.draggingPositions +
+                            (
+                                    goalId to currentPosition
+                                    )
+            )
+
+        }
+
+    }
+
+    /**
+     * Actualiza visualmente la posición mientras
+     * el usuario arrastra la tarjeta.
+     */
+    fun dragGoal(
+        goalId: String,
+        dragX: Float,
+        dragY: Float
+    ) {
+
+        val currentPosition =
+            _uiState.value.draggingPositions[goalId]
+                ?: return
+
+        val newPosition =
+            currentPosition.copy(
+                x = currentPosition.x + dragX,
+                y = currentPosition.y + dragY
+            )
+
+        _uiState.update {
+
+            it.copy(
+                draggingPositions =
+                    it.draggingPositions +
+                            (
+                                    goalId to newPosition
+                                    )
+            )
+
+        }
+
+    }
+
+    /**
+     * Finaliza el arrastre.
+     */
+    fun finishDragging(
+        goalId: String
+    ) {
+
+        val finalPosition =
+            _uiState.value.draggingPositions[goalId]
+                ?: return
+
+        viewModelScope.launch {
+
+            updateGoalPositionUseCase(
+                GoalPositionEntity(
+                    goalId = goalId,
+                    x = finalPosition.x,
+                    y = finalPosition.y
+                )
+            )
+
+        }
+
+        _uiState.update {
+
+            it.copy(
+                draggingPositions =
+                    it.draggingPositions - goalId
+            )
+
+        }
+
+    }
+
     fun updateDraggingPosition(
         goalId: String,
         x: Float,
