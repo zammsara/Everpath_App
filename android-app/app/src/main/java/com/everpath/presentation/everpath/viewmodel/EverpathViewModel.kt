@@ -314,54 +314,62 @@ class EverpathViewModel(
     fun cancelConnectionMode() {
 
         _uiState.update {
-
             it.copy(
                 connectionSourceGoalId = null
             )
-
         }
-
     }
 
     fun clearSelection() {
-
         _uiState.update {
 
             it.copy(
                 selectedGoalId = null,
                 selectedConnectionId = null
             )
-
         }
-
     }
 
     fun selectConnection(
         connectionId: String
     ) {
-
         _uiState.update {
 
             it.copy(
-                selectedGoalId = null,
-                selectedConnectionId = connectionId
+                selectedConnectionId = connectionId,
+                selectedGoalId = null
+            )
+        }
+    }
+
+    fun deleteSelectedConnection() {
+        val connectionId =
+            _uiState.value.selectedConnectionId
+                ?: return
+
+        viewModelScope.launch {
+
+            deleteGoalConnectionUseCase(
+                connectionId
             )
 
+            _uiState.update {
+                it.copy(
+                    selectedConnectionId = null
+                )
+            }
         }
-
     }
 
     fun handleGoalSelection(
         goalId: String
     ) {
-
         val currentState =
             _uiState.value
 
         if (
             currentState.isConnectionMode
         ) {
-
             val sourceGoalId =
                 currentState.connectionSourceGoalId
                     ?: return
@@ -378,13 +386,10 @@ class EverpathViewModel(
                     connectionSourceGoalId = null,
                     selectedGoalId = null
                 )
-
             }
-
             return
 
         }
-
         selectGoal(goalId)
 
     }
