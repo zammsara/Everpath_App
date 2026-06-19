@@ -9,6 +9,9 @@ data class EverpathUiState(
     val positions: List<GoalNodePosition> = emptyList(),
     val connections: List<GoalConnection> = emptyList(),
     val selectedGoalId: String? = null,
+
+    val connectionSourceGoalId: String? = null,
+
     val isLoading: Boolean = false,
     val errorMessage: String? = null
 )

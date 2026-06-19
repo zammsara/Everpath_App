@@ -19,7 +19,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.ui.Modifier
 import com.everpath.presentation.everpath.components.CreateGoalDialog
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.ui.unit.dp
@@ -131,8 +131,21 @@ fun EverpathScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Edit,
-                            contentDescription = "Editar Goal"
+                            contentDescription = "Editar Meta"
                         )
+                    }
+
+                    FloatingActionButton(
+                        onClick = {
+                            viewModel.startConnectionMode()
+                        }
+                    ) {
+
+                        Icon(
+                            imageVector = Icons.Default.Share,
+                            contentDescription = "Conectar Metas"
+                        )
+
                     }
 
                     FloatingActionButton(
@@ -142,7 +155,7 @@ fun EverpathScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Delete,
-                            contentDescription = "Eliminar Goal"
+                            contentDescription = "Eliminar Meta"
                         )
                     }
                 }
@@ -154,7 +167,7 @@ fun EverpathScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = "Crear Goal"
+                        contentDescription = "Crear Meta"
                     )
                 }
             }

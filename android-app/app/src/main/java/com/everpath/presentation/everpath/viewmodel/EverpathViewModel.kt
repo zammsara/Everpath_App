@@ -293,4 +293,33 @@ class EverpathViewModel(
 
     }
 
+    fun startConnectionMode() {
+
+        val selectedGoalId =
+            _uiState.value.selectedGoalId
+                ?: return
+
+        _uiState.update {
+
+            it.copy(
+                connectionSourceGoalId =
+                    selectedGoalId
+            )
+
+        }
+
+    }
+
+    fun cancelConnectionMode() {
+
+        _uiState.update {
+
+            it.copy(
+                connectionSourceGoalId = null
+            )
+
+        }
+
+    }
+
 }
