@@ -20,6 +20,8 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.geometry.Offset
+import com.everpath.presentation.everpath.util.ConnectionHitTest
 import kotlin.math.abs
 
 /**
@@ -83,42 +85,61 @@ fun EverpathCanvas(
                 .pointerInput(connections) {
                     detectTapGestures { tapOffset ->
                         connections.forEach { connection ->
+
                             val source =
                                 positions.find {
                                     it.goalNodeId ==
                                             connection.sourceGoalId
                                 }
+
                             val target =
                                 positions.find {
                                     it.goalNodeId ==
                                             connection.targetGoalId
                                 }
+
                             if (
                                 source != null &&
                                 target != null
                             ) {
-                                val centerX =
-                                    (
-                                            source.x +
-                                                    target.x
-                                            ) / 2f
-                                val centerY =
-                                    (
-                                            source.y +
-                                                    target.y
-                                            ) / 2f
+
+                                val cardWidthPx =
+                                    180.dp.toPx()
+
+                                val cardHeightPx =
+                                    100.dp.toPx()
+
+                                val start =
+                                    Offset(
+                                        x =
+                                            source.x.dp.toPx() +
+                                                    cardWidthPx / 2f,
+
+                                        y =
+                                            source.y.dp.toPx() +
+                                                    cardHeightPx / 2f
+                                    )
+
+                                val end =
+                                    Offset(
+                                        x =
+                                            target.x.dp.toPx() +
+                                                    cardWidthPx / 2f,
+
+                                        y =
+                                            target.y.dp.toPx() +
+                                                    cardHeightPx / 2f
+                                    )
+
                                 if (
-                                    abs(
-                                        tapOffset.x -
-                                                centerX
-                                    ) < 80f &&
-
-                                    abs(
-                                        tapOffset.y -
-                                                centerY
-                                    ) < 80f
-
+                                    ConnectionHitTest
+                                        .isPointNearLine(
+                                            point = tapOffset,
+                                            lineStart = start,
+                                            lineEnd = end
+                                        )
                                 ) {
+
                                     onConnectionClick(
                                         connection.id
                                     )
