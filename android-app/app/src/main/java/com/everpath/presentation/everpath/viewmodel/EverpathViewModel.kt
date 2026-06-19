@@ -234,4 +234,63 @@ class EverpathViewModel(
 
     }
 
+    /**
+     * Crea una conexión entre dos metas validando
+     * las reglas básicas del mapa de progreso.
+     */
+    fun createConnection(
+        sourceGoalId: String,
+        targetGoalId: String
+    ) {
+
+        if (sourceGoalId == targetGoalId) {
+            return
+        }
+
+        val existingConnections =
+            _uiState.value.connections
+
+        val sourceAlreadyConnected =
+            existingConnections.any {
+
+                it.sourceGoalId ==
+                        sourceGoalId
+
+            }
+
+        if (sourceAlreadyConnected) {
+            return
+        }
+
+        val duplicatedConnection =
+            existingConnections.any {
+
+                it.sourceGoalId ==
+                        sourceGoalId &&
+                        it.targetGoalId ==
+                        targetGoalId
+
+            }
+
+        if (duplicatedConnection) {
+            return
+        }
+
+        val connection =
+            GoalConnection(
+                id = UUID.randomUUID().toString(),
+                sourceGoalId = sourceGoalId,
+                targetGoalId = targetGoalId
+            )
+
+        viewModelScope.launch {
+
+            saveGoalConnectionUseCase(
+                connection
+            )
+
+        }
+
+    }
+
 }
