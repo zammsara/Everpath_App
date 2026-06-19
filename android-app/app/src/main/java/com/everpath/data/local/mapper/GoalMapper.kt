@@ -6,6 +6,11 @@ import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.enums.LifeAreaType
 import com.everpath.domain.model.GoalNode
 
+/**
+ * Mappers encargados de transformar GoalEntity y
+ * GoalWithActivities hacia el modelo de dominio GoalNode
+ * y viceversa.
+ */
 fun GoalWithActivities.toDomain(): GoalNode {
 
     val activityList =

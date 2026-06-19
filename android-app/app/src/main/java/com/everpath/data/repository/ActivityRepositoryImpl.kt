@@ -8,6 +8,10 @@ import com.everpath.domain.repository.ActivityRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+/**
+ * Implementación del repositorio de actividades que
+ * conecta la capa de dominio con Room mediante ActivityDao.
+ */
 class ActivityRepositoryImpl(
     private val activityDao: ActivityDao
 ) : ActivityRepository {

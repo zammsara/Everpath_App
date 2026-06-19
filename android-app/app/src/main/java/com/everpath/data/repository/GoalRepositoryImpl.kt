@@ -8,6 +8,10 @@ import com.everpath.domain.repository.GoalRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+/**
+ * Implementación del repositorio de metas que conecta
+ * la capa de dominio con Room mediante GoalDao.
+ */
 class GoalRepositoryImpl(
     private val goalDao: GoalDao
 ) : GoalRepository {

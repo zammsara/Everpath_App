@@ -8,14 +8,17 @@ import com.everpath.data.local.dao.GoalPositionDao
 import com.everpath.data.local.entity.ActivityEntity
 import com.everpath.data.local.entity.GoalEntity
 import com.everpath.data.local.entity.GoalPositionEntity
+import com.everpath.data.local.dao.GoalConnectionDao
+import com.everpath.data.local.entity.GoalConnectionEntity
 
 @Database(
     entities = [
         GoalEntity::class,
         ActivityEntity::class,
-        GoalPositionEntity::class
+        GoalPositionEntity::class,
+        GoalConnectionEntity::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class EverpathDatabase : RoomDatabase() {

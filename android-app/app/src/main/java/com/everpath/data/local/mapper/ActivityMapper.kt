@@ -4,6 +4,10 @@ import com.everpath.data.local.entity.ActivityEntity
 import com.everpath.domain.enums.ActivityStatus
 import com.everpath.domain.model.Activity
 
+/**
+ * Mappers encargados de convertir ActivityEntity
+ * a Activity de dominio y viceversa.
+ */
 fun ActivityEntity.toDomain(): Activity {
 
     return Activity(

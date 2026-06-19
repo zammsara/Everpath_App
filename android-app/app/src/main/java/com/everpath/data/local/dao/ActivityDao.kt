@@ -9,6 +9,10 @@ import androidx.room.Update
 import com.everpath.data.local.entity.ActivityEntity
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * DAO encargado de gestionar las operaciones de
+ * persistencia para las actividades de una meta.
+ */
 @Dao
 interface ActivityDao {
 

@@ -5,6 +5,10 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
+/**
+ * Entidad Room que representa una actividad asociada
+ * a una meta dentro del sistema Everpath.
+ */
 @Entity(
     tableName = "activities",
     foreignKeys = [
