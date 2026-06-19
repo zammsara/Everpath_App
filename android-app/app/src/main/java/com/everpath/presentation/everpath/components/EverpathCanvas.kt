@@ -18,6 +18,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.clickable
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.ui.input.pointer.pointerInput
+import kotlin.math.abs
 
 /**
  * Renderiza el mapa visual de Everpath y las conexiones entre Goals.
@@ -27,9 +30,15 @@ fun EverpathCanvas(
     goalNodes: List<GoalNode>,
     positions: List<GoalNodePosition>,
     connections: List<GoalConnection>,
+
     selectedGoalId: String?,
+    selectedConnectionId: String?,
+
     onGoalClick: (String) -> Unit,
+    onConnectionClick: (String) -> Unit,
+
     onBackgroundClick: () -> Unit,
+
     modifier: Modifier = Modifier
 ) {
 
@@ -66,10 +75,59 @@ fun EverpathCanvas(
         }
 
         Canvas(
-            modifier = Modifier.size(
-                width = 1200.dp,
-                height = 1200.dp
-            )
+            modifier = Modifier
+                .size(
+                    width = 1200.dp,
+                    height = 1200.dp
+                )
+                .pointerInput(connections) {
+                    detectTapGestures { tapOffset ->
+                        connections.forEach { connection ->
+                            val source =
+                                positions.find {
+                                    it.goalNodeId ==
+                                            connection.sourceGoalId
+                                }
+                            val target =
+                                positions.find {
+                                    it.goalNodeId ==
+                                            connection.targetGoalId
+                                }
+                            if (
+                                source != null &&
+                                target != null
+                            ) {
+                                val centerX =
+                                    (
+                                            source.x +
+                                                    target.x
+                                            ) / 2f
+                                val centerY =
+                                    (
+                                            source.y +
+                                                    target.y
+                                            ) / 2f
+                                if (
+                                    abs(
+                                        tapOffset.x -
+                                                centerX
+                                    ) < 80f &&
+
+                                    abs(
+                                        tapOffset.y -
+                                                centerY
+                                    ) < 80f
+
+                                ) {
+                                    onConnectionClick(
+                                        connection.id
+                                    )
+                                    return@detectTapGestures
+                                }
+                            }
+                        }
+                    }
+                }
         ) {
 
             connections.forEach { connection ->
@@ -94,7 +152,15 @@ fun EverpathCanvas(
                     val targetY = target.y.dp.toPx()
 
                     drawLine(
-                        color = connectionColor,
+                        color =
+                            if (
+                                connection.id ==
+                                selectedConnectionId
+                            ) {
+                                androidx.compose.ui.graphics.Color.Red
+                            } else {
+                                connectionColor
+                            },
                         start = androidx.compose.ui.geometry.Offset(
                             x = sourceX + cardWidthPx / 2f,
                             y = sourceY + cardHeightPx / 2f
@@ -103,7 +169,15 @@ fun EverpathCanvas(
                             x = targetX + cardWidthPx / 2f,
                             y = targetY + cardHeightPx / 2f
                         ),
-                        strokeWidth = 12f
+                        strokeWidth =
+                            if (
+                                connection.id ==
+                                selectedConnectionId
+                            ) {
+                                18f
+                            } else {
+                                12f
+                            }
                     )
 
                 }

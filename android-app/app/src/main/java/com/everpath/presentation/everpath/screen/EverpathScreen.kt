@@ -123,6 +123,25 @@ fun EverpathScreen(
                 )
             ) {
                 if (
+                    uiState.value.selectedConnectionId
+                    != null
+                ) {
+                    FloatingActionButton(
+                        onClick = {
+                            viewModel
+                                .deleteSelectedConnection()
+                        }
+                    ) {
+                        Icon(
+                            imageVector =
+                                Icons.Default.Delete,
+                            contentDescription =
+                                "Eliminar Conexión"
+                        )
+                    }
+                }
+
+                if (
                     uiState.value.selectedGoalId != null
                 ) {
 
@@ -222,6 +241,10 @@ fun EverpathScreen(
             positions = uiState.value.positions,
             connections = uiState.value.connections,
             selectedGoalId = uiState.value.selectedGoalId,
+            selectedConnectionId = uiState.value.selectedConnectionId,
+            onConnectionClick = { connectionId ->
+                viewModel.selectConnection(connectionId)
+            },
             onGoalClick = { goalId ->
                 viewModel.handleGoalSelection(goalId)
             },
