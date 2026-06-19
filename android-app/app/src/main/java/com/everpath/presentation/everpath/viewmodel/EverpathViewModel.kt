@@ -335,4 +335,42 @@ class EverpathViewModel(
 
     }
 
+    fun handleGoalSelection(
+        goalId: String
+    ) {
+
+        val currentState =
+            _uiState.value
+
+        if (
+            currentState.isConnectionMode
+        ) {
+
+            val sourceGoalId =
+                currentState.connectionSourceGoalId
+                    ?: return
+
+            createConnection(
+                sourceGoalId = sourceGoalId,
+                targetGoalId = goalId
+            )
+
+            _uiState.update {
+
+                it.copy(
+                    isConnectionMode = false,
+                    connectionSourceGoalId = null,
+                    selectedGoalId = null
+                )
+
+            }
+
+            return
+
+        }
+
+        selectGoal(goalId)
+
+    }
+
 }

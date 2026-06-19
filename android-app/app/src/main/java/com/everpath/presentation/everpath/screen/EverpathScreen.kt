@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.ui.unit.dp
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.filled.Visibility
 import com.everpath.presentation.everpath.components.EditGoalDialog
 
@@ -195,13 +196,34 @@ fun EverpathScreen(
         }
 
     ) { paddingValues ->
-        EverpathCanvas(
+
+        Column {
+
+            if (
+                uiState.value.isConnectionMode
+            ) {
+
+                Text(
+
+                    text =
+                        "Selecciona la meta destino para crear la conexión",
+
+                    modifier =
+                        Modifier.padding(
+                            16.dp
+                        )
+
+                )
+
+            }
+
+            EverpathCanvas(
             goalNodes = uiState.value.goalNodes,
             positions = uiState.value.positions,
             connections = uiState.value.connections,
             selectedGoalId = uiState.value.selectedGoalId,
             onGoalClick = { goalId ->
-                viewModel.selectGoal(goalId)
+                viewModel.handleGoalSelection(goalId)
             },
             onBackgroundClick = {
                 viewModel.clearSelection()
@@ -260,4 +282,5 @@ fun EverpathScreen(
 
     }
 
+}
 }
