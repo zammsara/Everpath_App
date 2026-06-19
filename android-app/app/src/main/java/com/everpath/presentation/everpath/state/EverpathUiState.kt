@@ -11,6 +11,7 @@ data class EverpathUiState(
     val selectedGoalId: String? = null,
 
     val connectionSourceGoalId: String? = null,
+    val isConnectionMode: Boolean = false,
 
     val isLoading: Boolean = false,
     val errorMessage: String? = null

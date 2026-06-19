@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.ui.unit.dp
+import androidx.compose.material.icons.filled.Visibility
 import com.everpath.presentation.everpath.components.EditGoalDialog
 
 /**
@@ -126,6 +127,26 @@ fun EverpathScreen(
 
                     FloatingActionButton(
                         onClick = {
+
+                            uiState.value.selectedGoalId
+                                ?.let { goalId ->
+
+                                    onGoalSelected(goalId)
+
+                                }
+
+                        }
+                    ) {
+
+                        Icon(
+                            imageVector = Icons.Default.Visibility,
+                            contentDescription = "Ver Detalles"
+                        )
+
+                    }
+
+                    FloatingActionButton(
+                        onClick = {
                             showEditGoalDialog.value = true
                         }
                     ) {
@@ -181,7 +202,9 @@ fun EverpathScreen(
             selectedGoalId = uiState.value.selectedGoalId,
             onGoalClick = { goalId ->
                 viewModel.selectGoal(goalId)
-                onGoalSelected(goalId)
+            },
+            onBackgroundClick = {
+                viewModel.clearSelection()
             },
             modifier = Modifier.padding(
                 paddingValues

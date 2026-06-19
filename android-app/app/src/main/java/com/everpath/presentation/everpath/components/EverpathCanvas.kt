@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.clickable
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 
@@ -28,6 +29,7 @@ fun EverpathCanvas(
     connections: List<GoalConnection>,
     selectedGoalId: String?,
     onGoalClick: (String) -> Unit,
+    onBackgroundClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -44,6 +46,9 @@ fun EverpathCanvas(
                 width = 1200.dp,
                 height = 1200.dp
             )
+            .clickable {
+                onBackgroundClick()
+            }
     ) {
 
         if (goalNodes.isEmpty()) {

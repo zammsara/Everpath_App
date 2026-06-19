@@ -302,6 +302,7 @@ class EverpathViewModel(
         _uiState.update {
 
             it.copy(
+                isConnectionMode = true,
                 connectionSourceGoalId =
                     selectedGoalId
             )
@@ -316,6 +317,18 @@ class EverpathViewModel(
 
             it.copy(
                 connectionSourceGoalId = null
+            )
+
+        }
+
+    }
+
+    fun clearSelection() {
+
+        _uiState.update {
+
+            it.copy(
+                selectedGoalId = null
             )
 
         }
