@@ -328,7 +328,23 @@ class EverpathViewModel(
         _uiState.update {
 
             it.copy(
-                selectedGoalId = null
+                selectedGoalId = null,
+                selectedConnectionId = null
+            )
+
+        }
+
+    }
+
+    fun selectConnection(
+        connectionId: String
+    ) {
+
+        _uiState.update {
+
+            it.copy(
+                selectedGoalId = null,
+                selectedConnectionId = connectionId
             )
 
         }
