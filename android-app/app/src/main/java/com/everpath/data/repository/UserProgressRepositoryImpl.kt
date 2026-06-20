@@ -26,6 +26,15 @@ class UserProgressRepositoryImpl(
             }
     }
 
+    override suspend fun
+            getCurrentUserProgress():
+            UserProgress? {
+
+        return userProgressDao
+            .getCurrentUserProgress()
+            ?.toDomain()
+    }
+
     override suspend fun saveUserProgress(
         userProgress: UserProgress
     ) {

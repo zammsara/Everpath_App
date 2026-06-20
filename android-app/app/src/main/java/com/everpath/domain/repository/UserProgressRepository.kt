@@ -13,6 +13,9 @@ interface UserProgressRepository {
     fun getUserProgress():
             Flow<UserProgress?>
 
+    suspend fun getCurrentUserProgress():
+            UserProgress?
+
     suspend fun saveUserProgress(
         userProgress: UserProgress
     )

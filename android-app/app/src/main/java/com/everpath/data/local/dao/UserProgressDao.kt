@@ -22,6 +22,13 @@ interface UserProgressDao {
     fun getUserProgress():
             Flow<UserProgressEntity?>
 
+
+    @Query(
+        "SELECT * FROM user_progress LIMIT 1"
+    )
+    suspend fun getCurrentUserProgress():
+            UserProgressEntity?
+
     @Insert(
         onConflict =
             OnConflictStrategy.REPLACE
