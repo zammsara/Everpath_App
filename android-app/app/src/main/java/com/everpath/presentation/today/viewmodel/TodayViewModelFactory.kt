@@ -3,15 +3,15 @@ package com.everpath.presentation.today.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
+import com.everpath.domain.usecase.userprogress.GetUserProgressUseCase
 
 /**
  * Factory encargada de construir
  * instancias de TodayViewModel.
  */
 class TodayViewModelFactory(
-
-    private val getGoalNodesUseCase:
-    GetGoalNodesUseCase
+    private val getGoalNodesUseCase: GetGoalNodesUseCase,
+    private val getUserProgressUseCase: GetUserProgressUseCase
 
 ) : ViewModelProvider.Factory {
 
@@ -29,9 +29,8 @@ class TodayViewModelFactory(
         ) {
 
             return TodayViewModel(
-
-                getGoalNodesUseCase =
-                    getGoalNodesUseCase
+                getGoalNodesUseCase = getGoalNodesUseCase,
+                getUserProgressUseCase = getUserProgressUseCase
 
             ) as T
 

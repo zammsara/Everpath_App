@@ -38,7 +38,6 @@ fun ActivityDetailScreen(
     val factory = remember {
 
         ActivityDetailViewModelFactory(
-
             getActivityByIdUseCase =
                 application
                     .appContainer
@@ -49,13 +48,16 @@ fun ActivityDetailScreen(
                     .appContainer
                     .updateActivityUseCase,
 
+            completeActivityUseCase =
+                application
+                    .appContainer
+                    .completeActivityUseCase,
+
             deleteActivityUseCase =
                 application
                     .appContainer
                     .deleteActivityUseCase
-
         )
-
     }
 
     val viewModel: ActivityDetailViewModel =

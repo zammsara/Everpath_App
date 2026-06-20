@@ -23,6 +23,8 @@ data class TodayUiState(
 
     val activeGoals: List<GoalNode> = emptyList(),
 
+    val xp: Int = 0,
+
     val isLoading: Boolean = true
 
 )

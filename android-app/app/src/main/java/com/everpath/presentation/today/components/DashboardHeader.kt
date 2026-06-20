@@ -15,7 +15,9 @@ import androidx.compose.ui.unit.dp
  * el estado general de su progreso.
  */
 @Composable
-fun DashboardHeader() {
+fun DashboardHeader(
+    xp: Int
+) {
     Column {
         Text(
             text = "Hola!",
@@ -23,6 +25,20 @@ fun DashboardHeader() {
                 MaterialTheme
                     .typography
                     .headlineMedium
+        )
+
+        Text(
+
+            text = "$xp XP",
+
+            modifier =
+                Modifier.padding(top = 4.dp),
+
+            style =
+                MaterialTheme
+                    .typography
+                    .titleMedium
+
         )
 
         Text(

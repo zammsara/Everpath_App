@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
+import com.everpath.domain.usecase.userprogress.GetUserProgressUseCase
 import com.everpath.presentation.profile.state.ProfileUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,9 +17,8 @@ import kotlinx.coroutines.launch
  * las estadísticas globales del perfil.
  */
 class ProfileViewModel(
-
-    private val getGoalNodesUseCase:
-    GetGoalNodesUseCase
+    private val getGoalNodesUseCase: GetGoalNodesUseCase,
+    private val getUserProgressUseCase: GetUserProgressUseCase
 
 ) : ViewModel() {
 
@@ -32,6 +32,7 @@ class ProfileViewModel(
 
     init {
         loadProfileData()
+        loadUserProgress()
     }
 
     private fun loadProfileData() {
@@ -81,6 +82,21 @@ class ProfileViewModel(
                             globalProgress = globalProgress,
                             isLoading = false
 
+                        )
+                    }
+                }
+        }
+    }
+
+    private fun loadUserProgress() {
+
+        viewModelScope.launch {
+
+            getUserProgressUseCase()
+                .collect { userProgress ->
+                    _uiState.update {
+                        it.copy(
+                            xp = userProgress?.xp ?: 0
                         )
                     }
                 }

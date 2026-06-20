@@ -6,6 +6,7 @@ import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.usecase.goal.DeleteGoalNodeUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodeByIdUseCase
 import com.everpath.domain.usecase.goal.UpdateGoalNodeUseCase
+import com.everpath.domain.usecase.goal.CompleteGoalNodeUseCase
 import com.everpath.presentation.goaldetail.state.GoalDetailUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,9 +15,19 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class GoalDetailViewModel(
-    private val getGoalNodeByIdUseCase: GetGoalNodeByIdUseCase,
-    private val updateGoalNodeUseCase: UpdateGoalNodeUseCase,
-    private val deleteGoalNodeUseCase: DeleteGoalNodeUseCase
+
+    private val getGoalNodeByIdUseCase:
+    GetGoalNodeByIdUseCase,
+
+    private val updateGoalNodeUseCase:
+    UpdateGoalNodeUseCase,
+
+    private val completeGoalNodeUseCase:
+    CompleteGoalNodeUseCase,
+
+    private val deleteGoalNodeUseCase:
+    DeleteGoalNodeUseCase
+
 ) : ViewModel() {
 
     private val _uiState =
@@ -88,7 +99,6 @@ class GoalDetailViewModel(
     fun updateGoalStatus(
         status: GoalStatus
     ) {
-
         val currentGoal =
             _uiState.value.goal
                 ?: return
@@ -100,20 +110,20 @@ class GoalDetailViewModel(
 
         viewModelScope.launch {
 
-            updateGoalNodeUseCase(
-                updatedGoal
-            )
-
-            _uiState.update {
-
-                it.copy(
-                    goal = updatedGoal
+            if (
+                currentGoal.status != GoalStatus.COMPLETED &&
+                status == GoalStatus.COMPLETED
+            ) {
+                completeGoalNodeUseCase(
+                    currentGoal
                 )
 
+            } else {
+                updateGoalNodeUseCase(
+                    updatedGoal
+                )
             }
-
         }
-
     }
 
     fun deleteGoal(

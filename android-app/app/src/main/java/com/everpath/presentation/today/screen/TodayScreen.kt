@@ -42,7 +42,12 @@ fun TodayScreen() {
             getGoalNodesUseCase =
                 application
                     .appContainer
-                    .getGoalNodesUseCase
+                    .getGoalNodesUseCase,
+
+            getUserProgressUseCase =
+                application
+                    .appContainer
+                    .getUserProgressUseCase
         )
     }
 
@@ -75,7 +80,7 @@ fun TodayScreen() {
             Arrangement.spacedBy(16.dp)
 
     ) {
-        DashboardHeader()
+        DashboardHeader(xp = uiState.value.xp)
 
         ProgressCard(
             progress = uiState.value.globalProgress

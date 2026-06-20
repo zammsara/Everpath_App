@@ -62,17 +62,14 @@ class ActivityDetailViewModel(
             )
 
         viewModelScope.launch {
-
             if (
-                currentActivity.status !=
-                ActivityStatus.COMPLETED &&
-
-                status ==
-                ActivityStatus.COMPLETED
+                currentActivity.status != ActivityStatus.COMPLETED &&
+                status == ActivityStatus.COMPLETED
             ) {
                 completeActivityUseCase(
-                    updatedActivity
+                    currentActivity
                 )
+
             } else {
                 updateActivityUseCase(
                     updatedActivity
@@ -80,7 +77,9 @@ class ActivityDetailViewModel(
             }
 
             _activity.value =
-                updatedActivity
+                getActivityByIdUseCase(
+                    currentActivity.id
+                )
         }
     }
 

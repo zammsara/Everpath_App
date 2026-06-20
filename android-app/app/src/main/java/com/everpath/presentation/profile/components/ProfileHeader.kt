@@ -12,7 +12,9 @@ import androidx.compose.runtime.Composable
  * sobre su progreso dentro de Everpath.
  */
 @Composable
-fun ProfileHeader() {
+fun ProfileHeader(
+    xp: Int
+) {
 
     Column {
         Text(
@@ -29,6 +31,14 @@ fun ProfileHeader() {
                 MaterialTheme
                     .typography
                     .bodyMedium
+        )
+
+        Text(
+            text = "$xp XP",
+            style =
+                MaterialTheme
+                    .typography
+                    .titleMedium
         )
     }
 }

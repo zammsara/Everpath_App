@@ -62,13 +62,16 @@ fun GoalDetailScreen(
                     .appContainer
                     .updateGoalNodeUseCase,
 
+            completeGoalNodeUseCase =
+                application
+                    .appContainer
+                    .completeGoalNodeUseCase,
+
             deleteGoalNodeUseCase =
                 application
                     .appContainer
                     .deleteGoalNodeUseCase
-
         )
-
     }
 
     val activityFactory = remember {
@@ -79,22 +82,18 @@ fun GoalDetailScreen(
                 application
                     .appContainer
                     .getActivitiesByGoalIdUseCase,
-
             saveActivityUseCase =
                 application
                     .appContainer
                     .saveActivityUseCase,
-
             updateActivityUseCase =
                 application
                     .appContainer
                     .updateActivityUseCase,
-
             deleteActivityUseCase =
                 application
                     .appContainer
                     .deleteActivityUseCase
-
         )
 
     }

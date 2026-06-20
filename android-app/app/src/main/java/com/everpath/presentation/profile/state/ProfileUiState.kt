@@ -19,6 +19,8 @@ data class ProfileUiState(
 
     val globalProgress: Float = 0f,
 
+    val xp: Int = 0,
+
     val isLoading: Boolean = true
 
 )

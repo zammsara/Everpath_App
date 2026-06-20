@@ -30,6 +30,9 @@ import com.everpath.domain.repository.UserProgressRepository
 import com.everpath.domain.usecase.userprogress.GetUserProgressUseCase
 import com.everpath.domain.usecase.userprogress.SaveUserProgressUseCase
 import com.everpath.domain.usecase.userprogress.UpdateUserProgressUseCase
+import com.everpath.domain.usecase.userprogress.AddXpUseCase
+import com.everpath.domain.usecase.activity.CompleteActivityUseCase
+import com.everpath.domain.usecase.goal.CompleteGoalNodeUseCase
 
 
 /**
@@ -182,5 +185,23 @@ class AppContainer(
     val updateUserProgressUseCase =
         UpdateUserProgressUseCase(
             userProgressRepository
+        )
+
+    //Agregar XP al usuario
+    val addXpUseCase =
+        AddXpUseCase(
+            userProgressRepository
+        )
+
+    val completeActivityUseCase =
+        CompleteActivityUseCase(
+            updateActivityUseCase,
+            addXpUseCase
+        )
+
+    val completeGoalNodeUseCase =
+        CompleteGoalNodeUseCase(
+            updateGoalNodeUseCase,
+            addXpUseCase
         )
 }
