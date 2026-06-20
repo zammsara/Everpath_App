@@ -27,7 +27,6 @@ class ActivityRepositoryImpl(
                 activities.map {
                     it.toDomain()
                 }
-
             }
     }
 

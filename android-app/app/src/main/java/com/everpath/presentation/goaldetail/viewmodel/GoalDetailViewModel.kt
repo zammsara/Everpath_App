@@ -81,11 +81,8 @@ class GoalDetailViewModel(
                 it.copy(
                     goal = updatedGoal
                 )
-
             }
-
         }
-
     }
 
     fun updateGoalStatus(
