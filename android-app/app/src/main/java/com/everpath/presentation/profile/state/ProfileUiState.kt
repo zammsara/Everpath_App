@@ -1,0 +1,24 @@
+package com.everpath.presentation.profile.state
+
+/**
+ * Estado principal de ProfileScreen.
+ *
+ * Contiene todas las estadísticas
+ * necesarias para representar el
+ * perfil del usuario.
+ */
+data class ProfileUiState(
+
+    val goalCount: Int = 0,
+
+    val completedGoalCount: Int = 0,
+
+    val activityCount: Int = 0,
+
+    val completedActivityCount: Int = 0,
+
+    val globalProgress: Float = 0f,
+
+    val isLoading: Boolean = true
+
+)
