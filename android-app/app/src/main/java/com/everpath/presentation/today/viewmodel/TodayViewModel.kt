@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
+import com.everpath.domain.usecase.userprogress.GetUserLevelUseCase
 import com.everpath.domain.usecase.userprogress.GetUserProgressUseCase
 import com.everpath.presentation.today.state.TodayUiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +21,8 @@ import kotlinx.coroutines.launch
  */
 class TodayViewModel(
     private val getGoalNodesUseCase: GetGoalNodesUseCase,
-    private val getUserProgressUseCase:  GetUserProgressUseCase
+    private val getUserProgressUseCase:  GetUserProgressUseCase,
+    private val getUserLevelUseCase: GetUserLevelUseCase
 
 ) : ViewModel() {
     private val _uiState =
@@ -96,10 +98,18 @@ class TodayViewModel(
         viewModelScope.launch {
             getUserProgressUseCase()
                 .collect { progress ->
+                    val xp =
+                        progress?.xp ?: 0
+
+                    val level =
+                        getUserLevelUseCase(
+                            xp
+                        )
+
                     _uiState.update {
                         it.copy(
-                            xp =
-                                progress?.xp ?: 0
+                            xp = xp,
+                            level = level
                         )
                     }
                 }

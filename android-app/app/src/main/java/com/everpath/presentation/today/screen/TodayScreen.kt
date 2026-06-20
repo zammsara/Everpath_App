@@ -47,7 +47,12 @@ fun TodayScreen() {
             getUserProgressUseCase =
                 application
                     .appContainer
-                    .getUserProgressUseCase
+                    .getUserProgressUseCase,
+
+            getUserLevelUseCase =
+                application
+                    .appContainer
+                    .getUserLevelUseCase
         )
     }
 
@@ -80,7 +85,9 @@ fun TodayScreen() {
             Arrangement.spacedBy(16.dp)
 
     ) {
-        DashboardHeader(xp = uiState.value.xp)
+        DashboardHeader(
+            xp = uiState.value.xp,
+            level = uiState.value.level)
 
         ProgressCard(
             progress = uiState.value.globalProgress

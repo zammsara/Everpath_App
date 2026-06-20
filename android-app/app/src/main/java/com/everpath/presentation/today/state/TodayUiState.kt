@@ -25,6 +25,8 @@ data class TodayUiState(
 
     val xp: Int = 0,
 
+    val level: Int = 1,
+
     val isLoading: Boolean = true
 
 )

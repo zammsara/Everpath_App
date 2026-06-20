@@ -16,7 +16,8 @@ import androidx.compose.ui.unit.dp
  */
 @Composable
 fun DashboardHeader(
-    xp: Int
+    xp: Int,
+    level: Int
 ) {
     Column {
         Text(
@@ -25,6 +26,16 @@ fun DashboardHeader(
                 MaterialTheme
                     .typography
                     .headlineMedium
+        )
+
+        Text(
+            text = "Nivel $level",
+            modifier =
+                Modifier.padding(top = 4.dp),
+            style =
+                MaterialTheme
+                    .typography
+                    .titleMedium
         )
 
         Text(

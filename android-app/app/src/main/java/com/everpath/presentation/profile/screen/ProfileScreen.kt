@@ -44,7 +44,11 @@ fun ProfileScreen() {
             getUserProgressUseCase =
                 application
                     .appContainer
-                    .getUserProgressUseCase
+                    .getUserProgressUseCase,
+            getUserLevelUseCase =
+                application
+                    .appContainer
+                    .getUserLevelUseCase
         )
     }
 
@@ -74,7 +78,9 @@ fun ProfileScreen() {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
-        ProfileHeader(xp = uiState.value.xp)
+        ProfileHeader(
+            xp = uiState.value.xp,
+            level = uiState.value.level)
 
         ProfileStatisticsCard(
             goalCount = uiState.value.goalCount,

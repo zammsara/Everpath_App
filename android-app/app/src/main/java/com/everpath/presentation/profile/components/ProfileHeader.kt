@@ -13,7 +13,8 @@ import androidx.compose.runtime.Composable
  */
 @Composable
 fun ProfileHeader(
-    xp: Int
+    xp: Int,
+    level: Int
 ) {
 
     Column {
@@ -31,6 +32,14 @@ fun ProfileHeader(
                 MaterialTheme
                     .typography
                     .bodyMedium
+        )
+
+        Text(
+            text = "Nivel $level",
+            style =
+                MaterialTheme
+                    .typography
+                    .titleMedium
         )
 
         Text(
