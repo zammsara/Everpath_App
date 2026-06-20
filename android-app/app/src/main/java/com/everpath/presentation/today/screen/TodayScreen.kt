@@ -37,7 +37,6 @@ fun TodayScreen() {
                 as EverpathApplication
 
     val factory = remember {
-
         TodayViewModelFactory(
             getGoalNodesUseCase =
                 application
@@ -52,7 +51,12 @@ fun TodayScreen() {
             getUserLevelUseCase =
                 application
                     .appContainer
-                    .getUserLevelUseCase
+                    .getUserLevelUseCase,
+
+            getLevelProgressUseCase =
+                application
+                    .appContainer
+                    .getLevelProgressUseCase
         )
     }
 

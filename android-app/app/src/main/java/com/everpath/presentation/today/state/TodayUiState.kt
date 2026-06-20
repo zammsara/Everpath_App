@@ -1,6 +1,7 @@
 package com.everpath.presentation.today.state
 
 import com.everpath.domain.model.GoalNode
+import com.everpath.domain.model.LevelProgress
 
 /**
  * Estado de la pantalla Dashboard.
@@ -26,6 +27,8 @@ data class TodayUiState(
     val xp: Int = 0,
 
     val level: Int = 1,
+
+    val levelProgress: LevelProgress? = null,
 
     val isLoading: Boolean = true
 
