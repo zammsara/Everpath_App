@@ -1,13 +1,21 @@
 package com.everpath.presentation.quest.screen
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.everpath.EverpathApplication
+import com.everpath.presentation.quest.components.MainQuestCard
+import com.everpath.presentation.quest.components.QuestGoalsCard
 import com.everpath.presentation.quest.viewmodel.QuestViewModel
 import com.everpath.presentation.quest.viewmodel.QuestViewModelFactory
 
@@ -52,8 +60,25 @@ fun QuestScreen() {
         return
     }
 
-    Text(
-        text =
-            "Quest listo para A3.2"
-    )
+    Column(
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+
+        MainQuestCard(
+            quest =
+                uiState.value
+                    .activeGoals
+                    .firstOrNull()
+        )
+
+        QuestGoalsCard(
+            goals =
+                uiState.value
+                    .activeGoals
+        )
+    }
 }
