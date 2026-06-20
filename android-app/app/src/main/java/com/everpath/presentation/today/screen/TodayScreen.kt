@@ -1,35 +1,91 @@
 package com.everpath.presentation.today.screen
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.everpath.EverpathApplication
+import com.everpath.presentation.today.components.GoalSummaryCard
+import com.everpath.presentation.today.components.ProgressCard
+import com.everpath.presentation.today.components.StatisticsCard
+import com.everpath.presentation.today.viewmodel.TodayViewModel
+import com.everpath.presentation.today.viewmodel.TodayViewModelFactory
 
+/**
+ * Dashboard principal de Everpath.
+ *
+ * Muestra un resumen global del
+ * progreso actual del usuario.
+ */
 @Composable
 fun TodayScreen() {
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
+    val application =
+        LocalContext.current.applicationContext
+                as EverpathApplication
 
-        Text(
-            text = """
-                Pantalla de Inicio
-                
-                Aquí el usuario podrá visualizar:
-                
-                • Resumen general de progreso.
-                • Misiones activas.
-                • Hábitos en seguimiento.
-                • Estadísticas personales.
-                • Actividad reciente.
-                • Accesos rápidos a las funciones principales.
-            """.trimIndent()
+    val factory = remember {
+
+        TodayViewModelFactory(
+            getGoalNodesUseCase =
+                application
+                    .appContainer
+                    .getGoalNodesUseCase
         )
-
     }
 
+    val viewModel: TodayViewModel =
+        viewModel(
+            factory = factory
+        )
+
+    val uiState =
+        viewModel
+            .uiState
+            .collectAsStateWithLifecycle()
+    if (
+        uiState.value.isLoading
+    ) {
+        CircularProgressIndicator()
+
+        return
+    }
+
+    Column(
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(
+                    rememberScrollState()
+                )
+                .padding(16.dp),
+        verticalArrangement =
+            Arrangement.spacedBy(16.dp)
+
+    ) {
+        StatisticsCard(
+            goalCount = uiState.value.goalCount,
+            completedGoalCount = uiState.value.completedGoalCount,
+            activityCount = uiState.value.activityCount,
+            completedActivityCount = uiState.value.completedActivityCount
+        )
+
+        ProgressCard(
+            progress = uiState.value.globalProgress
+        )
+
+        GoalSummaryCard(
+            goals = uiState.value.activeGoals
+        )
+    }
 }
