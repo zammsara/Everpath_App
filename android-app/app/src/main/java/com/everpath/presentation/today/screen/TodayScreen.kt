@@ -15,6 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.everpath.EverpathApplication
+import com.everpath.presentation.today.components.DashboardHeader
+import com.everpath.presentation.today.components.EmptyGoalsCard
 import com.everpath.presentation.today.components.GoalSummaryCard
 import com.everpath.presentation.today.components.ProgressCard
 import com.everpath.presentation.today.components.StatisticsCard
@@ -73,6 +75,11 @@ fun TodayScreen() {
             Arrangement.spacedBy(16.dp)
 
     ) {
+        DashboardHeader()
+
+        ProgressCard(
+            progress = uiState.value.globalProgress
+        )
         StatisticsCard(
             goalCount = uiState.value.goalCount,
             completedGoalCount = uiState.value.completedGoalCount,
@@ -80,12 +87,15 @@ fun TodayScreen() {
             completedActivityCount = uiState.value.completedActivityCount
         )
 
-        ProgressCard(
-            progress = uiState.value.globalProgress
-        )
-
-        GoalSummaryCard(
-            goals = uiState.value.activeGoals
-        )
+        if (
+            uiState.value.activeGoals.isEmpty()
+        ) {
+            EmptyGoalsCard()
+        } else {
+            GoalSummaryCard(
+                goals =
+                    uiState.value.activeGoals
+            )
+        }
     }
 }
