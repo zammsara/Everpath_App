@@ -17,17 +17,21 @@ class CompleteGoalNodeUseCase(
         goal: GoalNode
     ) {
 
-        if (
-            goal.status ==
-            GoalStatus.COMPLETED
-        ) {
+        if (goal.xpGranted) {
+            updateGoalNodeUseCase(
+                goal.copy(
+                    status =
+                        GoalStatus.COMPLETED
+                )
+            )
             return
         }
 
         updateGoalNodeUseCase(
             goal.copy(
                 status =
-                    GoalStatus.COMPLETED
+                    GoalStatus.COMPLETED,
+                xpGranted = true
             )
         )
         addXpUseCase(100)

@@ -17,19 +17,24 @@ class CompleteActivityUseCase(
         activity: Activity
     ) {
 
-        if (
-            activity.status ==
-            ActivityStatus.COMPLETED
-        ) {
+        if (activity.xpGranted) {
+            updateActivityUseCase(
+                activity.copy(
+                    status =
+                        ActivityStatus.COMPLETED
+                )
+            )
             return
         }
 
         updateActivityUseCase(
             activity.copy(
                 status =
-                    ActivityStatus.COMPLETED
+                    ActivityStatus.COMPLETED,
+                xpGranted = true
             )
         )
+
         addXpUseCase(10)
     }
 }

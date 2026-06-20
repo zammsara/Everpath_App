@@ -21,7 +21,7 @@ import com.everpath.data.local.entity.UserProgressEntity
         GoalConnectionEntity::class,
         UserProgressEntity::class
     ],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 abstract class EverpathDatabase : RoomDatabase() {

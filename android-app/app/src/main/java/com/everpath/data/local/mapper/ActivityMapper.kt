@@ -15,7 +15,8 @@ fun ActivityEntity.toDomain(): Activity {
         goalId = goalId,
         title = title,
         description = description,
-        status = ActivityStatus.valueOf(status)
+        status = ActivityStatus.valueOf(status),
+        xpGranted = xpGranted
     )
 }
 
@@ -26,6 +27,7 @@ fun Activity.toEntity(): ActivityEntity {
         goalId = goalId,
         title = title,
         description = description,
-        status = status.name
+        status = status.name,
+        xpGranted = xpGranted
     )
 }

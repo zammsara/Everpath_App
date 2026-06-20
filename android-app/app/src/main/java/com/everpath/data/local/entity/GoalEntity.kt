@@ -15,5 +15,7 @@ data class GoalEntity(
 
     val lifeArea: String,
 
-    val status: String
+    val status: String,
+
+    val xpGranted: Boolean
 )

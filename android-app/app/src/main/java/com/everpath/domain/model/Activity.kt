@@ -7,5 +7,6 @@ data class Activity(
     val goalId: String,
     val title: String,
     val description: String,
-    val status: ActivityStatus
+    val status: ActivityStatus,
+    val xpGranted: Boolean = false
 )

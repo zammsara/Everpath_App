@@ -50,7 +50,9 @@ class AppContainer(
             context,
             EverpathDatabase::class.java,
             "everpath_database"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
 
     private val goalRepository: GoalRepository =
         GoalRepositoryImpl(

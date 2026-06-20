@@ -48,10 +48,9 @@ fun GoalWithActivities.toDomain(): GoalNode {
             GoalStatus.valueOf(
                 goal.status
             ),
-        activities =
-            activityList,
-        progress =
-            progress
+        activities = activityList,
+        progress = progress,
+        xpGranted = goal.xpGranted
     )
 
 }
@@ -62,6 +61,7 @@ fun GoalNode.toEntity(): GoalEntity {
         title = title,
         description = description,
         lifeArea = lifeArea.name,
-        status = status.name
+        status = status.name,
+        xpGranted = xpGranted
     )
 }

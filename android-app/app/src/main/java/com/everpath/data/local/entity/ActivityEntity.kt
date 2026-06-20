@@ -34,5 +34,7 @@ data class ActivityEntity(
 
     val description: String,
 
-    val status: String
+    val status: String,
+
+    val xpGranted: Boolean
 )
