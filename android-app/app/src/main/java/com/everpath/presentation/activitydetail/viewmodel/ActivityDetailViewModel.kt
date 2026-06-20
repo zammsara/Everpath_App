@@ -7,21 +7,20 @@ import com.everpath.domain.model.Activity
 import com.everpath.domain.usecase.activity.DeleteActivityUseCase
 import com.everpath.domain.usecase.activity.GetActivityByIdUseCase
 import com.everpath.domain.usecase.activity.UpdateActivityUseCase
+import com.everpath.domain.usecase.activity.CompleteActivityUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel encargado de gestionar
+ * el detalle y edición de actividades.
+ */
 class ActivityDetailViewModel(
-
-    private val getActivityByIdUseCase:
-    GetActivityByIdUseCase,
-
-    private val updateActivityUseCase:
-    UpdateActivityUseCase,
-
-    private val deleteActivityUseCase:
-    DeleteActivityUseCase
-
+    private val getActivityByIdUseCase: GetActivityByIdUseCase,
+    private val updateActivityUseCase: UpdateActivityUseCase,
+    private val completeActivityUseCase: CompleteActivityUseCase,
+    private val deleteActivityUseCase: DeleteActivityUseCase
 ) : ViewModel() {
 
     private val _activity =
@@ -64,15 +63,25 @@ class ActivityDetailViewModel(
 
         viewModelScope.launch {
 
-            updateActivityUseCase(
-                updatedActivity
-            )
+            if (
+                currentActivity.status !=
+                ActivityStatus.COMPLETED &&
+
+                status ==
+                ActivityStatus.COMPLETED
+            ) {
+                completeActivityUseCase(
+                    updatedActivity
+                )
+            } else {
+                updateActivityUseCase(
+                    updatedActivity
+                )
+            }
 
             _activity.value =
                 updatedActivity
-
         }
-
     }
 
     fun deleteActivity(
@@ -84,15 +93,11 @@ class ActivityDetailViewModel(
                 ?: return
 
         viewModelScope.launch {
-
             deleteActivityUseCase(
                 currentActivity.id
             )
-
             onDeleted()
 
         }
-
     }
-
 }

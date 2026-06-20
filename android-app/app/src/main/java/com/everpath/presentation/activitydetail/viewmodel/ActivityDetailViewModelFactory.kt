@@ -5,17 +5,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.everpath.domain.usecase.activity.DeleteActivityUseCase
 import com.everpath.domain.usecase.activity.GetActivityByIdUseCase
 import com.everpath.domain.usecase.activity.UpdateActivityUseCase
+import com.everpath.domain.usecase.activity.CompleteActivityUseCase
 
 class ActivityDetailViewModelFactory(
-
-    private val getActivityByIdUseCase:
-    GetActivityByIdUseCase,
-
-    private val updateActivityUseCase:
-    UpdateActivityUseCase,
-
-    private val deleteActivityUseCase:
-    DeleteActivityUseCase
+    private val getActivityByIdUseCase:GetActivityByIdUseCase,
+    private val updateActivityUseCase: UpdateActivityUseCase,
+    private val completeActivityUseCase: CompleteActivityUseCase,
+    private val deleteActivityUseCase: DeleteActivityUseCase
 
 ) : ViewModelProvider.Factory {
 
@@ -24,15 +20,10 @@ class ActivityDetailViewModelFactory(
     ): T {
 
         return ActivityDetailViewModel(
-
-            getActivityByIdUseCase =
-                getActivityByIdUseCase,
-
-            updateActivityUseCase =
-                updateActivityUseCase,
-
-            deleteActivityUseCase =
-                deleteActivityUseCase
+            getActivityByIdUseCase = getActivityByIdUseCase,
+            updateActivityUseCase = updateActivityUseCase,
+            completeActivityUseCase = completeActivityUseCase,
+            deleteActivityUseCase = deleteActivityUseCase
 
         ) as T
 
