@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.everpath.EverpathApplication
+import com.everpath.presentation.components.LevelProgressCard
 import com.everpath.presentation.profile.components.ProfileHeader
 import com.everpath.presentation.profile.components.ProfileProgressCard
 import com.everpath.presentation.profile.components.ProfileStatisticsCard
@@ -85,6 +86,14 @@ fun ProfileScreen() {
         ProfileHeader(
             xp = uiState.value.xp,
             level = uiState.value.level)
+
+        uiState.value.levelProgress?.let { levelProgress ->
+
+            LevelProgressCard(
+                levelProgress = levelProgress
+            )
+
+        }
 
         ProfileStatisticsCard(
             goalCount = uiState.value.goalCount,
