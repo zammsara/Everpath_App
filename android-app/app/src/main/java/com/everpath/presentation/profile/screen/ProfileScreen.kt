@@ -48,7 +48,11 @@ fun ProfileScreen() {
             getUserLevelUseCase =
                 application
                     .appContainer
-                    .getUserLevelUseCase
+                    .getUserLevelUseCase,
+            getLevelProgressUseCase =
+                application
+                    .appContainer
+                    .getLevelProgressUseCase
         )
     }
 

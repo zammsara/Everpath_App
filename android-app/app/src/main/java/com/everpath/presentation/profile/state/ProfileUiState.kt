@@ -1,5 +1,7 @@
 package com.everpath.presentation.profile.state
 
+import com.everpath.domain.model.LevelProgress
+
 /**
  * Estado principal de ProfileScreen.
  *
@@ -22,6 +24,8 @@ data class ProfileUiState(
     val xp: Int = 0,
 
     val level: Int = 1,
+
+    val levelProgress: LevelProgress? = null,
 
     val isLoading: Boolean = true
 
