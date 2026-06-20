@@ -1,4 +1,4 @@
-package com.everpath.presentation.today.components
+package com.everpath.presentation.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,12 +24,12 @@ fun LevelProgressCard(
 
     Card(
         modifier =
-            Modifier.fillMaxWidth()
+            Modifier.Companion.fillMaxWidth()
     ) {
 
         Column(
             modifier =
-                Modifier.padding(16.dp)
+                Modifier.Companion.padding(16.dp)
         ) {
 
             Text(
@@ -44,7 +44,7 @@ fun LevelProgressCard(
                 text =
                     "Nivel ${levelProgress.currentLevel}",
                 modifier =
-                    Modifier.padding(top = 8.dp)
+                    Modifier.Companion.padding(top = 8.dp)
             )
 
             Text(
@@ -52,7 +52,7 @@ fun LevelProgressCard(
                     "${levelProgress.currentLevelXp} / " +
                             "${levelProgress.requiredXpForNextLevel} XP",
                 modifier =
-                    Modifier.padding(top = 4.dp)
+                    Modifier.Companion.padding(top = 4.dp)
             )
 
             LinearProgressIndicator(
@@ -60,7 +60,7 @@ fun LevelProgressCard(
                     levelProgress.progress
                 },
                 modifier =
-                    Modifier
+                    Modifier.Companion
                         .fillMaxWidth()
                         .padding(top = 12.dp)
             )
@@ -69,7 +69,7 @@ fun LevelProgressCard(
                 text =
                     "${(levelProgress.progress * 100).toInt()}%",
                 modifier =
-                    Modifier.padding(top = 8.dp)
+                    Modifier.Companion.padding(top = 8.dp)
             )
         }
     }

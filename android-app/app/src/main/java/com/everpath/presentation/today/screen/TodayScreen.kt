@@ -22,7 +22,7 @@ import com.everpath.presentation.today.components.ProgressCard
 import com.everpath.presentation.today.components.StatisticsCard
 import com.everpath.presentation.today.viewmodel.TodayViewModel
 import com.everpath.presentation.today.viewmodel.TodayViewModelFactory
-import com.everpath.presentation.today.components.LevelProgressCard
+import com.everpath.presentation.components.LevelProgressCard
 
 /**
  * Dashboard principal de Everpath.
