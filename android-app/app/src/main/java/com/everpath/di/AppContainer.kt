@@ -25,6 +25,11 @@ import com.everpath.domain.repository.GoalConnectionRepository
 import com.everpath.domain.usecase.goalconnection.DeleteGoalConnectionUseCase
 import com.everpath.domain.usecase.goalconnection.GetGoalConnectionsUseCase
 import com.everpath.domain.usecase.goalconnection.SaveGoalConnectionUseCase
+import com.everpath.data.repository.UserProgressRepositoryImpl
+import com.everpath.domain.repository.UserProgressRepository
+import com.everpath.domain.usecase.userprogress.GetUserProgressUseCase
+import com.everpath.domain.usecase.userprogress.SaveUserProgressUseCase
+import com.everpath.domain.usecase.userprogress.UpdateUserProgressUseCase
 
 
 /**
@@ -71,6 +76,14 @@ class AppContainer(
         GoalConnectionRepositoryImpl(
             goalConnectionDao =
                 database.goalConnectionDao()
+        )
+
+    private val userProgressRepository:
+            UserProgressRepository =
+
+        UserProgressRepositoryImpl(
+            userProgressDao =
+                database.userProgressDao()
         )
 
     val getGoalNodesUseCase =
@@ -153,5 +166,21 @@ class AppContainer(
     val deleteGoalConnectionUseCase =
         DeleteGoalConnectionUseCase(
             goalConnectionRepository
+        )
+
+    //PROGRESO DEL USUARIO
+    val getUserProgressUseCase =
+        GetUserProgressUseCase(
+            userProgressRepository
+        )
+
+    val saveUserProgressUseCase =
+        SaveUserProgressUseCase(
+            userProgressRepository
+        )
+
+    val updateUserProgressUseCase =
+        UpdateUserProgressUseCase(
+            userProgressRepository
         )
 }
