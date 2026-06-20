@@ -1,13 +1,23 @@
 package com.everpath.presentation.profile.screen
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.everpath.EverpathApplication
+import com.everpath.presentation.profile.components.ProfileHeader
+import com.everpath.presentation.profile.components.ProfileProgressCard
+import com.everpath.presentation.profile.components.ProfileStatisticsCard
+import com.everpath.presentation.profile.components.ProfileSummaryCard
 import com.everpath.presentation.profile.viewmodel.ProfileViewModel
 import com.everpath.presentation.profile.viewmodel.ProfileViewModelFactory
 
@@ -51,6 +61,33 @@ fun ProfileScreen() {
         return
     }
 
-    Text( text = "Perfil listo para A2.2")
+    Column(
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+
+        ProfileHeader()
+
+        ProfileStatisticsCard(
+            goalCount = uiState.value.goalCount,
+            completedGoalCount = uiState.value.completedGoalCount,
+            activityCount = uiState.value.activityCount,
+            completedActivityCount = uiState.value.completedActivityCount
+        )
+
+        ProfileProgressCard(
+            progress = uiState.value.globalProgress
+        )
+
+        ProfileSummaryCard(
+            completedGoals = uiState.value.completedGoalCount,
+            completedActivities = uiState.value.completedActivityCount
+        )
+
+    }
 
 }
