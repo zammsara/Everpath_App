@@ -22,6 +22,7 @@ import com.everpath.presentation.today.components.ProgressCard
 import com.everpath.presentation.today.components.StatisticsCard
 import com.everpath.presentation.today.viewmodel.TodayViewModel
 import com.everpath.presentation.today.viewmodel.TodayViewModelFactory
+import com.everpath.presentation.today.components.LevelProgressCard
 
 /**
  * Dashboard principal de Everpath.
@@ -92,6 +93,12 @@ fun TodayScreen() {
         DashboardHeader(
             xp = uiState.value.xp,
             level = uiState.value.level)
+
+        uiState.value.levelProgress?.let {
+            LevelProgressCard(
+                levelProgress = it
+            )
+        }
 
         ProgressCard(
             progress = uiState.value.globalProgress
