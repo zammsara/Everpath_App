@@ -11,5 +11,4 @@ public interface UserService {
     UserEntity registerUser(
             UserEntity user
     );
-
 }

@@ -40,7 +40,7 @@ public class UserEntity {
     @Column(
             nullable = false,
             unique = true,
-            length = 150
+            length = 120
     )
     private String email;
 
