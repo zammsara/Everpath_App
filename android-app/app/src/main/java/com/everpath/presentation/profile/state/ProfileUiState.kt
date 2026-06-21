@@ -1,5 +1,6 @@
 package com.everpath.presentation.profile.state
 
+import com.everpath.domain.model.Achievement
 import com.everpath.domain.model.LevelProgress
 
 /**
@@ -26,6 +27,8 @@ data class ProfileUiState(
     val level: Int = 1,
 
     val levelProgress: LevelProgress? = null,
+
+    val achievements: List<Achievement> = emptyList(),
 
     val isLoading: Boolean = true
 

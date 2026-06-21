@@ -3,6 +3,7 @@ package com.everpath.presentation.profile.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.everpath.domain.enums.GoalStatus
+import com.everpath.domain.usecase.achievement.EvaluateAchievementsUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
 import com.everpath.domain.usecase.userprogress.GetLevelProgressUseCase
 import com.everpath.domain.usecase.userprogress.GetUserLevelUseCase
@@ -11,6 +12,7 @@ import com.everpath.presentation.profile.state.ProfileUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -22,7 +24,8 @@ class ProfileViewModel(
     private val getGoalNodesUseCase: GetGoalNodesUseCase,
     private val getUserProgressUseCase: GetUserProgressUseCase,
     private val getUserLevelUseCase: GetUserLevelUseCase,
-    private val getLevelProgressUseCase: GetLevelProgressUseCase
+    private val getLevelProgressUseCase: GetLevelProgressUseCase,
+    private val evaluateAchievementsUseCase: EvaluateAchievementsUseCase
 
 ) : ViewModel() {
 
@@ -35,90 +38,98 @@ class ProfileViewModel(
         _uiState.asStateFlow()
 
     init {
-        loadProfileData()
-        loadUserProgress()
+        loadProfile()
     }
 
-    private fun loadProfileData() {
-        viewModelScope.launch {
-            getGoalNodesUseCase()
-                .collect { goals ->
-                    val goalCount = goals.size
-
-                    val completedGoalCount =
-                        goals.count {
-                            it.status == GoalStatus.COMPLETED
-                        }
-
-                    val activityCount =
-                        goals.sumOf {
-
-                            it.activities.size
-                        }
-
-                    val completedActivityCount =
-                        goals.sumOf { goal ->
-                            goal.activities.count {
-
-                                it.status.name ==
-                                        "COMPLETED"
-                            }
-                        }
-
-                    val globalProgress =
-                        if (
-                            activityCount == 0
-                        ) {
-                            0f
-                        } else {
-                            completedActivityCount
-                                .toFloat() /
-                                    activityCount
-                                        .toFloat()
-                        }
-
-                    _uiState.update {
-                        it.copy(
-                            goalCount = goalCount,
-                            completedGoalCount = completedGoalCount,
-                            activityCount = activityCount,
-                            completedActivityCount = completedActivityCount,
-                            globalProgress = globalProgress,
-                            isLoading = false
-
-                        )
-                    }
-                }
-        }
-    }
-
-    private fun loadUserProgress() {
+    private fun loadProfile() {
 
         viewModelScope.launch {
 
-            getUserProgressUseCase()
-                .collect { userProgress ->
-                    val xp =
-                        userProgress?.xp ?: 0
+            combine(
+                getGoalNodesUseCase(),
+                getUserProgressUseCase()
 
-                    val level =
-                        getUserLevelUseCase(
-                            xp
-                        )
+            ) { goals, progress ->
+                Pair(
+                    goals,
+                    progress
+                )
 
-                    val levelProgress =
-                        getLevelProgressUseCase(
-                            xp
-                        )
+            }.collect { (goals, progress) ->
 
-                    _uiState.update {
-                        it.copy(
-                            xp = xp,
-                            level = level,
-                            levelProgress = levelProgress
-                        )
+                val goalCount =
+                    goals.size
+
+                val completedGoalCount =
+                    goals.count {
+                        it.status ==
+                                GoalStatus.COMPLETED
                     }
+
+                val activityCount =
+                    goals.sumOf {
+                        it.activities.size
+                    }
+
+                val completedActivityCount =
+                    goals.sumOf { goal ->
+                        goal.activities.count {
+                            it.status.name ==
+                                    "COMPLETED"
+                        }
+                    }
+
+                val globalProgress =
+                    if (activityCount == 0) {
+                        0f
+                    } else {
+                        completedActivityCount
+                            .toFloat() /
+                                activityCount.toFloat()
+                    }
+
+                val xp =
+                    progress?.xp ?: 0
+
+                val level =
+                    getUserLevelUseCase(
+                        xp
+                    )
+
+                val levelProgress =
+                    getLevelProgressUseCase(
+                        xp
+                    )
+
+                val achievements =
+                    evaluateAchievementsUseCase(
+                        goals = goals,
+                        xp = xp,
+                        level = level
+                    )
+
+                _uiState.update {
+                    it.copy(
+                        goalCount = goalCount,
+                        completedGoalCount =
+                            completedGoalCount,
+                        activityCount =
+                            activityCount,
+                        completedActivityCount =
+                            completedActivityCount,
+                        globalProgress =
+                            globalProgress,
+                        xp = xp,
+                        level = level,
+                        levelProgress =
+                            levelProgress,
+                        achievements =
+                            achievements,
+                        isLoading = false
+                    )
                 }
+            }
         }
     }
+
 }
