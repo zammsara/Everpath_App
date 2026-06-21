@@ -30,7 +30,9 @@ import com.everpath.data.repository.UserProgressRepositoryImpl
 import com.everpath.domain.repository.AchievementRepository
 import com.everpath.domain.repository.UserProgressRepository
 import com.everpath.domain.usecase.achievement.EvaluateAchievementsUseCase
+import com.everpath.domain.usecase.achievement.GetAchievementByIdUseCase
 import com.everpath.domain.usecase.achievement.GetAchievementsUseCase
+import com.everpath.domain.usecase.achievement.SaveAchievementUseCase
 import com.everpath.domain.usecase.userprogress.GetUserProgressUseCase
 import com.everpath.domain.usecase.userprogress.SaveUserProgressUseCase
 import com.everpath.domain.usecase.userprogress.UpdateUserProgressUseCase
@@ -211,7 +213,19 @@ class AppContainer(
 
     //Achievements
     val getAchievementsUseCase =
-        GetAchievementsUseCase()
+        GetAchievementsUseCase(
+            achievementRepository
+        )
+
+    val saveAchievementUseCase =
+        SaveAchievementUseCase(
+            achievementRepository
+        )
+
+    val getAchievementByIdUseCase =
+        GetAchievementByIdUseCase(
+            achievementRepository
+        )
 
     val evaluateAchievementsUseCase =
         EvaluateAchievementsUseCase()
