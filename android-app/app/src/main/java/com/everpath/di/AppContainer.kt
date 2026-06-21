@@ -34,6 +34,7 @@ import com.everpath.domain.usecase.achievement.GetAchievementByIdUseCase
 import com.everpath.domain.usecase.achievement.GetAchievementsUseCase
 import com.everpath.domain.usecase.achievement.GetUnlockedAchievementsUseCase
 import com.everpath.domain.usecase.achievement.SaveAchievementUseCase
+import com.everpath.domain.usecase.achievement.UnlockAchievementsUseCase
 import com.everpath.domain.usecase.userprogress.GetUserProgressUseCase
 import com.everpath.domain.usecase.userprogress.SaveUserProgressUseCase
 import com.everpath.domain.usecase.userprogress.UpdateUserProgressUseCase
@@ -54,6 +55,8 @@ class AppContainer(
     context: Context
 ) {
 
+    // Base de datos
+
     private val database: EverpathDatabase =
         Room.databaseBuilder(
             context,
@@ -62,6 +65,8 @@ class AppContainer(
         )
             .fallbackToDestructiveMigration()
             .build()
+
+    // Repositorios
 
     private val goalRepository: GoalRepository =
         GoalRepositoryImpl(
@@ -108,10 +113,7 @@ class AppContainer(
                 database.achievementDao()
         )
 
-    val getUnlockedAchievementsUseCase =
-        GetUnlockedAchievementsUseCase(
-            achievementRepository
-        )
+    // Goals
 
     val getGoalNodesUseCase =
         GetGoalNodesUseCase(goalRepository)
@@ -122,8 +124,14 @@ class AppContainer(
     val saveGoalNodeUseCase =
         SaveGoalNodeUseCase(goalRepository)
 
+    val updateGoalNodeUseCase =
+        UpdateGoalNodeUseCase(goalRepository)
+
     val deleteGoalNodeUseCase =
         DeleteGoalNodeUseCase(goalRepository)
+
+
+    // Goal Positions
 
     val getGoalPositionsUseCase =
         GetGoalPositionsUseCase(
@@ -145,15 +153,12 @@ class AppContainer(
             goalPositionRepository
         )
 
-    val updateGoalNodeUseCase =
-        UpdateGoalNodeUseCase(
-            goalRepository
-        )
-
     val deleteGoalPositionUseCase =
         DeleteGoalPositionUseCase(
             goalPositionRepository
         )
+
+    // Activities
 
     val getActivitiesByGoalIdUseCase =
         GetActivitiesByGoalIdUseCase(
@@ -180,6 +185,8 @@ class AppContainer(
             activityRepository
         )
 
+    // Connections
+
     val getGoalConnectionsUseCase =
         GetGoalConnectionsUseCase(
             goalConnectionRepository
@@ -195,7 +202,8 @@ class AppContainer(
             goalConnectionRepository
         )
 
-    //PROGRESO DEL USUARIO
+    // Progreso
+
     val getUserProgressUseCase =
         GetUserProgressUseCase(
             userProgressRepository
@@ -217,14 +225,20 @@ class AppContainer(
     val getLevelProgressUseCase =
         GetLevelProgressUseCase()
 
-    //Achievements
-    val getAchievementsUseCase =
-        GetAchievementsUseCase(
-            achievementRepository
+    val addXpUseCase =
+        AddXpUseCase(
+            userProgressRepository
         )
 
-    val saveAchievementUseCase =
-        SaveAchievementUseCase(
+
+
+    // Achievements
+
+    val evaluateAchievementsUseCase =
+        EvaluateAchievementsUseCase()
+
+    val getAchievementsUseCase =
+        GetAchievementsUseCase(
             achievementRepository
         )
 
@@ -233,14 +247,30 @@ class AppContainer(
             achievementRepository
         )
 
-    val evaluateAchievementsUseCase =
-        EvaluateAchievementsUseCase()
-
-    //Agregar XP al usuario
-    val addXpUseCase =
-        AddXpUseCase(
-            userProgressRepository
+    val getUnlockedAchievementsUseCase =
+        GetUnlockedAchievementsUseCase(
+            achievementRepository
         )
+
+    val saveAchievementUseCase =
+        SaveAchievementUseCase(
+            achievementRepository
+        )
+
+    val unlockAchievementsUseCase =
+        UnlockAchievementsUseCase(
+            evaluateAchievementsUseCase =
+                evaluateAchievementsUseCase,
+
+            saveAchievementUseCase =
+                saveAchievementUseCase,
+
+            achievementRepository =
+                achievementRepository
+        )
+
+
+    // Casos de uso compuestos
 
     val completeActivityUseCase =
         CompleteActivityUseCase(
@@ -253,4 +283,5 @@ class AppContainer(
             updateGoalNodeUseCase,
             addXpUseCase
         )
+
 }

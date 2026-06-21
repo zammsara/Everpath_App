@@ -93,15 +93,6 @@ object AchievementDefinitions {
                     "Alcanza el nivel 5.",
                 unlocked = false,
                 unlockedAt = null
-            ),
-
-            Achievement(
-                id = "LEVEL_10",
-                title = "Leyenda",
-                description =
-                    "Alcanza el nivel 10.",
-                unlocked = false,
-                unlockedAt = null
             )
         )
 }

@@ -97,9 +97,6 @@ class EvaluateAchievementsUseCase {
             "LEVEL_5" ->
                 level >= 5
 
-            "LEVEL_10" ->
-                level >= 10
-
             else ->
                 false
         }
