@@ -29,6 +29,8 @@ import com.everpath.domain.usecase.goalconnection.SaveGoalConnectionUseCase
 import com.everpath.data.repository.UserProgressRepositoryImpl
 import com.everpath.domain.repository.AchievementRepository
 import com.everpath.domain.repository.UserProgressRepository
+import com.everpath.domain.usecase.achievement.CompleteActivityWithAchievementsUseCase
+import com.everpath.domain.usecase.achievement.CompleteGoalWithAchievementsUseCase
 import com.everpath.domain.usecase.achievement.EvaluateAchievementsUseCase
 import com.everpath.domain.usecase.achievement.GetAchievementByIdUseCase
 import com.everpath.domain.usecase.achievement.GetAchievementsUseCase
@@ -282,6 +284,24 @@ class AppContainer(
         CompleteGoalNodeUseCase(
             updateGoalNodeUseCase,
             addXpUseCase
+        )
+
+    val completeActivityWithAchievementsUseCase =
+        CompleteActivityWithAchievementsUseCase(
+            completeActivityUseCase = completeActivityUseCase,
+            getGoalNodesUseCase = getGoalNodesUseCase,
+            getUserProgressUseCase = getUserProgressUseCase,
+            getUserLevelUseCase = getUserLevelUseCase,
+            unlockAchievementsUseCase = unlockAchievementsUseCase
+        )
+
+    val completeGoalWithAchievementsUseCase =
+        CompleteGoalWithAchievementsUseCase(
+            completeGoalNodeUseCase = completeGoalNodeUseCase,
+            getGoalNodesUseCase = getGoalNodesUseCase,
+            getUserProgressUseCase = getUserProgressUseCase,
+            getUserLevelUseCase = getUserLevelUseCase,
+            unlockAchievementsUseCase = unlockAchievementsUseCase
         )
 
 }

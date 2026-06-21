@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
 import com.everpath.presentation.quest.state.QuestUiState
-import com.everpath.domain.usecase.achievement.EvaluateAchievementsUseCase
+import com.everpath.domain.usecase.achievement.GetAchievementsUseCase
 import com.everpath.domain.usecase.userprogress.GetUserLevelUseCase
 import com.everpath.domain.usecase.userprogress.GetUserProgressUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +23,7 @@ class QuestViewModel(
     private val getGoalNodesUseCase: GetGoalNodesUseCase,
     private val getUserProgressUseCase: GetUserProgressUseCase,
     private val getUserLevelUseCase: GetUserLevelUseCase,
-    private val evaluateAchievementsUseCase: EvaluateAchievementsUseCase
+    private val getAchievementsUseCase: GetAchievementsUseCase
 
 ) : ViewModel() {
 
@@ -43,14 +43,22 @@ class QuestViewModel(
         viewModelScope.launch {
             combine(
                 getGoalNodesUseCase(),
-                getUserProgressUseCase()
+                getUserProgressUseCase(),
+                getAchievementsUseCase()
 
-            ) { goals, progress ->
-                Pair(
+            ) { goals, progress, achievements ->
+
+                Triple(
                     goals,
-                    progress
+                    progress,
+                    achievements
                 )
-            }.collect { (goals, progress) ->
+            }.collect {
+                    (
+                        goals,
+                        progress,
+                        achievements
+                    ) ->
 
                 val activeGoals =
                     goals.filter {
@@ -70,13 +78,6 @@ class QuestViewModel(
                 val level =
                     getUserLevelUseCase(
                         xp
-                    )
-
-                val achievements =
-                    evaluateAchievementsUseCase(
-                        goals = goals,
-                        xp = xp,
-                        level = level
                     )
 
                 _uiState.update {

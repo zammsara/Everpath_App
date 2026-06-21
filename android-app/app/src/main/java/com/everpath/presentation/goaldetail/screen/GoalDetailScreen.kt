@@ -51,7 +51,6 @@ fun GoalDetailScreen(
     val factory = remember {
 
         GoalDetailViewModelFactory(
-
             getGoalNodeByIdUseCase =
                 application
                     .appContainer
@@ -62,10 +61,10 @@ fun GoalDetailScreen(
                     .appContainer
                     .updateGoalNodeUseCase,
 
-            completeGoalNodeUseCase =
+            completeGoalWithAchievementsUseCase =
                 application
                     .appContainer
-                    .completeGoalNodeUseCase,
+                    .completeGoalWithAchievementsUseCase,
 
             deleteGoalNodeUseCase =
                 application
@@ -77,7 +76,6 @@ fun GoalDetailScreen(
     val activityFactory = remember {
 
         ActivityViewModelFactory(
-
             getActivitiesByGoalIdUseCase =
                 application
                     .appContainer
@@ -95,7 +93,6 @@ fun GoalDetailScreen(
                     .appContainer
                     .deleteActivityUseCase
         )
-
     }
 
     val viewModel: GoalDetailViewModel =
@@ -133,15 +130,12 @@ fun GoalDetailScreen(
             .collectAsStateWithLifecycle()
 
     LaunchedEffect(goalId) {
-
         viewModel.loadGoal(
             goalId
         )
-
         activityViewModel.loadActivities(
             goalId
         )
-
     }
 
     LaunchedEffect(
@@ -152,18 +146,13 @@ fun GoalDetailScreen(
             activityUiState
                 .value
                 .activities
-
         if (
             activities.isNotEmpty()
         ) {
 
             val allCompleted =
-
                 activities.all {
-
-                    it.status ==
-                            ActivityStatus.COMPLETED
-
+                    it.status == ActivityStatus.COMPLETED
                 }
 
             if (
@@ -173,56 +162,38 @@ fun GoalDetailScreen(
             ) {
 
                 viewModel.updateGoalStatus(
-
                     GoalStatus.COMPLETED
-
                 )
-
             }
 
             else if (
-
                 !allCompleted &&
                 uiState.value.goal?.status ==
                 GoalStatus.COMPLETED
-
             ) {
-
                 viewModel.updateGoalStatus(
-
                     GoalStatus.ACTIVE
-
                 )
-
             }
-
         }
-
     }
 
     if (uiState.value.goal == null) {
-
         CircularProgressIndicator()
 
         return
-
     }
 
     Scaffold(
 
         floatingActionButton = {
-
             FloatingActionButton(
-
                 onClick = {
-
                     showCreateActivityDialog.value =
                         true
-
                 }
 
             ) {
-
                 Icon(
                     imageVector =
                         Icons.Default.Add,
@@ -230,9 +201,7 @@ fun GoalDetailScreen(
                     contentDescription =
                         "Agregar Actividad"
                 )
-
             }
-
         }
 
     ) { paddingValues ->
@@ -243,28 +212,19 @@ fun GoalDetailScreen(
                 .padding(paddingValues)
                 .padding(16.dp)
         ) {
-
             val totalActivities =
                 activityUiState.value.activities.size
-
             val completedActivities =
                 activityUiState.value.activities.count {
-
                     it.status.name == "COMPLETED"
-
                 }
 
             val progressPercentage =
-
                 if (totalActivities == 0) {
-
                     0
-
                 } else {
-
                     (completedActivities * 100) /
                             totalActivities
-
                 }
 
         Text(
@@ -291,13 +251,9 @@ fun GoalDetailScreen(
         )
 
             Text(
-
                 text = when (
-
                     uiState.value.goal!!.status
-
                 ) {
-
                     GoalStatus.ACTIVE ->
                         "Estado: Activa"
 
@@ -309,15 +265,12 @@ fun GoalDetailScreen(
 
                     GoalStatus.ARCHIVED ->
                         "Estado: Archivada"
-
                 },
 
                 color = when (
-
                     uiState.value.goal!!.status
 
                 ) {
-
                     GoalStatus.ACTIVE ->
                         androidx.compose.ui.graphics.Color.Blue
 
@@ -329,16 +282,12 @@ fun GoalDetailScreen(
 
                     GoalStatus.ARCHIVED ->
                         androidx.compose.ui.graphics.Color.DarkGray
-
                 }
-
             )
 
             Text(
-
                 text =
                     "Progreso: $completedActivities/$totalActivities actividades ($progressPercentage%)",
-
                 modifier = Modifier.padding(
                     top = 12.dp
                 )
@@ -347,19 +296,15 @@ fun GoalDetailScreen(
 
 
             LinearProgressIndicator(
-
                 progress = {
-
                     activityUiState
                         .value
                         .progress
-
                 },
 
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp)
-
             )
 
         Text(
@@ -375,25 +320,20 @@ fun GoalDetailScreen(
 
 
         ActivityList(
-
             activities =
                 activityUiState
                     .value
                     .activities,
 
             onActivityClick = { activityId ->
-
                 navController.navigate(
-
                     AppDestination
                         .ActivityDetail
                         .createRoute(
                             activityId
                         )
                 )
-
             }
-
         )
 
         Button(
@@ -401,9 +341,7 @@ fun GoalDetailScreen(
                 showEditDialog.value = true
             }
         ) {
-
             Text("Editar")
-
         }
 
         Button(
@@ -411,12 +349,9 @@ fun GoalDetailScreen(
                 showDeleteDialog.value = true
             }
         ) {
-
             Text("Eliminar")
-
             }
         }
-
     }
 
     if (
@@ -428,41 +363,28 @@ fun GoalDetailScreen(
 
             initialTitle =
                 uiState.value.goal!!.title,
-
             initialDescription =
                 uiState.value.goal!!.description,
-
             initialStatus =
                 uiState.value.goal!!.status,
-
             onDismiss = {
-
                 showEditDialog.value =
                     false
 
             },
 
             onSave = {
-
                     title,
                     description,
                     status ->
 
                 viewModel.updateGoal(
-
-                    title =
-                        title,
-
-                    description =
-                        description,
-
-                    status =
-                        status
-
+                    title = title,
+                    description = description,
+                    status = status
                 )
                 showEditDialog.value =
                     false
-
             }
         )
     }
@@ -470,7 +392,6 @@ fun GoalDetailScreen(
     if (showDeleteDialog.value) {
 
         AlertDialog(
-
             onDismissRequest = {
                 showDeleteDialog.value = false
             },
@@ -486,45 +407,27 @@ fun GoalDetailScreen(
             },
 
             confirmButton = {
-
                 TextButton(
-
                     onClick = {
-
                         viewModel.deleteGoal {
-
                             navController.popBackStack()
-
                         }
-
                     }
-
                 ) {
-
                     Text("Eliminar")
-
                 }
-
             },
 
             dismissButton = {
-
                 TextButton(
-
                     onClick = {
                         showDeleteDialog.value = false
                     }
-
                 ) {
-
                     Text("Cancelar")
-
                 }
-
             }
-
         )
-
     }
 
     if (
@@ -533,34 +436,22 @@ fun GoalDetailScreen(
     ) {
 
         CreateActivityDialog(
-
             onDismiss = {
-
                 showCreateActivityDialog.value =
                     false
-
             },
 
             onSave = { title, description ->
-
                 activityViewModel.createActivity(
-
-                    goalId =
-                        uiState.value.goal!!.id,
-
+                    goalId = uiState.value.goal!!.id,
                     title = title,
-
                     description = description
 
                 )
 
                 showCreateActivityDialog.value =
                     false
-
             }
-
         )
-
     }
-
 }

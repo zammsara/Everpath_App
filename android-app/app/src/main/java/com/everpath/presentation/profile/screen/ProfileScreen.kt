@@ -45,25 +45,19 @@ fun ProfileScreen() {
     val factory = remember {
         ProfileViewModelFactory(
             getGoalNodesUseCase =
-                application
-                    .appContainer
-                    .getGoalNodesUseCase,
+                application.appContainer.getGoalNodesUseCase,
+
             getUserProgressUseCase =
-                application
-                    .appContainer
-                    .getUserProgressUseCase,
+                application.appContainer.getUserProgressUseCase,
+
             getUserLevelUseCase =
-                application
-                    .appContainer
-                    .getUserLevelUseCase,
-            evaluateAchievementsUseCase =
-                application
-                    .appContainer
-                    .evaluateAchievementsUseCase,
+                application.appContainer.getUserLevelUseCase,
+
+            getAchievementsUseCase =
+                application.appContainer.getAchievementsUseCase,
+
             getLevelProgressUseCase =
-                application
-                    .appContainer
-                    .getLevelProgressUseCase
+                application.appContainer.getLevelProgressUseCase
         )
     }
 

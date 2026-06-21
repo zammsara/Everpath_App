@@ -2,7 +2,7 @@ package com.everpath.presentation.profile.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.everpath.domain.usecase.achievement.EvaluateAchievementsUseCase
+import com.everpath.domain.usecase.achievement.GetAchievementsUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
 import com.everpath.domain.usecase.userprogress.GetLevelProgressUseCase
 import com.everpath.domain.usecase.userprogress.GetUserLevelUseCase
@@ -16,7 +16,7 @@ class ProfileViewModelFactory(
     private val getGoalNodesUseCase: GetGoalNodesUseCase,
     private val getUserProgressUseCase: GetUserProgressUseCase,
     private val getUserLevelUseCase: GetUserLevelUseCase,
-    private val evaluateAchievementsUseCase: EvaluateAchievementsUseCase,
+    private val getAchievementsUseCase: GetAchievementsUseCase,
     private val getLevelProgressUseCase: GetLevelProgressUseCase
 
 ) : ViewModelProvider.Factory {
@@ -39,8 +39,8 @@ class ProfileViewModelFactory(
                     getUserProgressUseCase,
                 getUserLevelUseCase =
                     getUserLevelUseCase,
-                evaluateAchievementsUseCase =
-                    evaluateAchievementsUseCase,
+                getAchievementsUseCase =
+                    getAchievementsUseCase,
                 getLevelProgressUseCase =
                     getLevelProgressUseCase
             ) as T

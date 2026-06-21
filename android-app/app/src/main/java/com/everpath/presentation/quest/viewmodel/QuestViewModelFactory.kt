@@ -3,7 +3,7 @@ package com.everpath.presentation.quest.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
-import com.everpath.domain.usecase.achievement.EvaluateAchievementsUseCase
+import com.everpath.domain.usecase.achievement.GetAchievementsUseCase
 import com.everpath.domain.usecase.userprogress.GetUserLevelUseCase
 import com.everpath.domain.usecase.userprogress.GetUserProgressUseCase
 
@@ -15,7 +15,7 @@ class QuestViewModelFactory(
     private val getGoalNodesUseCase: GetGoalNodesUseCase,
     private val getUserProgressUseCase: GetUserProgressUseCase,
     private val getUserLevelUseCase: GetUserLevelUseCase,
-    private val evaluateAchievementsUseCase: EvaluateAchievementsUseCase
+    private val getAchievementsUseCase: GetAchievementsUseCase
 
 ) : ViewModelProvider.Factory {
 
@@ -37,8 +37,8 @@ class QuestViewModelFactory(
                     getUserProgressUseCase,
                 getUserLevelUseCase =
                     getUserLevelUseCase,
-                evaluateAchievementsUseCase =
-                    evaluateAchievementsUseCase
+                getAchievementsUseCase =
+                    getAchievementsUseCase
 
             ) as T
         }

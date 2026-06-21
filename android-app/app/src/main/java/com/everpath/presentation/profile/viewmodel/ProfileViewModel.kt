@@ -3,7 +3,7 @@ package com.everpath.presentation.profile.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.everpath.domain.enums.GoalStatus
-import com.everpath.domain.usecase.achievement.EvaluateAchievementsUseCase
+import com.everpath.domain.usecase.achievement.GetAchievementsUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
 import com.everpath.domain.usecase.userprogress.GetLevelProgressUseCase
 import com.everpath.domain.usecase.userprogress.GetUserLevelUseCase
@@ -25,7 +25,7 @@ class ProfileViewModel(
     private val getUserProgressUseCase: GetUserProgressUseCase,
     private val getUserLevelUseCase: GetUserLevelUseCase,
     private val getLevelProgressUseCase: GetLevelProgressUseCase,
-    private val evaluateAchievementsUseCase: EvaluateAchievementsUseCase
+    private val getAchievementsUseCase: GetAchievementsUseCase
 
 ) : ViewModel() {
 
@@ -47,15 +47,22 @@ class ProfileViewModel(
 
             combine(
                 getGoalNodesUseCase(),
-                getUserProgressUseCase()
+                getUserProgressUseCase(),
+                getAchievementsUseCase()
 
-            ) { goals, progress ->
-                Pair(
+            ) { goals, progress, achievements ->
+
+                Triple(
                     goals,
-                    progress
+                    progress,
+                    achievements
                 )
-
-            }.collect { (goals, progress) ->
+            }.collect {
+                    (
+                        goals,
+                        progress,
+                        achievements
+                    ) ->
 
                 val goalCount =
                     goals.size
@@ -101,13 +108,6 @@ class ProfileViewModel(
                         xp
                     )
 
-                val achievements =
-                    evaluateAchievementsUseCase(
-                        goals = goals,
-                        xp = xp,
-                        level = level
-                    )
-
                 _uiState.update {
                     it.copy(
                         goalCount = goalCount,
@@ -131,5 +131,4 @@ class ProfileViewModel(
             }
         }
     }
-
 }

@@ -3,10 +3,10 @@ package com.everpath.presentation.goaldetail.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.everpath.domain.enums.GoalStatus
+import com.everpath.domain.usecase.achievement.CompleteGoalWithAchievementsUseCase
 import com.everpath.domain.usecase.goal.DeleteGoalNodeUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodeByIdUseCase
 import com.everpath.domain.usecase.goal.UpdateGoalNodeUseCase
-import com.everpath.domain.usecase.goal.CompleteGoalNodeUseCase
 import com.everpath.presentation.goaldetail.state.GoalDetailUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,8 +22,8 @@ class GoalDetailViewModel(
     private val updateGoalNodeUseCase:
     UpdateGoalNodeUseCase,
 
-    private val completeGoalNodeUseCase:
-    CompleteGoalNodeUseCase,
+    private val completeGoalWithAchievementsUseCase:
+    CompleteGoalWithAchievementsUseCase,
 
     private val deleteGoalNodeUseCase:
     DeleteGoalNodeUseCase
@@ -114,7 +114,7 @@ class GoalDetailViewModel(
                 currentGoal.status != GoalStatus.COMPLETED &&
                 status == GoalStatus.COMPLETED
             ) {
-                completeGoalNodeUseCase(
+                completeGoalWithAchievementsUseCase(
                     currentGoal
                 )
 
