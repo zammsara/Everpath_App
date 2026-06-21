@@ -27,6 +27,7 @@ import com.everpath.domain.usecase.goalconnection.GetGoalConnectionsUseCase
 import com.everpath.domain.usecase.goalconnection.SaveGoalConnectionUseCase
 import com.everpath.data.repository.UserProgressRepositoryImpl
 import com.everpath.domain.repository.UserProgressRepository
+import com.everpath.domain.usecase.achievement.EvaluateAchievementsUseCase
 import com.everpath.domain.usecase.achievement.GetAchievementsUseCase
 import com.everpath.domain.usecase.userprogress.GetUserProgressUseCase
 import com.everpath.domain.usecase.userprogress.SaveUserProgressUseCase
@@ -201,6 +202,9 @@ class AppContainer(
     //Achievements
     val getAchievementsUseCase =
         GetAchievementsUseCase()
+
+    val evaluateAchievementsUseCase =
+        EvaluateAchievementsUseCase()
 
     //Agregar XP al usuario
     val addXpUseCase =

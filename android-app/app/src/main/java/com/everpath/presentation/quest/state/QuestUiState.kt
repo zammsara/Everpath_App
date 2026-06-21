@@ -1,5 +1,6 @@
 package com.everpath.presentation.quest.state
 
+import com.everpath.domain.model.Achievement
 import com.everpath.domain.model.GoalNode
 
 /**
@@ -14,6 +15,8 @@ data class QuestUiState(
     val activeGoals: List<GoalNode> = emptyList(),
 
     val completedGoals: Int = 0,
+
+    val achievements: List<Achievement> = emptyList(),
 
     val isLoading: Boolean = true
 

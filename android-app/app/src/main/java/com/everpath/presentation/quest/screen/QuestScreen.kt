@@ -35,10 +35,23 @@ fun QuestScreen() {
 
     val factory = remember {
         QuestViewModelFactory(
+
             getGoalNodesUseCase =
                 application
                     .appContainer
-                    .getGoalNodesUseCase
+                    .getGoalNodesUseCase,
+            getUserProgressUseCase =
+                application
+                    .appContainer
+                    .getUserProgressUseCase,
+            getUserLevelUseCase =
+                application
+                    .appContainer
+                    .getUserLevelUseCase,
+            evaluateAchievementsUseCase =
+                application
+                    .appContainer
+                    .evaluateAchievementsUseCase
         )
     }
 
