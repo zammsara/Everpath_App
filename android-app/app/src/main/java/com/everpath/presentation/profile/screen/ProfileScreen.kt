@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,6 +17,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.everpath.EverpathApplication
 import com.everpath.presentation.components.LevelProgressCard
+import com.everpath.presentation.profile.components.AchievementSection
 import com.everpath.presentation.profile.components.ProfileHeader
 import com.everpath.presentation.profile.components.ProfileProgressCard
 import com.everpath.presentation.profile.components.ProfileStatisticsCard
@@ -31,6 +34,9 @@ import com.everpath.presentation.profile.viewmodel.ProfileViewModelFactory
  */
 @Composable
 fun ProfileScreen() {
+
+    val scrollState =
+        rememberScrollState()
 
     val application =
         LocalContext.current.applicationContext
@@ -50,6 +56,10 @@ fun ProfileScreen() {
                 application
                     .appContainer
                     .getUserLevelUseCase,
+            evaluateAchievementsUseCase =
+                application
+                    .appContainer
+                    .evaluateAchievementsUseCase,
             getLevelProgressUseCase =
                 application
                     .appContainer
@@ -78,6 +88,9 @@ fun ProfileScreen() {
         modifier =
             Modifier
                 .fillMaxSize()
+                .verticalScroll(
+                    scrollState
+                )
                 .padding(16.dp),
 
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -109,6 +122,12 @@ fun ProfileScreen() {
         ProfileSummaryCard(
             completedGoals = uiState.value.completedGoalCount,
             completedActivities = uiState.value.completedActivityCount
+        )
+
+        AchievementSection(
+            achievements =
+                uiState.value
+                    .achievements
         )
 
     }
