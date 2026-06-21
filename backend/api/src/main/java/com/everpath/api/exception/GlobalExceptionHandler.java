@@ -1,6 +1,5 @@
 package com.everpath.api.exception;
 
-import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -20,7 +19,8 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     /**
-     * Maneja correos duplicados.
+     * Maneja errores de validación
+     * provenientes de @Valid.
      */
     @ExceptionHandler(
             MethodArgumentNotValidException.class
@@ -66,4 +66,79 @@ public class GlobalExceptionHandler {
                         response
                 );
     }
+
+    /**
+     * Maneja correos duplicados.
+     */
+    @ExceptionHandler(
+            EmailAlreadyExistsException.class
+    )
+    public ResponseEntity<ErrorResponse> handleEmailAlreadyExists(
+
+            EmailAlreadyExistsException exception
+
+    ) {
+
+        ErrorResponse response =
+                ErrorResponse.builder()
+                        .timestamp(
+                                LocalDateTime.now()
+                        )
+                        .status(
+                                HttpStatus.CONFLICT.value()
+                        )
+                        .error(
+                                HttpStatus.CONFLICT.getReasonPhrase()
+                        )
+                        .message(
+                                exception.getMessage()
+                        )
+                        .build();
+
+        return ResponseEntity
+                .status(
+                        HttpStatus.CONFLICT
+                )
+                .body(
+                        response
+                );
+    }
+
+    /**
+     * Captura errores inesperados.
+     */
+    @ExceptionHandler(
+            Exception.class
+    )
+    public ResponseEntity<ErrorResponse> handleGenericException(
+
+            Exception exception
+
+    ) {
+
+        ErrorResponse response =
+                ErrorResponse.builder()
+                        .timestamp(
+                                LocalDateTime.now()
+                        )
+                        .status(
+                                HttpStatus.INTERNAL_SERVER_ERROR.value()
+                        )
+                        .error(
+                                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()
+                        )
+                        .message(
+                                "Ha ocurrido un error interno en el servidor"
+                        )
+                        .build();
+
+        return ResponseEntity
+                .status(
+                        HttpStatus.INTERNAL_SERVER_ERROR
+                )
+                .body(
+                        response
+                );
+    }
+
 }
