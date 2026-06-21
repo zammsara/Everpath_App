@@ -3,6 +3,7 @@ package com.everpath.di
 import android.content.Context
 import androidx.room.Room
 import com.everpath.data.local.database.EverpathDatabase
+import com.everpath.data.repository.AchievementRepositoryImpl
 import com.everpath.data.repository.GoalRepositoryImpl
 import com.everpath.domain.repository.GoalRepository
 import com.everpath.domain.usecase.goal.DeleteGoalNodeUseCase
@@ -26,6 +27,7 @@ import com.everpath.domain.usecase.goalconnection.DeleteGoalConnectionUseCase
 import com.everpath.domain.usecase.goalconnection.GetGoalConnectionsUseCase
 import com.everpath.domain.usecase.goalconnection.SaveGoalConnectionUseCase
 import com.everpath.data.repository.UserProgressRepositoryImpl
+import com.everpath.domain.repository.AchievementRepository
 import com.everpath.domain.repository.UserProgressRepository
 import com.everpath.domain.usecase.achievement.EvaluateAchievementsUseCase
 import com.everpath.domain.usecase.achievement.GetAchievementsUseCase
@@ -93,6 +95,14 @@ class AppContainer(
         UserProgressRepositoryImpl(
             userProgressDao =
                 database.userProgressDao()
+        )
+
+    private val achievementRepository:
+            AchievementRepository =
+
+        AchievementRepositoryImpl(
+            achievementDao =
+                database.achievementDao()
         )
 
     val getGoalNodesUseCase =
