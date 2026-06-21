@@ -6,6 +6,7 @@ import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
 import com.everpath.presentation.quest.state.QuestUiState
 import com.everpath.domain.usecase.achievement.GetAchievementsUseCase
+import com.everpath.domain.usecase.achievement.AchievementDefinitions
 import com.everpath.domain.usecase.userprogress.GetUserLevelUseCase
 import com.everpath.domain.usecase.userprogress.GetUserProgressUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -80,11 +81,20 @@ class QuestViewModel(
                         xp
                     )
 
+                val allAchievements =
+                    AchievementDefinitions.achievements.map {
+                            definition ->
+
+                        achievements.find {
+                            it.id == definition.id
+                        } ?: definition
+                    }
+
                 _uiState.update {
                     it.copy(
                         activeGoals = activeGoals,
                         completedGoals = completedGoals,
-                        achievements = achievements,
+                        achievements = allAchievements,
                         isLoading = false
                     )
                 }
