@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.everpath.EverpathApplication
+import com.everpath.presentation.quest.components.AchievementsCard
 import com.everpath.presentation.quest.components.MainQuestCard
 import com.everpath.presentation.quest.components.QuestGoalsCard
 import com.everpath.presentation.quest.viewmodel.QuestViewModel
@@ -92,6 +93,12 @@ fun QuestScreen() {
             goals =
                 uiState.value
                     .activeGoals
+        )
+
+        AchievementsCard(
+            achievements =
+                uiState.value
+                    .achievements
         )
     }
 }
