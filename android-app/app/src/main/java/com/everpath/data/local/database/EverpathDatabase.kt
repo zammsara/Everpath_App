@@ -2,6 +2,7 @@ package com.everpath.data.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.everpath.data.local.dao.AchievementDao
 import com.everpath.data.local.dao.ActivityDao
 import com.everpath.data.local.dao.GoalDao
 import com.everpath.data.local.dao.GoalPositionDao
@@ -10,6 +11,7 @@ import com.everpath.data.local.entity.GoalEntity
 import com.everpath.data.local.entity.GoalPositionEntity
 import com.everpath.data.local.dao.GoalConnectionDao
 import com.everpath.data.local.dao.UserProgressDao
+import com.everpath.data.local.entity.AchievementEntity
 import com.everpath.data.local.entity.GoalConnectionEntity
 import com.everpath.data.local.entity.UserProgressEntity
 
@@ -19,9 +21,10 @@ import com.everpath.data.local.entity.UserProgressEntity
         ActivityEntity::class,
         GoalPositionEntity::class,
         GoalConnectionEntity::class,
-        UserProgressEntity::class
+        UserProgressEntity::class,
+        AchievementEntity::class
     ],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 abstract class EverpathDatabase : RoomDatabase() {
@@ -35,4 +38,6 @@ abstract class EverpathDatabase : RoomDatabase() {
     abstract fun goalConnectionDao(): GoalConnectionDao
 
     abstract fun userProgressDao(): UserProgressDao
+
+    abstract fun achievementDao(): AchievementDao
 }
