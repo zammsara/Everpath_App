@@ -4,6 +4,7 @@ import com.everpath.api.entity.UserEntity;
 import com.everpath.api.exception.EmailAlreadyExistsException;
 import com.everpath.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ public class UserServiceImpl
         implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserEntity registerUser(
@@ -33,6 +35,14 @@ public class UserServiceImpl
                     user.getEmail()
             );
         }
+
+        user.setPassword(
+
+                passwordEncoder.encode(
+                        user.getPassword()
+                )
+
+        );
 
         user.setCreatedAt(
                 LocalDateTime.now()
