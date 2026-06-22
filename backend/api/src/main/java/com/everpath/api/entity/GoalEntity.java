@@ -2,12 +2,7 @@ package com.everpath.api.entity;
 
 import com.everpath.api.domain.enums.GoalStatus;
 import com.everpath.api.domain.enums.LifeAreaType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -97,4 +92,15 @@ public class GoalEntity {
             nullable = false
     )
     private LocalDateTime createdAt;
+
+
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            optional = false
+    )
+    @JoinColumn(
+            name = "user_id",
+            nullable = false
+    )
+    private UserEntity user;
 }
