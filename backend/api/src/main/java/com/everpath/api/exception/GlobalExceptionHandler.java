@@ -2,6 +2,8 @@ package com.everpath.api.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -135,6 +137,51 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(
                         HttpStatus.INTERNAL_SERVER_ERROR
+                )
+                .body(
+                        response
+                );
+    }
+
+    /**
+     * Maneja errores de autenticación.
+     */
+    @ExceptionHandler(
+            {
+                    BadCredentialsException.class,
+                    UsernameNotFoundException.class
+            }
+    )
+    public ResponseEntity<ErrorResponse> handleAuthenticationException(
+
+            Exception exception
+
+    ) {
+
+        ErrorResponse response =
+                ErrorResponse.builder()
+
+                        .timestamp(
+                                LocalDateTime.now()
+                        )
+
+                        .status(
+                                HttpStatus.UNAUTHORIZED.value()
+                        )
+
+                        .error(
+                                HttpStatus.UNAUTHORIZED.getReasonPhrase()
+                        )
+
+                        .message(
+                                "Correo o contraseña incorrectos"
+                        )
+
+                        .build();
+
+        return ResponseEntity
+                .status(
+                        HttpStatus.UNAUTHORIZED
                 )
                 .body(
                         response
