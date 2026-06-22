@@ -1,9 +1,12 @@
 package com.everpath.api.controller;
 
+import com.everpath.api.dto.LoginRequest;
+import com.everpath.api.dto.LoginResponse;
 import com.everpath.api.dto.RegisterRequest;
 import com.everpath.api.dto.RegisterResponse;
 import com.everpath.api.entity.UserEntity;
 import com.everpath.api.mapper.UserMapper;
+import com.everpath.api.service.AuthService;
 import com.everpath.api.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,6 +32,8 @@ public class UserController {
     private final UserService userService;
 
     private final UserMapper userMapper;
+
+    private final AuthService authService;
 
 
     @PostMapping("/register")
@@ -58,5 +63,26 @@ public class UserController {
         return userMapper.toResponse(
                 savedUser
         );
+    }
+
+
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(
+            summary = "Iniciar sesión",
+            description = "Permite autenticar un usuario mediante correo y contraseña"
+    )
+    public LoginResponse login(
+
+            @Valid
+            @RequestBody
+            LoginRequest request
+
+    ) {
+
+        return authService.login(
+                request
+        );
+
     }
 }
