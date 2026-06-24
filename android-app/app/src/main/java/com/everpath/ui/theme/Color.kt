@@ -4,43 +4,46 @@ import androidx.compose.ui.graphics.Color
 
 /*
  * Paleta principal Everpath
+ * Gama: índigo profundo, lavanda suave, arena cálida y acentos vivos.
  */
 
-val EverpathPrimary = Color(0xFF436CA8)
-val EverpathSecondary = Color(0xFF8FB9E0)
-val EverpathAccent = Color(0xFFF1C65E)
-val EverpathLavender = Color(0xFFB9B0E6)
+val EverpathPrimary = Color(0xFF6C4DF4)
+val EverpathSecondary = Color(0xFF8E7BFA)
+val EverpathAccent = Color(0xFFF2C66D)
+val EverpathLavender = Color(0xFFE8DFF7)
 
 /*
  * Fondos y superficies
+ * No usamos blanco puro como fondo.
  */
 
-val EverpathBackground = Color(0xFFF6F2EA)
-val EverpathSurface = Color(0xFFEFE7DA)
-val EverpathSurfaceSoft = Color(0xFFF1EADF)
-val EverpathSurfaceVariant = Color(0xFFE2D8CB)
-val EverpathDialogSurface = Color(0xFFEDE4DA)
-val EverpathBottomBar = Color(0xFFE9E1D6)
-val EverpathBorder = Color(0xFFD3C6B8)
+val EverpathBackground = Color(0xFFF6F1EA)
+val EverpathSurface = Color(0xFFFAF6F2)
+val EverpathSurfaceSoft = Color(0xFFF2EBFA)
+val EverpathSurfaceVariant = Color(0xFFE8DFF7)
+val EverpathDialogSurface = Color(0xFFF3EDFA)
+val EverpathBottomBar = Color(0xFFF0E9F6)
+val EverpathBorder = Color(0xFFD8D0E2)
 
 /*
  * Textos
  */
 
-val EverpathTextPrimary = Color(0xFF172A3A)
-val EverpathTextSecondary = Color(0xFF5F7182)
-val EverpathTextDisabled = Color(0xFF9A9A9A)
+val EverpathTextPrimary = Color(0xFF1D1B2E)
+val EverpathTextSecondary = Color(0xFF6B6785)
+val EverpathTextDisabled = Color(0xFFA7A3B8)
 
 /*
  * Estados generales
  */
 
-val EverpathSuccess = Color(0xFF6E8968)
-val EverpathWarning = Color(0xFFE69A6B)
-val EverpathError = Color(0xFFC96B5B)
+val EverpathSuccess = Color(0xFF34D399)
+val EverpathWarning = Color(0xFFF2C98B)
+val EverpathError = Color(0xFFF87171)
 
 /*
- * Blanco y negro
+ * Blanco y negro.
+ * EverpathWhite NO debe usarse como fondo.
  */
 
 val EverpathWhite = Color(0xFFFFFFFF)
@@ -50,42 +53,46 @@ val EverpathBlack = Color(0xFF000000)
  * Estados de metas
  */
 
-val EverpathStatusActive = Color(0xFF436CA8)
-val EverpathStatusCompleted = Color(0xFF6E8968)
-val EverpathStatusLocked = Color(0xFF8A94A3)
-val EverpathStatusArchived = Color(0xFF5F7182)
+val EverpathStatusActive = Color(0xFF6C4DF4)
+val EverpathStatusCompleted = Color(0xFF34D399)
+val EverpathStatusLocked = Color(0xFF9CA3AF)
+val EverpathStatusArchived = Color(0xFF6B7280)
 
-val EverpathStatusActiveContainer = Color(0xFFDDE7F4)
-val EverpathStatusCompletedContainer = Color(0xFFDDE8D8)
-val EverpathStatusLockedContainer = Color(0xFFDCD8D0)
-val EverpathStatusArchivedContainer = Color(0xFFD8DEE4)
+/*
+ * Fondos de estados
+ */
+
+val EverpathStatusActiveContainer = Color(0xFFEDE8FF)
+val EverpathStatusCompletedContainer = Color(0xFFE7F8EF)
+val EverpathStatusLockedContainer = Color(0xFFE9E7EF)
+val EverpathStatusArchivedContainer = Color(0xFFE6E8EF)
 
 /*
  * Colores por área de vida
  */
 
-val EverpathAreaHealth = Color(0xFF7495BD)
-val EverpathAreaStudies = Color(0xFF92D289)
-val EverpathAreaCareer = Color(0xFF7CABB0)
-val EverpathAreaFinance = Color(0xFFDEC07E)
-val EverpathAreaRelationships = Color(0xFFE08CA9)
-val EverpathAreaCreativity = Color(0xFFD88762)
-val EverpathAreaTravel = Color(0xFF9A82B0)
+val EverpathAreaHealth = Color(0xFF34D399)
+val EverpathAreaStudies = Color(0xFF7DB7F5)
+val EverpathAreaCareer = Color(0xFFA78BFA)
+val EverpathAreaFinance = Color(0xFFF2C98B)
+val EverpathAreaRelationships = Color(0xFFF472B6)
+val EverpathAreaCreativity = Color(0xFFF9735B)
+val EverpathAreaTravel = Color(0xFF45BBD0)
 
 /*
- * Fondos por área de vida
+ * Fondos suaves por área de vida
  */
 
-val EverpathAreaHealthContainer = Color(0xFFD8EAF2)
-val EverpathAreaStudiesContainer = Color(0xFFDDE8D8)
-val EverpathAreaCareerContainer = Color(0xFFE4EFCF)
-val EverpathAreaFinanceContainer = Color(0xFFECE0C5)
-val EverpathAreaRelationshipsContainer = Color(0xFFEED6DE)
-val EverpathAreaCreativityContainer = Color(0xFFEAD3C6)
-val EverpathAreaTravelContainer = Color(0xFFE1D7F2)
+val EverpathAreaHealthContainer = Color(0xFFE7F8EF)
+val EverpathAreaStudiesContainer = Color(0xFFEAF3FF)
+val EverpathAreaCareerContainer = Color(0xFFF0EAFF)
+val EverpathAreaFinanceContainer = Color(0xFFFFF2D8)
+val EverpathAreaRelationshipsContainer = Color(0xFFFCE7F3)
+val EverpathAreaCreativityContainer = Color(0xFFFEEBE6)
+val EverpathAreaTravelContainer = Color(0xFFE5F8FB)
 
 /*
- * Compatibilidad con template inicial
+ * Compatibilidad con nombres antiguos del template.
  */
 
 val Purple80 = EverpathSecondary
@@ -94,4 +101,4 @@ val Pink80 = EverpathAccent
 
 val Purple40 = EverpathPrimary
 val PurpleGrey40 = EverpathTextSecondary
-val Pink40 = EverpathWarning
+val Pink40 = EverpathError
