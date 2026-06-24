@@ -17,13 +17,13 @@ val EverpathLavender = Color(0xFFE6DDFB)
  * Fondos en gama lila clara.
  */
 
-val EverpathBackground = Color(0xFFF7F1FF)
+val EverpathBackground = Color(0xFFFDF7FF)
 
 /*
  * Fondo del mapa.
  * Lila perlado muy claro para que no se mezcle con las áreas moradas.
  */
-val EverpathMapBackground = Color(0xFFFCFAFF)
+val EverpathMapBackground = Color(0xFFDFDFDF)
 
 val EverpathSurface = Color(0xFFF4ECFF)
 val EverpathSurfaceSoft = Color(0xFFF8F3FF)
