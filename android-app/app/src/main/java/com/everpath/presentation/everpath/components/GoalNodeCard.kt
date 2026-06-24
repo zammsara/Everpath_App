@@ -6,14 +6,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -27,9 +28,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.everpath.R
 import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.enums.LifeAreaType
@@ -53,7 +57,6 @@ import com.everpath.ui.theme.EverpathStatusActive
 import com.everpath.ui.theme.EverpathStatusArchived
 import com.everpath.ui.theme.EverpathStatusCompleted
 import com.everpath.ui.theme.EverpathStatusLocked
-import com.everpath.ui.theme.EverpathSurfaceSoft
 import com.everpath.ui.theme.EverpathTextPrimary
 import com.everpath.ui.theme.EverpathTextSecondary
 
@@ -137,10 +140,21 @@ fun GoalNodeCard(
 
         Column(
             modifier =
-                Modifier.padding(12.dp)
+                Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = 12.dp,
+                        vertical = 9.dp
+                    ),
+            horizontalAlignment =
+                Alignment.CenterHorizontally
         ) {
 
             Row(
+                modifier =
+                    Modifier.fillMaxWidth(),
+                horizontalArrangement =
+                    Arrangement.SpaceBetween,
                 verticalAlignment =
                     Alignment.CenterVertically
             ) {
@@ -148,7 +162,7 @@ fun GoalNodeCard(
                 Box(
                     modifier =
                         Modifier
-                            .size(34.dp)
+                            .size(31.dp)
                             .background(
                                 color =
                                     areaColor.copy(
@@ -168,99 +182,69 @@ fun GoalNodeCard(
                         contentDescription =
                             goalNode.lifeArea.toSpanishName(),
                         modifier =
-                            Modifier.size(22.dp),
+                            Modifier.size(21.dp),
                         contentScale =
                             ContentScale.Fit
                     )
 
                 }
 
-                Spacer(
-                    modifier = Modifier.width(8.dp)
+                Image(
+                    painter =
+                        painterResource(
+                            id = goalNode.status.toIconRes()
+                        ),
+                    contentDescription =
+                        goalNode.status.toSpanishName(),
+                    modifier =
+                        Modifier.size(20.dp),
+                    contentScale =
+                        ContentScale.Fit
                 )
-
-                Column(
-                    modifier =
-                        Modifier.weight(1f)
-                ) {
-
-                    Text(
-                        text = goalNode.title,
-                        color = EverpathTextPrimary,
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Bold,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-
-                    Text(
-                        text = goalNode.lifeArea.toSpanishName(),
-                        color = EverpathTextSecondary,
-                        style = MaterialTheme.typography.labelSmall,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-
-                }
-
-                Box(
-                    modifier =
-                        Modifier
-                            .size(28.dp)
-                            .background(
-                                color = EverpathSurfaceSoft,
-                                shape = CircleShape
-                            )
-                            .border(
-                                width = 1.dp,
-                                color = EverpathBorder,
-                                shape = CircleShape
-                            ),
-                    contentAlignment =
-                        Alignment.Center
-                ) {
-
-                    Image(
-                        painter =
-                            painterResource(
-                                id = goalNode.status.toIconRes()
-                            ),
-                        contentDescription =
-                            goalNode.status.toSpanishName(),
-                        modifier =
-                            Modifier.size(18.dp),
-                        contentScale =
-                            ContentScale.Fit
-                    )
-
-                }
 
             }
 
             Spacer(
-                modifier = Modifier.height(10.dp)
+                modifier = Modifier.height(4.dp)
             )
 
             Text(
-                text = goalNode.status.toSpanishName(),
-                color = goalNode.status.toColor(),
-                style = MaterialTheme.typography.bodySmall,
-                fontWeight = FontWeight.SemiBold,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                text = goalNode.title,
+                color = EverpathTextPrimary,
+                fontSize = 14.sp,
+                lineHeight = 16.sp,
+                fontFamily = FontFamily.Serif,
+                fontWeight = FontWeight.ExtraBold,
+                textAlign = TextAlign.Center,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier =
+                    Modifier.fillMaxWidth()
+            )
+
+            Spacer(
+                modifier = Modifier.height(3.dp)
             )
 
             Text(
-                text = goalNode.description,
+                text =
+                    goalNode.description
+                        .ifBlank {
+                            "Sin descripción"
+                        },
                 color =
                     EverpathTextSecondary.copy(
-                        alpha = 0.85f
+                        alpha = 0.92f
                     ),
-                style = MaterialTheme.typography.labelSmall,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                fontSize = 11.sp,
+                lineHeight = 13.sp,
+                fontWeight = FontWeight.SemiBold,
+                textAlign = TextAlign.Center,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier =
+                    Modifier.fillMaxWidth()
             )
-
         }
 
     }
