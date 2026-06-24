@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -121,61 +122,62 @@ fun CreateGoalDialog(
 
         title = {
 
-            Column {
+            Row(
+                modifier =
+                    Modifier.fillMaxWidth(),
+                verticalAlignment =
+                    Alignment.CenterVertically
+            ) {
 
-                Row(
-                    verticalAlignment =
-                        Alignment.CenterVertically
+                Box(
+                    modifier =
+                        Modifier.size(76.dp),
+                    contentAlignment =
+                        Alignment.Center
                 ) {
 
-                    Box(
+                    Image(
+                        painter =
+                            painterResource(
+                                id = R.drawable.ic_goal_target
+                            ),
+                        contentDescription = "Nueva meta",
                         modifier =
-                            Modifier.size(72.dp),
-                        contentAlignment =
-                            Alignment.Center
-                    ) {
-
-                        Image(
-                            painter =
-                                painterResource(
-                                    id = R.drawable.ic_goal_target
-                                ),
-                            contentDescription = "Nueva meta",
-                            modifier =
-                                Modifier.size(54.dp),
-                            contentScale =
-                                ContentScale.Fit
-                        )
-
-                    }
-
-                    Spacer(
-                        modifier =
-                            Modifier.size(18.dp)
+                            Modifier.size(60.dp),
+                        contentScale =
+                            ContentScale.Fit
                     )
 
-                    Column {
+                }
 
-                        Text(
-                            text = "Nueva Meta",
-                            color = EverpathTextPrimary,
-                            style =
-                                MaterialTheme
-                                    .typography
-                                    .titleLarge,
-                            fontWeight = FontWeight.ExtraBold
-                        )
+                Spacer(
+                    modifier =
+                        Modifier.width(14.dp)
+                )
 
-                        Text(
-                            text = "Define tu próximo sueño",
-                            color = EverpathTextSecondary,
-                            style =
-                                MaterialTheme
-                                    .typography
-                                    .bodySmall
-                        )
+                Column(
+                    modifier =
+                        Modifier.weight(1f)
+                ) {
 
-                    }
+                    Text(
+                        text = "Nueva Meta",
+                        color = EverpathTextPrimary,
+                        style =
+                            MaterialTheme
+                                .typography
+                                .titleLarge,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+
+                    Text(
+                        text = "Define tu próximo sueño",
+                        color = EverpathTextSecondary,
+                        style =
+                            MaterialTheme
+                                .typography
+                                .bodySmall
+                    )
 
                 }
 
@@ -269,7 +271,7 @@ fun CreateGoalDialog(
                 )
 
                 Text(
-                    text = "Esto define tu meta en tu mapa.",
+                    text = "Esto define el color e icono de la meta en tu mapa.",
                     color = EverpathTextSecondary,
                     style =
                         MaterialTheme
@@ -331,8 +333,7 @@ fun CreateGoalDialog(
                         disabledContentColor = EverpathTextDisabled
                     ),
                 modifier =
-                    Modifier
-                        .height(46.dp)
+                    Modifier.height(46.dp)
             ) {
 
                 Text(
@@ -397,10 +398,11 @@ private fun SelectedAreaPreview(
             Box(
                 modifier =
                     Modifier
-                        .size(46.dp)
+                        .size(48.dp)
                         .background(
                             color =
-                                lifeArea.toColor()
+                                lifeArea
+                                    .toColor()
                                     .copy(alpha = 0.18f),
                             shape = CircleShape
                         ),
@@ -416,7 +418,7 @@ private fun SelectedAreaPreview(
                     contentDescription =
                         lifeArea.toSpanishName(),
                     modifier =
-                        Modifier.size(28.dp),
+                        Modifier.size(30.dp),
                     contentScale =
                         ContentScale.Fit
                 )
@@ -425,7 +427,7 @@ private fun SelectedAreaPreview(
 
             Spacer(
                 modifier =
-                    Modifier.size(12.dp)
+                    Modifier.width(12.dp)
             )
 
             Column {
@@ -478,6 +480,13 @@ private fun LifeAreaOption(
             EverpathBorder
         }
 
+    val textColor =
+        if (selected) {
+            lifeArea.toColor()
+        } else {
+            EverpathTextPrimary
+        }
+
     Surface(
         modifier =
             Modifier
@@ -523,17 +532,12 @@ private fun LifeAreaOption(
 
             Spacer(
                 modifier =
-                    Modifier.size(7.dp)
+                    Modifier.width(7.dp)
             )
 
             Text(
                 text = lifeArea.toSpanishName(),
-                color =
-                    if (selected) {
-                        lifeArea.toColor()
-                    } else {
-                        EverpathTextPrimary
-                    },
+                color = textColor,
                 style =
                     MaterialTheme
                         .typography
@@ -576,6 +580,7 @@ private fun LifeAreaType.toSpanishName(): String {
 
         LifeAreaType.TRAVEL ->
             "Viajes"
+
     }
 
 }
@@ -605,6 +610,7 @@ private fun LifeAreaType.toIconRes(): Int {
 
         LifeAreaType.TRAVEL ->
             R.drawable.ic_area_travel
+
     }
 
 }
@@ -633,6 +639,7 @@ private fun LifeAreaType.toColor(): Color {
 
         LifeAreaType.TRAVEL ->
             EverpathAreaTravel
+
     }
 
 }
@@ -661,6 +668,7 @@ private fun LifeAreaType.toContainerColor(): Color {
 
         LifeAreaType.TRAVEL ->
             EverpathAreaTravelContainer
+
     }
 
 }

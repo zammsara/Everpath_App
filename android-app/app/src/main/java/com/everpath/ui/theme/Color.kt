@@ -20,10 +20,10 @@ val EverpathLavender = Color(0xFFE8DFF7)
 val EverpathBackground = Color(0xFFF6F1EA)
 val EverpathSurface = Color(0xFFFAF6F2)
 val EverpathSurfaceSoft = Color(0xFFF2EBFA)
-val EverpathSurfaceVariant = Color(0xFFE8DFF7)
-val EverpathDialogSurface = Color(0xFFF3EDFA)
+val EverpathSurfaceVariant = Color(0xFFF6F5FA)
+val EverpathDialogSurface = Color(0xFFF9F3FF)
 val EverpathBottomBar = Color(0xFFF0E9F6)
-val EverpathBorder = Color(0xFFD8D0E2)
+val EverpathBorder = Color(0xFFDDD8E1)
 
 /*
  * Textos
