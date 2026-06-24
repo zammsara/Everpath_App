@@ -1,33 +1,46 @@
 package com.everpath.presentation.everpath.components
 
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
+import com.everpath.R
 import com.everpath.domain.enums.GoalStatus
+import com.everpath.domain.enums.LifeAreaType
 
-/**
- * Diálogo utilizado para editar una Goal existente.
- */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun EditGoalDialog(
     initialTitle: String,
     initialDescription: String,
     initialStatus: GoalStatus,
+    initialLifeArea: LifeAreaType,
     onDismiss: () -> Unit,
     onSave: (
         String,
         String,
-        GoalStatus
+        GoalStatus,
+        LifeAreaType
     ) -> Unit
 ) {
 
@@ -41,17 +54,18 @@ fun EditGoalDialog(
             mutableStateOf(initialDescription)
         }
 
-    val status =
+    val selectedStatus =
         remember {
-            mutableStateOf(
-                initialStatus
-            )
+            mutableStateOf(initialStatus)
         }
 
-    val expanded =
+    val selectedLifeArea =
         remember {
-            mutableStateOf(false)
+            mutableStateOf(initialLifeArea)
         }
+
+    val scrollState =
+        rememberScrollState()
 
     val isValid =
         title.value
@@ -60,12 +74,18 @@ fun EditGoalDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
+
         title = {
-            Text("Editar Goal")
+            Text("Editar Meta")
         },
+
         text = {
 
-            Column {
+            Column(
+                modifier =
+                    Modifier.verticalScroll(scrollState)
+            ) {
+
                 OutlinedTextField(
                     value = title.value,
                     onValueChange = {
@@ -92,47 +112,102 @@ fun EditGoalDialog(
                             .padding(top = 8.dp)
                 )
 
-                Button(
-                    onClick = {
-                        expanded.value =
-                            true
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
+                Text(
+                    text = "Estado",
+                    modifier =
+                        Modifier.padding(
+                            top = 16.dp,
+                            bottom = 8.dp
+                        )
+                )
+
+                FlowRow(
+                    horizontalArrangement =
+                        Arrangement.spacedBy(8.dp),
+                    verticalArrangement =
+                        Arrangement.spacedBy(8.dp)
                 ) {
-                    Text(
-                        text =
-                            "Estado: ${status.value}"
-                    )
+
+                    GoalStatus.values().forEach { status ->
+
+                        FilterChip(
+                            selected =
+                                selectedStatus.value == status,
+                            onClick = {
+                                selectedStatus.value = status
+                            },
+                            leadingIcon = {
+                                Image(
+                                    painter =
+                                        painterResource(
+                                            id = status.toIconRes()
+                                        ),
+                                    contentDescription =
+                                        status.toSpanishName(),
+                                    modifier =
+                                        Modifier.size(20.dp),
+                                    contentScale =
+                                        ContentScale.Fit
+                                )
+                            },
+                            label = {
+                                Text(status.toSpanishName())
+                            }
+                        )
+
+                    }
+
                 }
 
-                DropdownMenu(
-                    expanded =
-                        expanded.value,
-                    onDismissRequest = {
-                        expanded.value =
-                            false
-                    }
+                Text(
+                    text = "Área",
+                    modifier =
+                        Modifier.padding(
+                            top = 16.dp,
+                            bottom = 8.dp
+                        )
+                )
+
+                FlowRow(
+                    horizontalArrangement =
+                        Arrangement.spacedBy(8.dp),
+                    verticalArrangement =
+                        Arrangement.spacedBy(8.dp)
                 ) {
-                    GoalStatus.entries
-                        .forEach {
-                            DropdownMenuItem(
-                                text = {
-                                    Text(
-                                        it.name
-                                    )
-                                },
-                                onClick = {
-                                    status.value =
-                                        it
-                                    expanded.value =
-                                        false
-                                }
-                            )
-                        }
+
+                    LifeAreaType.values().forEach { area ->
+
+                        FilterChip(
+                            selected =
+                                selectedLifeArea.value == area,
+                            onClick = {
+                                selectedLifeArea.value = area
+                            },
+                            leadingIcon = {
+                                Image(
+                                    painter =
+                                        painterResource(
+                                            id = area.toIconRes()
+                                        ),
+                                    contentDescription =
+                                        area.toSpanishName(),
+                                    modifier =
+                                        Modifier.size(20.dp),
+                                    contentScale =
+                                        ContentScale.Fit
+                                )
+                            },
+                            label = {
+                                Text(area.toSpanishName())
+                            }
+                        )
+
+                    }
+
                 }
+
             }
+
         },
 
         confirmButton = {
@@ -140,27 +215,125 @@ fun EditGoalDialog(
             Button(
                 enabled = isValid,
                 onClick = {
-                    onSave(
-                        title.value,
-                        description.value,
-                        status.value
-                    )
-                }
 
+                    onSave(
+                        title.value.trim(),
+                        description.value.trim(),
+                        selectedStatus.value,
+                        selectedLifeArea.value
+                    )
+
+                }
             ) {
+
                 Text("Guardar")
+
             }
+
         },
 
         dismissButton = {
+
             TextButton(
                 onClick = onDismiss
             ) {
+
                 Text("Cancelar")
+
             }
 
         }
-
     )
+}
 
+private fun GoalStatus.toSpanishName(): String {
+
+    return when (this) {
+
+        GoalStatus.LOCKED ->
+            "Bloqueada"
+
+        GoalStatus.ACTIVE ->
+            "Activa"
+
+        GoalStatus.COMPLETED ->
+            "Completada"
+
+        GoalStatus.ARCHIVED ->
+            "Archivada"
+    }
+}
+
+@DrawableRes
+private fun GoalStatus.toIconRes(): Int {
+
+    return when (this) {
+
+        GoalStatus.LOCKED ->
+            R.drawable.ic_status_locked
+
+        GoalStatus.ACTIVE ->
+            R.drawable.ic_status_active
+
+        GoalStatus.COMPLETED ->
+            R.drawable.ic_status_completed
+
+        GoalStatus.ARCHIVED ->
+            R.drawable.ic_status_archived
+    }
+}
+
+private fun LifeAreaType.toSpanishName(): String {
+
+    return when (this) {
+
+        LifeAreaType.HEALTH ->
+            "Salud"
+
+        LifeAreaType.STUDIES ->
+            "Estudios"
+
+        LifeAreaType.CAREER ->
+            "Carrera"
+
+        LifeAreaType.FINANCE ->
+            "Finanzas"
+
+        LifeAreaType.RELATIONSHIPS ->
+            "Relaciones"
+
+        LifeAreaType.CREATIVITY ->
+            "Creatividad"
+
+        LifeAreaType.TRAVEL ->
+            "Viajes"
+    }
+}
+
+@DrawableRes
+private fun LifeAreaType.toIconRes(): Int {
+
+    return when (this) {
+
+        LifeAreaType.HEALTH ->
+            R.drawable.ic_area_health
+
+        LifeAreaType.STUDIES ->
+            R.drawable.ic_area_studies
+
+        LifeAreaType.CAREER ->
+            R.drawable.ic_area_career
+
+        LifeAreaType.FINANCE ->
+            R.drawable.ic_area_finance
+
+        LifeAreaType.RELATIONSHIPS ->
+            R.drawable.ic_area_relationships
+
+        LifeAreaType.CREATIVITY ->
+            R.drawable.ic_area_creativity
+
+        LifeAreaType.TRAVEL ->
+            R.drawable.ic_area_travel
+    }
 }
