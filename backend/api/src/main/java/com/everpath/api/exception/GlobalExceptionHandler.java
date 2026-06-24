@@ -1,5 +1,6 @@
 package com.everpath.api.exception;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -182,6 +183,52 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(
                         HttpStatus.UNAUTHORIZED
+                )
+                .body(
+                        response
+                );
+    }
+
+    /**
+     * Maneja recursos inexistentes.
+     *
+     * Se utiliza cuando una entidad
+     * solicitada no existe en la base
+     * de datos.
+     */
+    @ExceptionHandler(
+            EntityNotFoundException.class
+    )
+    public ResponseEntity<ErrorResponse> handleEntityNotFound(
+
+            EntityNotFoundException exception
+
+    ) {
+
+        ErrorResponse response =
+                ErrorResponse.builder()
+
+                        .timestamp(
+                                LocalDateTime.now()
+                        )
+
+                        .status(
+                                HttpStatus.NOT_FOUND.value()
+                        )
+
+                        .error(
+                                "Recurso no encontrado"
+                        )
+
+                        .message(
+                                exception.getMessage()
+                        )
+
+                        .build();
+
+        return ResponseEntity
+                .status(
+                        HttpStatus.NOT_FOUND
                 )
                 .body(
                         response
