@@ -24,6 +24,7 @@ import androidx.compose.ui.geometry.Offset
 import com.everpath.presentation.everpath.util.ConnectionHitTest
 import com.everpath.presentation.everpath.state.MapViewportState
 
+
 /**
  * Renderiza el mapa visual de Everpath y las conexiones entre Goals.
  */
