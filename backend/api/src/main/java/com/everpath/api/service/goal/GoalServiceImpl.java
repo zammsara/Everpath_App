@@ -11,6 +11,7 @@ import com.everpath.api.repository.GoalRepository;
 import com.everpath.api.repository.UserRepository;
 import com.everpath.api.service.progress.XpService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,7 @@ public class GoalServiceImpl
 
     private final XpService xpService;
 
+    @Transactional
     @Override
     public GoalResponse createGoal(
             CreateGoalRequest request
@@ -114,6 +116,7 @@ public class GoalServiceImpl
                 .toList();
     }
 
+    @Transactional
     @Override
     public GoalResponse updateGoal(
             String goalId,
@@ -173,6 +176,7 @@ public class GoalServiceImpl
         );
     }
 
+    @Transactional
     @Override
     public void deleteGoal(
             String goalId
