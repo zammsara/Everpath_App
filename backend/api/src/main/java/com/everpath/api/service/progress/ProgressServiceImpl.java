@@ -33,6 +33,8 @@ public class ProgressServiceImpl
 
     private final ProgressMapper progressMapper;
 
+    private final LevelCalculator levelCalculator;
+
     @Override
     public UserProgressResponse getUserProgress(
             Long userId
@@ -62,22 +64,22 @@ public class ProgressServiceImpl
                 progress.getXp();
 
         int level =
-                calculateLevel(
+                levelCalculator.calculateLevel(
                         xp
                 );
 
         int currentLevelXp =
-                calculateCurrentLevelXp(
+                levelCalculator.calculateCurrentLevelXp(
                         xp
                 );
 
         int requiredXp =
-                calculateRequiredXpForNextLevel(
+                levelCalculator.calculateRequiredXpForNextLevel(
                         xp
                 );
 
         float percentage =
-                calculateProgress(
+                levelCalculator.calculateProgress(
                         xp
                 );
 
@@ -135,119 +137,5 @@ public class ProgressServiceImpl
                 )
 
                 .toList();
-    }
-
-    /**
-     * Calcula nivel
-     * a partir de XP.
-     */
-    private int calculateLevel(
-            int xp
-    ) {
-
-        if (xp >= 1000) {
-            return 5;
-        }
-
-        if (xp >= 500) {
-            return 4;
-        }
-
-        if (xp >= 250) {
-            return 3;
-        }
-
-        if (xp >= 100) {
-            return 2;
-        }
-
-        return 1;
-    }
-
-    /**
-     * XP obtenida dentro
-     * del nivel actual.
-     */
-    private int calculateCurrentLevelXp(
-            int xp
-    ) {
-
-        if (xp >= 1000) {
-            return xp - 1000;
-        }
-
-        if (xp >= 500) {
-            return xp - 500;
-        }
-
-        if (xp >= 250) {
-            return xp - 250;
-        }
-
-        if (xp >= 100) {
-            return xp - 100;
-        }
-
-        return xp;
-    }
-
-    /**
-     * XP necesaria para
-     * el siguiente nivel.
-     */
-    private int calculateRequiredXpForNextLevel(
-            int xp
-    ) {
-
-        if (xp >= 1000) {
-            return 1000;
-        }
-
-        if (xp >= 500) {
-            return 500;
-        }
-
-        if (xp >= 250) {
-            return 250;
-        }
-
-        if (xp >= 100) {
-            return 150;
-        }
-
-        return 100;
-    }
-
-    /**
-     * Porcentaje visual
-     * del progreso actual.
-     */
-    private float calculateProgress(
-            int xp
-    ) {
-
-        if (xp >= 1000) {
-            return 1f;
-        }
-
-        if (xp >= 500) {
-
-            return (xp - 500)
-                    / 500f;
-        }
-
-        if (xp >= 250) {
-
-            return (xp - 250)
-                    / 250f;
-        }
-
-        if (xp >= 100) {
-
-            return (xp - 100)
-                    / 150f;
-        }
-
-        return xp / 100f;
     }
 }
