@@ -1,7 +1,9 @@
 package com.everpath.api.repository;
 
+import com.everpath.api.domain.enums.ActivityStatus;
 import com.everpath.api.entity.ActivityEntity;
 import com.everpath.api.entity.GoalEntity;
+import com.everpath.api.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -25,6 +27,13 @@ public interface ActivityRepository
      */
     List<ActivityEntity> findAllByGoal(
             GoalEntity goal
+    );
+
+    long countByGoalUserAndStatus(
+
+            UserEntity user,
+            ActivityStatus status
+
     );
 
 }
