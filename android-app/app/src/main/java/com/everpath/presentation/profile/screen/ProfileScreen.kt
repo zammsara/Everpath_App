@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -73,8 +74,8 @@ fun ProfileScreen(
         listOf(
             ProfileAchievement(
                 title = "Primer Paso",
-                description = "Completaste tu primera acción.",
-                icon = "🏆"
+                description = "Comenzaste tu camino en Everpath.",
+                iconRes = R.drawable.ic_dashboard_star
             )
         )
 
@@ -175,13 +176,13 @@ private fun ProfileHeader(
                 style =
                     MaterialTheme
                         .typography
-                        .displaySmall,
+                        .headlineLarge,
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.ExtraBold
             )
 
             Text(
-                text = "Tu progreso personal ✦",
+                text = "Tu progreso personal",
                 color = ProfileTextSecondary,
                 style =
                     MaterialTheme
@@ -237,14 +238,8 @@ private fun ProfileHeader(
                     fontWeight = FontWeight.ExtraBold
                 )
 
-                Text(
-                    text = "  ·  ",
-                    color = ProfileTextSecondary,
-                    style =
-                        MaterialTheme
-                            .typography
-                            .titleLarge,
-                    fontWeight = FontWeight.Bold
+                Spacer(
+                    modifier = Modifier.width(10.dp)
                 )
 
                 Text(
@@ -271,14 +266,7 @@ private fun ProfileHeader(
                         clip = false
                     )
                     .background(
-                        brush =
-                            Brush.radialGradient(
-                                colors =
-                                    listOf(
-                                        ProfilePrimarySoft,
-                                        ProfileCard
-                                    )
-                            ),
+                        color = ProfileCard,
                         shape = CircleShape
                     )
                     .border(
@@ -295,27 +283,13 @@ private fun ProfileHeader(
             Image(
                 painter =
                     painterResource(
-                        id = R.drawable.ic_goal_target
+                        id = R.drawable.everpath_logo
                     ),
-                contentDescription = "Perfil",
+                contentDescription = "Logo Everpath",
                 modifier =
-                    Modifier.size(52.dp),
+                    Modifier.size(62.dp),
                 contentScale =
                     ContentScale.Fit
-            )
-
-            Text(
-                text = "✦",
-                color = ProfileGold,
-                style =
-                    MaterialTheme
-                        .typography
-                        .titleMedium,
-                fontWeight = FontWeight.ExtraBold,
-                modifier =
-                    Modifier.align(
-                        Alignment.TopEnd
-                    )
             )
 
         }
@@ -405,7 +379,7 @@ private fun LevelProgressHeroCard(
                                     clip = false
                                 )
                                 .background(
-                                    color = ProfilePrimary,
+                                    color = ProfilePrimarySoft,
                                     shape = CircleShape
                                 )
                                 .border(
@@ -419,14 +393,16 @@ private fun LevelProgressHeroCard(
                             Alignment.Center
                     ) {
 
-                        Text(
-                            text = "✦",
-                            color = Color.White,
-                            style =
-                                MaterialTheme
-                                    .typography
-                                    .headlineMedium,
-                            fontWeight = FontWeight.ExtraBold
+                        Image(
+                            painter =
+                                painterResource(
+                                    id = R.drawable.ic_dashboard_star
+                                ),
+                            contentDescription = "Nivel",
+                            modifier =
+                                Modifier.size(42.dp),
+                            contentScale =
+                                ContentScale.Fit
                         )
 
                     }
@@ -576,21 +552,23 @@ private fun LevelProgressHeroCard(
                             Modifier
                                 .size(42.dp)
                                 .background(
-                                    color = ProfilePrimarySoft,
+                                    color = ProfileCard,
                                     shape = CircleShape
                                 ),
                         contentAlignment =
                             Alignment.Center
                     ) {
 
-                        Text(
-                            text = "✧",
-                            color = ProfilePrimary,
-                            style =
-                                MaterialTheme
-                                    .typography
-                                    .titleLarge,
-                            fontWeight = FontWeight.ExtraBold
+                        Image(
+                            painter =
+                                painterResource(
+                                    id = R.drawable.ic_progress
+                                ),
+                            contentDescription = "Experiencia",
+                            modifier =
+                                Modifier.size(26.dp),
+                            contentScale =
+                                ContentScale.Fit
                         )
 
                     }
@@ -653,7 +631,7 @@ private fun ProfileProgressRing(
                 sweepAngle = 360f,
                 useCenter = false,
                 topLeft =
-                    androidx.compose.ui.geometry.Offset(
+                    Offset(
                         strokeWidth / 2f,
                         strokeWidth / 2f
                     ),
@@ -671,7 +649,7 @@ private fun ProfileProgressRing(
                 sweepAngle = progress * 360f,
                 useCenter = false,
                 topLeft =
-                    androidx.compose.ui.geometry.Offset(
+                    Offset(
                         strokeWidth / 2f,
                         strokeWidth / 2f
                     ),
@@ -735,7 +713,7 @@ private fun ProfileStatsCard(
         ) {
 
             StatItem(
-                icon = "◎",
+                iconRes = R.drawable.ic_goal_target,
                 label = "Metas",
                 value = goalCount,
                 modifier = Modifier.weight(1f)
@@ -744,7 +722,7 @@ private fun ProfileStatsCard(
             VerticalDividerSoft()
 
             StatItem(
-                icon = "✓",
+                iconRes = R.drawable.ic_activity_completed,
                 label = "Metas completadas",
                 value = completedGoalCount,
                 modifier = Modifier.weight(1f)
@@ -753,7 +731,7 @@ private fun ProfileStatsCard(
             VerticalDividerSoft()
 
             StatItem(
-                icon = "ϟ",
+                iconRes = R.drawable.ic_activities,
                 label = "Actividades",
                 value = activityCount,
                 modifier = Modifier.weight(1f)
@@ -762,7 +740,7 @@ private fun ProfileStatsCard(
             VerticalDividerSoft()
 
             StatItem(
-                icon = "✓",
+                iconRes = R.drawable.ic_activity_completed,
                 label = "Actividades completadas",
                 value = completedActivityCount,
                 modifier = Modifier.weight(1f)
@@ -776,7 +754,7 @@ private fun ProfileStatsCard(
 
 @Composable
 private fun StatItem(
-    icon: String,
+    iconRes: Int,
     label: String,
     value: Int,
     modifier: Modifier = Modifier
@@ -802,14 +780,16 @@ private fun StatItem(
                 Alignment.Center
         ) {
 
-            Text(
-                text = icon,
-                color = ProfilePrimary,
-                style =
-                    MaterialTheme
-                        .typography
-                        .titleLarge,
-                fontWeight = FontWeight.ExtraBold
+            Image(
+                painter =
+                    painterResource(
+                        id = iconRes
+                    ),
+                contentDescription = label,
+                modifier =
+                    Modifier.size(28.dp),
+                contentScale =
+                    ContentScale.Fit
             )
 
         }
@@ -885,60 +865,99 @@ private fun GeneralProgressMiniCard(
             )
     ) {
 
-        Column(
+        Row(
             modifier =
                 Modifier
                     .fillMaxWidth()
                     .padding(20.dp),
-            verticalArrangement =
-                Arrangement.spacedBy(14.dp)
+            verticalAlignment =
+                Alignment.CenterVertically
         ) {
 
-            Row(
+            Box(
                 modifier =
-                    Modifier.fillMaxWidth(),
-                verticalAlignment =
-                    Alignment.CenterVertically
+                    Modifier
+                        .size(58.dp)
+                        .background(
+                            color = ProfileGreenSoft,
+                            shape = CircleShape
+                        ),
+                contentAlignment =
+                    Alignment.Center
             ) {
 
-                Text(
-                    text = "Progreso General",
-                    color = ProfileTextPrimary,
-                    style =
-                        MaterialTheme
-                            .typography
-                            .titleLarge,
-                    fontWeight = FontWeight.ExtraBold
-                )
-
-                Spacer(
+                Image(
+                    painter =
+                        painterResource(
+                            id = R.drawable.ic_daschboard_general
+                        ),
+                    contentDescription = "Progreso general",
                     modifier =
-                        Modifier.weight(1f)
-                )
-
-                Text(
-                    text = "$percent%",
-                    color = ProfilePrimary,
-                    style =
-                        MaterialTheme
-                            .typography
-                            .titleLarge,
-                    fontWeight = FontWeight.ExtraBold
+                        Modifier.size(36.dp),
+                    contentScale =
+                        ContentScale.Fit
                 )
 
             }
 
-            LinearProgressIndicator(
-                progress = {
-                    safeProgress
-                },
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .height(8.dp),
-                color = ProfilePrimary,
-                trackColor = ProfilePrimarySoft
+            Spacer(
+                modifier = Modifier.width(14.dp)
             )
+
+            Column(
+                modifier =
+                    Modifier.weight(1f),
+                verticalArrangement =
+                    Arrangement.spacedBy(10.dp)
+            ) {
+
+                Row(
+                    modifier =
+                        Modifier.fillMaxWidth(),
+                    verticalAlignment =
+                        Alignment.CenterVertically
+                ) {
+
+                    Text(
+                        text = "Progreso General",
+                        color = ProfileTextPrimary,
+                        style =
+                            MaterialTheme
+                                .typography
+                                .titleLarge,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+
+                    Spacer(
+                        modifier =
+                            Modifier.weight(1f)
+                    )
+
+                    Text(
+                        text = "$percent%",
+                        color = ProfileGreen,
+                        style =
+                            MaterialTheme
+                                .typography
+                                .titleLarge,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+
+                }
+
+                LinearProgressIndicator(
+                    progress = {
+                        safeProgress
+                    },
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .height(8.dp),
+                    color = ProfileGreen,
+                    trackColor = ProfileGreenSoft
+                )
+
+            }
 
         }
 
@@ -988,14 +1007,16 @@ private fun CompletionSummaryCard(
                     Alignment.Center
             ) {
 
-                Text(
-                    text = "♧",
-                    color = ProfileGreen,
-                    style =
-                        MaterialTheme
-                            .typography
-                            .headlineSmall,
-                    fontWeight = FontWeight.ExtraBold
+                Image(
+                    painter =
+                        painterResource(
+                            id = R.drawable.ic_activity_completed
+                        ),
+                    contentDescription = "Completado",
+                    modifier =
+                        Modifier.size(34.dp),
+                    contentScale =
+                        ContentScale.Fit
                 )
 
             }
@@ -1078,7 +1099,7 @@ private fun AchievementsSection(
             )
 
             Text(
-                text = "Ver todos  ›",
+                text = "Ver todos",
                 color = ProfilePrimary,
                 style =
                     MaterialTheme
@@ -1142,12 +1163,16 @@ private fun AchievementRow(
                     Alignment.Center
             ) {
 
-                Text(
-                    text = achievement.icon,
-                    style =
-                        MaterialTheme
-                            .typography
-                            .headlineSmall
+                Image(
+                    painter =
+                        painterResource(
+                            id = achievement.iconRes
+                        ),
+                    contentDescription = achievement.title,
+                    modifier =
+                        Modifier.size(34.dp),
+                    contentScale =
+                        ContentScale.Fit
                 )
 
             }
@@ -1182,16 +1207,6 @@ private fun AchievementRow(
 
             }
 
-            Text(
-                text = "›",
-                color = ProfileTextSecondary,
-                style =
-                    MaterialTheme
-                        .typography
-                        .headlineMedium,
-                fontWeight = FontWeight.Bold
-            )
-
         }
 
     }
@@ -1201,7 +1216,7 @@ private fun AchievementRow(
 private data class ProfileAchievement(
     val title: String,
     val description: String,
-    val icon: String
+    val iconRes: Int
 )
 
 private val ProfileBackgroundTop =
@@ -1233,9 +1248,6 @@ private val ProfileGreen =
 
 private val ProfileGreenSoft =
     Color(0xFFE2F3E7)
-
-private val ProfileGold =
-    Color(0xFFF2B84B)
 
 private val ProfileGoldSoft =
     Color(0xFFFFECCC)

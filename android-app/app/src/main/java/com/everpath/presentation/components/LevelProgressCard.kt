@@ -1,5 +1,6 @@
 package com.everpath.presentation.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,22 +17,25 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.everpath.R
 import com.everpath.domain.model.LevelProgress
 import com.everpath.ui.theme.EverpathBorder
 import com.everpath.ui.theme.EverpathPrimary
-import com.everpath.ui.theme.EverpathSecondary
 import com.everpath.ui.theme.EverpathSurface
 import com.everpath.ui.theme.EverpathSurfaceSoft
 import com.everpath.ui.theme.EverpathTextPrimary
 import com.everpath.ui.theme.EverpathTextSecondary
-import com.everpath.ui.theme.EverpathWhite
 import kotlin.math.roundToInt
 
 @Composable
@@ -45,60 +49,40 @@ fun LevelProgressCard(
 
     val progress =
         if (rawProgress > 1f) {
-            (rawProgress / 100f)
-                .coerceIn(
-                    0f,
-                    1f
-                )
+            (rawProgress / 100f).coerceIn(0f, 1f)
         } else {
-            rawProgress
-                .coerceIn(
-                    0f,
-                    1f
-                )
+            rawProgress.coerceIn(0f, 1f)
         }
 
     val percentage =
-        (progress * 100f)
-            .roundToInt()
+        (progress * 100f).roundToInt()
 
     val currentXp =
         levelProgress.currentXp
 
     val estimatedRequiredXp =
-        if (
-            progress > 0f &&
-            currentXp > 0
-        ) {
+        if (progress > 0f && currentXp > 0) {
             (currentXp / progress)
                 .roundToInt()
-                .coerceAtLeast(
-                    currentXp
-                )
+                .coerceAtLeast(currentXp)
         } else {
             currentXp
         }
 
     val remainingXp =
-        (
-                estimatedRequiredXp -
-                        currentXp
-                ).coerceAtLeast(
-                0
-            )
+        (estimatedRequiredXp - currentXp)
+            .coerceAtLeast(0)
 
     Card(
-        modifier =
-            Modifier.fillMaxWidth(),
-        shape =
-            RoundedCornerShape(28.dp),
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(30.dp),
         colors =
             CardDefaults.cardColors(
                 containerColor = EverpathSurfaceSoft
             ),
         elevation =
             CardDefaults.cardElevation(
-                defaultElevation = 3.dp
+                defaultElevation = 4.dp
             )
     ) {
 
@@ -108,39 +92,32 @@ fun LevelProgressCard(
                     .fillMaxWidth()
                     .padding(20.dp),
             verticalArrangement =
-                Arrangement.spacedBy(14.dp)
+                Arrangement.spacedBy(16.dp)
         ) {
 
             Row(
-                modifier =
-                    Modifier.fillMaxWidth(),
-                verticalAlignment =
-                    Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically
             ) {
 
                 Box(
                     modifier =
                         Modifier
-                            .size(50.dp)
+                            .size(58.dp)
                             .background(
-                                color =
-                                    EverpathPrimary.copy(
-                                        alpha = 0.14f
-                                    ),
+                                color = EverpathPrimary.copy(alpha = 0.12f),
                                 shape = CircleShape
                             ),
-                    contentAlignment =
-                        Alignment.Center
+                    contentAlignment = Alignment.Center
                 ) {
 
-                    Text(
-                        text = "✦",
-                        color = EverpathPrimary,
-                        style =
-                            MaterialTheme
-                                .typography
-                                .titleLarge,
-                        fontWeight = FontWeight.ExtraBold
+                    Image(
+                        painter =
+                            painterResource(
+                                id = R.drawable.ic_achievement_trophy
+                            ),
+                        contentDescription = "Progreso de nivel",
+                        modifier = Modifier.size(38.dp),
+                        contentScale = ContentScale.Fit
                     )
 
                 }
@@ -150,17 +127,13 @@ fun LevelProgressCard(
                 )
 
                 Column(
-                    modifier =
-                        Modifier.weight(1f)
+                    modifier = Modifier.weight(1f)
                 ) {
 
                     Text(
                         text = "Progreso de Nivel",
                         color = EverpathTextPrimary,
-                        style =
-                            MaterialTheme
-                                .typography
-                                .titleLarge,
+                        style = MaterialTheme.typography.titleLarge,
                         fontFamily = FontFamily.Serif,
                         fontWeight = FontWeight.ExtraBold
                     )
@@ -168,42 +141,31 @@ fun LevelProgressCard(
                     Text(
                         text = "Sigue avanzando hacia tu siguiente nivel.",
                         color = EverpathTextSecondary,
-                        style =
-                            MaterialTheme
-                                .typography
-                                .bodySmall
+                        style = MaterialTheme.typography.bodySmall
                     )
 
                 }
 
-                Box(
-                    modifier =
-                        Modifier
-                            .background(
-                                color = EverpathPrimary,
-                                shape = RoundedCornerShape(16.dp)
-                            )
-                            .padding(
-                                horizontal = 12.dp,
-                                vertical = 7.dp
-                            ),
-                    contentAlignment =
-                        Alignment.Center
+                Surface(
+                    color = EverpathPrimary,
+                    shape = RoundedCornerShape(22.dp)
                 ) {
 
                     Text(
                         text =
                             if (level != null) {
-                                "Nv. $level"
+                                "Nivel $level"
                             } else {
                                 "Nivel"
                             },
-                        color = EverpathWhite,
-                        style =
-                            MaterialTheme
-                                .typography
-                                .labelLarge,
-                        fontWeight = FontWeight.Bold
+                        color = Color.White,
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.Bold,
+                        modifier =
+                            Modifier.padding(
+                                horizontal = 14.dp,
+                                vertical = 8.dp
+                            )
                     )
 
                 }
@@ -211,40 +173,24 @@ fun LevelProgressCard(
             }
 
             Row(
-                modifier =
-                    Modifier.fillMaxWidth(),
-                verticalAlignment =
-                    Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically
             ) {
 
                 Column(
-                    modifier =
-                        Modifier.weight(1f)
+                    modifier = Modifier.weight(1f)
                 ) {
 
                     Text(
-                        text =
-                            "$currentXp / $estimatedRequiredXp XP",
+                        text = "$currentXp / $estimatedRequiredXp XP",
                         color = EverpathTextPrimary,
-                        style =
-                            MaterialTheme
-                                .typography
-                                .titleMedium,
-                        fontWeight = FontWeight.Bold
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.ExtraBold
                     )
 
                     Text(
-                        text =
-                            if (remainingXp > 0) {
-                                "Te faltan $remainingXp XP para avanzar."
-                            } else {
-                                "Ya estás listo para avanzar."
-                            },
+                        text = "Te faltan $remainingXp XP para avanzar.",
                         color = EverpathTextSecondary,
-                        style =
-                            MaterialTheme
-                                .typography
-                                .bodySmall
+                        style = MaterialTheme.typography.bodySmall
                     )
 
                 }
@@ -253,25 +199,19 @@ fun LevelProgressCard(
                     modifier =
                         Modifier
                             .background(
-                                color =
-                                    EverpathSecondary.copy(
-                                        alpha = 0.20f
-                                    ),
-                                shape = RoundedCornerShape(14.dp)
+                                color = EverpathPrimary.copy(alpha = 0.12f),
+                                shape = RoundedCornerShape(16.dp)
                             )
                             .padding(
-                                horizontal = 10.dp,
-                                vertical = 5.dp
+                                horizontal = 12.dp,
+                                vertical = 7.dp
                             )
                 ) {
 
                     Text(
                         text = "$percentage%",
                         color = EverpathPrimary,
-                        style =
-                            MaterialTheme
-                                .typography
-                                .labelLarge,
+                        style = MaterialTheme.typography.labelLarge,
                         fontWeight = FontWeight.ExtraBold
                     )
 
@@ -289,29 +229,53 @@ fun LevelProgressCard(
                         .height(10.dp),
                 color = EverpathPrimary,
                 trackColor =
-                    EverpathBorder.copy(
-                        alpha = 0.45f
-                    )
+                    EverpathBorder.copy(alpha = 0.45f)
             )
 
-            Box(
+            Row(
                 modifier =
                     Modifier
                         .fillMaxWidth()
                         .background(
                             color = EverpathSurface,
-                            shape = RoundedCornerShape(18.dp)
+                            shape = RoundedCornerShape(20.dp)
                         )
-                        .padding(12.dp)
+                        .padding(14.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
+
+                Box(
+                    modifier =
+                        Modifier
+                            .size(42.dp)
+                            .background(
+                                color = EverpathPrimary.copy(alpha = 0.12f),
+                                shape = CircleShape
+                            ),
+                    contentAlignment = Alignment.Center
+                ) {
+
+                    Image(
+                        painter =
+                            painterResource(
+                                id = R.drawable.ic_progress
+                            ),
+                        contentDescription = "Experiencia",
+                        modifier = Modifier.size(26.dp),
+                        contentScale = ContentScale.Fit
+                    )
+
+                }
+
+                Spacer(
+                    modifier = Modifier.size(12.dp)
+                )
 
                 Text(
                     text = "Cada punto de experiencia representa un paso más en tu camino.",
                     color = EverpathTextSecondary,
-                    style =
-                        MaterialTheme
-                            .typography
-                            .bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.weight(1f)
                 )
 
             }

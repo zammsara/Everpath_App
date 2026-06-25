@@ -2,6 +2,7 @@ package com.everpath.presentation.today.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,13 +16,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.everpath.R
-import com.everpath.ui.theme.EverpathAccent
 import com.everpath.ui.theme.EverpathPrimary
 import com.everpath.ui.theme.EverpathSurfaceSoft
 import com.everpath.ui.theme.EverpathTextPrimary
@@ -43,11 +44,21 @@ fun DashboardHeader(
         ) {
 
             Text(
-                text = "¡Hola!",
+                text = "Everpath",
                 color = EverpathTextPrimary,
                 style = MaterialTheme.typography.displaySmall,
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.ExtraBold
+            )
+
+            Text(
+                text = "Tu mapa de progreso personal",
+                color = EverpathTextSecondary,
+                style = MaterialTheme.typography.bodyLarge
+            )
+
+            Spacer(
+                modifier = Modifier.size(10.dp)
             )
 
             Text(
@@ -58,16 +69,10 @@ fun DashboardHeader(
             )
 
             Text(
-                text = "✦ $xp XP",
+                text = "$xp XP",
                 color = EverpathTextPrimary,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
-            )
-
-            Text(
-                text = "Este es tu panorama general.",
-                color = EverpathTextSecondary,
-                style = MaterialTheme.typography.bodyLarge
             )
 
         }
@@ -79,7 +84,7 @@ fun DashboardHeader(
         Box(
             modifier =
                 Modifier
-                    .size(96.dp)
+                    .size(92.dp)
                     .shadow(
                         elevation = 8.dp,
                         shape = CircleShape,
@@ -88,27 +93,23 @@ fun DashboardHeader(
                     .background(
                         color = EverpathSurfaceSoft,
                         shape = CircleShape
+                    )
+                    .border(
+                        width = 1.dp,
+                        color = Color.White.copy(alpha = 0.85f),
+                        shape = CircleShape
                     ),
             contentAlignment = Alignment.Center
         ) {
 
             Image(
-                painter = painterResource(
-                    id = R.drawable.everpath_logo
-                ),
+                painter =
+                    painterResource(
+                        id = R.drawable.everpath_logo
+                    ),
                 contentDescription = "Logo Everpath",
-                modifier = Modifier.size(62.dp),
+                modifier = Modifier.size(64.dp),
                 contentScale = ContentScale.Fit
-            )
-
-            Text(
-                text = "✦",
-                color = EverpathAccent,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.align(
-                    Alignment.TopEnd
-                )
             )
 
         }

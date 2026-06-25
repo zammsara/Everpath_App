@@ -75,10 +75,7 @@ fun StatisticsCard(
                         Modifier
                             .size(58.dp)
                             .background(
-                                color =
-                                    EverpathPrimary.copy(
-                                        alpha = 0.12f
-                                    ),
+                                color = EverpathPrimary.copy(alpha = 0.12f),
                                 shape = CircleShape
                             ),
                     contentAlignment = Alignment.Center
@@ -87,10 +84,10 @@ fun StatisticsCard(
                     Image(
                         painter =
                             painterResource(
-                                id = R.drawable.ic_daschboard_general
+                                id = R.drawable.ic_activities
                             ),
                         contentDescription = "Resumen general",
-                        modifier = Modifier.size(42.dp),
+                        modifier = Modifier.size(40.dp),
                         contentScale = ContentScale.Fit
                     )
 
@@ -131,24 +128,28 @@ fun StatisticsCard(
             ) {
 
                 StatChip(
+                    iconRes = R.drawable.ic_goal_target,
                     label = "Metas",
                     value = goalCount,
                     color = EverpathPrimary
                 )
 
                 StatChip(
+                    iconRes = R.drawable.ic_activity_completed,
                     label = "Metas completadas",
                     value = completedGoalCount,
                     color = EverpathSuccess
                 )
 
                 StatChip(
+                    iconRes = R.drawable.ic_activities,
                     label = "Actividades",
                     value = activityCount,
                     color = EverpathSecondary
                 )
 
                 StatChip(
+                    iconRes = R.drawable.ic_activity_completed,
                     label = "Actividades completadas",
                     value = completedActivityCount,
                     color = EverpathAccent
@@ -164,6 +165,7 @@ fun StatisticsCard(
 
 @Composable
 private fun StatChip(
+    iconRes: Int,
     label: String,
     value: Int,
     color: Color
@@ -186,12 +188,25 @@ private fun StatChip(
         Box(
             modifier =
                 Modifier
-                    .size(10.dp)
+                    .size(34.dp)
                     .background(
-                        color = color,
+                        color = color.copy(alpha = 0.13f),
                         shape = CircleShape
-                    )
-        )
+                    ),
+            contentAlignment = Alignment.Center
+        ) {
+
+            Image(
+                painter =
+                    painterResource(
+                        id = iconRes
+                    ),
+                contentDescription = label,
+                modifier = Modifier.size(22.dp),
+                contentScale = ContentScale.Fit
+            )
+
+        }
 
         Spacer(
             modifier = Modifier.size(8.dp)

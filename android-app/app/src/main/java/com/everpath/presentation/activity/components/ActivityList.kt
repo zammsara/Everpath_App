@@ -269,7 +269,7 @@ private fun ActivityStatus.toActivityIconRes(): Int {
             R.drawable.ic_activity_pending
 
         ActivityStatus.IN_PROGRESS ->
-            R.drawable.ic_activity_in_progress
+            R.drawable.ic_daschboard_general
 
         ActivityStatus.COMPLETED ->
             R.drawable.ic_activity_completed

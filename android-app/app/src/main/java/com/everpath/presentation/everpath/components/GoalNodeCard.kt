@@ -390,7 +390,7 @@ private fun GoalStatus.toIconRes(): Int {
             R.drawable.ic_status_active
 
         GoalStatus.COMPLETED ->
-            R.drawable.ic_status_completed
+            R.drawable.ic_activity_completed
 
         GoalStatus.ARCHIVED ->
             R.drawable.ic_status_archived
