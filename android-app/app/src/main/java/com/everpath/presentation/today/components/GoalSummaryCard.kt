@@ -1,5 +1,6 @@
 package com.everpath.presentation.today.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,10 +19,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.everpath.R
 import com.everpath.domain.model.GoalNode
 import com.everpath.ui.theme.EverpathAccent
 import com.everpath.ui.theme.EverpathSurface
@@ -66,11 +70,11 @@ fun GoalSummaryCard(
                 Box(
                     modifier =
                         Modifier
-                            .size(48.dp)
+                            .size(58.dp)
                             .background(
                                 color =
                                     EverpathAccent.copy(
-                                        alpha = 0.18f
+                                        alpha = 0.16f
                                     ),
                                 shape = CircleShape
                             ),
@@ -78,20 +82,23 @@ fun GoalSummaryCard(
                         Alignment.Center
                 ) {
 
-                    Text(
-                        text = "★",
-                        color = EverpathAccent,
-                        style =
-                            MaterialTheme
-                                .typography
-                                .titleLarge,
-                        fontWeight = FontWeight.ExtraBold
+                    Image(
+                        painter =
+                            painterResource(
+                                id = R.drawable.ic_dashboard_star
+                            ),
+                        contentDescription = "Metas activas",
+                        modifier =
+                            Modifier.size(40.dp),
+                        contentScale =
+                            ContentScale.Fit
                     )
 
                 }
 
                 Spacer(
-                    modifier = Modifier.size(14.dp)
+                    modifier =
+                        Modifier.size(14.dp)
                 )
 
                 Column {
@@ -183,15 +190,35 @@ private fun GoalLine(
         Box(
             modifier =
                 Modifier
-                    .size(8.dp)
+                    .size(28.dp)
                     .background(
-                        color = EverpathAccent,
+                        color =
+                            EverpathAccent.copy(
+                                alpha = 0.13f
+                            ),
                         shape = CircleShape
-                    )
-        )
+                    ),
+            contentAlignment =
+                Alignment.Center
+        ) {
+
+            Image(
+                painter =
+                    painterResource(
+                        id = R.drawable.ic_dashboard_star
+                    ),
+                contentDescription = "Meta activa",
+                modifier =
+                    Modifier.size(18.dp),
+                contentScale =
+                    ContentScale.Fit
+            )
+
+        }
 
         Spacer(
-            modifier = Modifier.size(10.dp)
+            modifier =
+                Modifier.size(10.dp)
         )
 
         Text(
