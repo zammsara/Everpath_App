@@ -1,11 +1,14 @@
 package com.everpath.api.service.user;
 
 import com.everpath.api.entity.UserEntity;
+import com.everpath.api.entity.UserProgressEntity;
 import com.everpath.api.exception.EmailAlreadyExistsException;
+import com.everpath.api.repository.UserProgressRepository;
 import com.everpath.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -19,8 +22,10 @@ public class UserServiceImpl
         implements UserService {
 
     private final UserRepository userRepository;
+    private final UserProgressRepository userProgressRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     @Override
     public UserEntity registerUser(
             UserEntity user
@@ -48,8 +53,31 @@ public class UserServiceImpl
                 LocalDateTime.now()
         );
 
-        return userRepository.save(
-                user
+        UserEntity savedUser =
+                userRepository.save(
+                        user
+                );
+
+
+        UserProgressEntity progress =
+                UserProgressEntity.builder()
+
+                        .user(
+                                savedUser
+                        )
+
+                        .xp(
+                                0
+                        )
+
+                        .build();
+
+
+        userProgressRepository.save(
+                progress
         );
+
+
+        return savedUser;
     }
 }
