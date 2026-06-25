@@ -11,4 +11,8 @@ public interface UserService {
     UserEntity registerUser(
             UserEntity user
     );
+
+    void deleteUser(
+            Long userId
+    );
 }

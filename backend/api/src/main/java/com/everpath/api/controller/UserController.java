@@ -85,4 +85,23 @@ public class UserController {
         );
 
     }
+
+
+    @DeleteMapping("/{userId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(
+            summary = "Eliminar usuario",
+            description = "Elimina un usuario y toda su información asociada"
+    )
+    public void deleteUser(
+
+            @PathVariable
+            Long userId
+
+    ) {
+
+        userService.deleteUser(
+                userId
+        );
+    }
 }

@@ -5,6 +5,7 @@ import com.everpath.api.entity.UserProgressEntity;
 import com.everpath.api.exception.EmailAlreadyExistsException;
 import com.everpath.api.repository.UserProgressRepository;
 import com.everpath.api.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -79,5 +80,27 @@ public class UserServiceImpl
 
 
         return savedUser;
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(
+            Long userId
+    ) {
+
+        UserEntity user =
+                userRepository.findById(
+                                userId
+                        )
+                        .orElseThrow(
+                                () ->
+                                        new EntityNotFoundException(
+                                                "Usuario no encontrado"
+                                        )
+                        );
+
+        userRepository.delete(
+                user
+        );
     }
 }
