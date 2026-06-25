@@ -26,4 +26,11 @@ public interface AchievementRepository
             UserEntity user
 
     );
+
+    boolean existsByUserAndId(
+
+            UserEntity user,
+            String id
+
+    );
 }
