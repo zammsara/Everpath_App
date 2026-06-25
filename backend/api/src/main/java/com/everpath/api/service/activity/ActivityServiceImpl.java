@@ -1,5 +1,6 @@
 package com.everpath.api.service.activity;
 
+import com.everpath.api.domain.enums.ActivityStatus;
 import com.everpath.api.dto.activity.ActivityResponse;
 import com.everpath.api.dto.activity.CreateActivityRequest;
 import com.everpath.api.dto.activity.UpdateActivityRequest;
@@ -8,6 +9,7 @@ import com.everpath.api.entity.GoalEntity;
 import com.everpath.api.mapper.ActivityMapper;
 import com.everpath.api.repository.ActivityRepository;
 import com.everpath.api.repository.GoalRepository;
+import com.everpath.api.service.progress.XpService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,8 @@ public class ActivityServiceImpl
     private final GoalRepository goalRepository;
 
     private final ActivityMapper activityMapper;
+
+    private final XpService xpService;
 
     @Override
     public ActivityResponse createActivity(
@@ -126,10 +130,43 @@ public class ActivityServiceImpl
                                 )
                         );
 
+
+        ActivityStatus previousStatus =
+                activity.getStatus();
+
+
         activityMapper.updateEntity(
                 activity,
                 request
         );
+
+
+        if (
+
+                previousStatus != ActivityStatus.COMPLETED
+
+                        &&
+
+                        request.getStatus()
+                                == ActivityStatus.COMPLETED
+
+                        &&
+
+                        !activity.getXpGranted()
+
+        ) {
+
+            xpService.addXp(
+                    activity.getGoal()
+                            .getUser(),
+                    10
+            );
+
+            activity.setXpGranted(
+                    true
+            );
+        }
+
 
         ActivityEntity updatedActivity =
                 activityRepository.save(
