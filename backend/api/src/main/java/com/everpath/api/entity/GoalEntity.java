@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Entidad encargada de representar
@@ -103,4 +105,13 @@ public class GoalEntity {
             nullable = false
     )
     private UserEntity user;
+
+    @OneToMany(
+            mappedBy = "goal",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @Builder.Default
+    private List<ActivityEntity> activities =
+            new ArrayList<>();
 }
