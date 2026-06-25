@@ -5,6 +5,7 @@ import com.everpath.api.entity.UserProgressEntity;
 import com.everpath.api.repository.UserProgressRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implementación encargada
@@ -17,7 +18,9 @@ public class XpServiceImpl
         implements XpService {
 
     private final UserProgressRepository userProgressRepository;
+    private final AchievementService achievementService;
 
+    @Transactional
     @Override
     public void addXp(
 
@@ -54,6 +57,10 @@ public class XpServiceImpl
 
         userProgressRepository.save(
                 progress
+        );
+
+        achievementService.evaluateAchievements(
+                user
         );
     }
 }

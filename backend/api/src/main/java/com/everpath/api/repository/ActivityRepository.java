@@ -36,4 +36,16 @@ public interface ActivityRepository
 
     );
 
+    /**
+     * Cuenta las actividades
+     * completadas por un usuario.
+     */
+    long countByGoalUserIdAndStatus(
+
+            Long userId,
+
+            ActivityStatus status
+
+    );
+
 }
