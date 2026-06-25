@@ -1,5 +1,6 @@
 package com.everpath.presentation.today.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,9 +21,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.everpath.R
 import com.everpath.ui.theme.EverpathBorder
 import com.everpath.ui.theme.EverpathSuccess
 import com.everpath.ui.theme.EverpathSurfaceSoft
@@ -46,10 +50,8 @@ fun ProgressCard(
             .roundToInt()
 
     Card(
-        modifier =
-            Modifier.fillMaxWidth(),
-        shape =
-            RoundedCornerShape(28.dp),
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(28.dp),
         colors =
             CardDefaults.cardColors(
                 containerColor = EverpathSurfaceSoft
@@ -70,33 +72,31 @@ fun ProgressCard(
         ) {
 
             Row(
-                verticalAlignment =
-                    Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically
             ) {
 
                 Box(
                     modifier =
                         Modifier
-                            .size(48.dp)
+                            .size(58.dp)
                             .background(
                                 color =
                                     EverpathSuccess.copy(
-                                        alpha = 0.14f
+                                        alpha = 0.12f
                                     ),
                                 shape = CircleShape
                             ),
-                    contentAlignment =
-                        Alignment.Center
+                    contentAlignment = Alignment.Center
                 ) {
 
-                    Text(
-                        text = "✓",
-                        color = EverpathSuccess,
-                        style =
-                            MaterialTheme
-                                .typography
-                                .titleLarge,
-                        fontWeight = FontWeight.ExtraBold
+                    Image(
+                        painter =
+                            painterResource(
+                                id = R.drawable.ic_dashbord_pogress
+                            ),
+                        contentDescription = "Progreso general",
+                        modifier = Modifier.size(42.dp),
+                        contentScale = ContentScale.Fit
                     )
 
                 }
@@ -106,17 +106,13 @@ fun ProgressCard(
                 )
 
                 Column(
-                    modifier =
-                        Modifier.weight(1f)
+                    modifier = Modifier.weight(1f)
                 ) {
 
                     Text(
                         text = "Progreso General",
                         color = EverpathTextPrimary,
-                        style =
-                            MaterialTheme
-                                .typography
-                                .titleLarge,
+                        style = MaterialTheme.typography.titleLarge,
                         fontFamily = FontFamily.Serif,
                         fontWeight = FontWeight.ExtraBold
                     )
@@ -124,10 +120,7 @@ fun ProgressCard(
                     Text(
                         text = "Avance total de tus metas.",
                         color = EverpathTextSecondary,
-                        style =
-                            MaterialTheme
-                                .typography
-                                .bodySmall
+                        style = MaterialTheme.typography.bodySmall
                     )
 
                 }
@@ -135,10 +128,7 @@ fun ProgressCard(
                 Text(
                     text = "$percent%",
                     color = EverpathSuccess,
-                    style =
-                        MaterialTheme
-                            .typography
-                            .titleLarge,
+                    style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.ExtraBold
                 )
 

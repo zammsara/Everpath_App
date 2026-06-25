@@ -34,24 +34,18 @@ fun DashboardHeader(
 ) {
 
     Row(
-        verticalAlignment =
-            Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically
     ) {
 
         Column(
-            modifier =
-                Modifier.weight(1f),
-            verticalArrangement =
-                Arrangement.Center
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.Center
         ) {
 
             Text(
                 text = "¡Hola!",
                 color = EverpathTextPrimary,
-                style =
-                    MaterialTheme
-                        .typography
-                        .displaySmall,
+                style = MaterialTheme.typography.displaySmall,
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -59,37 +53,27 @@ fun DashboardHeader(
             Text(
                 text = "Nivel $level",
                 color = EverpathPrimary,
-                style =
-                    MaterialTheme
-                        .typography
-                        .titleLarge,
+                style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.ExtraBold
             )
 
             Text(
                 text = "✦ $xp XP",
                 color = EverpathTextPrimary,
-                style =
-                    MaterialTheme
-                        .typography
-                        .titleLarge,
+                style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
 
             Text(
                 text = "Este es tu panorama general.",
                 color = EverpathTextSecondary,
-                style =
-                    MaterialTheme
-                        .typography
-                        .bodyLarge
+                style = MaterialTheme.typography.bodyLarge
             )
 
         }
 
         Spacer(
-            modifier =
-                Modifier.size(12.dp)
+            modifier = Modifier.size(12.dp)
         )
 
         Box(
@@ -102,38 +86,29 @@ fun DashboardHeader(
                         clip = false
                     )
                     .background(
-                        color =
-                            EverpathSurfaceSoft,
+                        color = EverpathSurfaceSoft,
                         shape = CircleShape
                     ),
-            contentAlignment =
-                Alignment.Center
+            contentAlignment = Alignment.Center
         ) {
 
             Image(
-                painter =
-                    painterResource(
-                        id = R.drawable.ic_goal_target
-                    ),
-                contentDescription = "Inicio",
-                modifier =
-                    Modifier.size(62.dp),
-                contentScale =
-                    ContentScale.Fit
+                painter = painterResource(
+                    id = R.drawable.everpath_logo
+                ),
+                contentDescription = "Logo Everpath",
+                modifier = Modifier.size(62.dp),
+                contentScale = ContentScale.Fit
             )
 
             Text(
                 text = "✦",
                 color = EverpathAccent,
-                style =
-                    MaterialTheme
-                        .typography
-                        .titleMedium,
+                style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
-                modifier =
-                    Modifier.align(
-                        Alignment.TopEnd
-                    )
+                modifier = Modifier.align(
+                    Alignment.TopEnd
+                )
             )
 
         }
