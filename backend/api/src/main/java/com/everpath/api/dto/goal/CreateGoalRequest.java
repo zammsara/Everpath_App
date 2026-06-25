@@ -1,6 +1,5 @@
-package com.everpath.api.dto;
+package com.everpath.api.dto.goal;
 
-import com.everpath.api.domain.enums.GoalStatus;
 import com.everpath.api.domain.enums.LifeAreaType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,15 +10,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * DTO utilizado para actualizar
- * una meta existente.
+ * DTO encargado de recibir la información
+ * necesaria para crear una nueva meta.
+ *
+ * userId se utiliza para identificar
+ * al propietario de la meta
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UpdateGoalRequest {
+public class CreateGoalRequest {
+
+    @NotNull(
+            message = "El usuario es obligatorio"
+    )
+    private Long userId;
+
 
     @NotBlank(
             message = "El título es obligatorio"
@@ -37,11 +45,5 @@ public class UpdateGoalRequest {
             message = "El área de vida es obligatoria"
     )
     private LifeAreaType lifeArea;
-
-
-    @NotNull(
-            message = "El estado es obligatorio"
-    )
-    private GoalStatus status;
 
 }

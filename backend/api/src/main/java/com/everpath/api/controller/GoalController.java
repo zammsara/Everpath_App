@@ -1,9 +1,9 @@
 package com.everpath.api.controller;
 
-import com.everpath.api.dto.CreateGoalRequest;
-import com.everpath.api.dto.GoalResponse;
-import com.everpath.api.dto.UpdateGoalRequest;
-import com.everpath.api.service.GoalService;
+import com.everpath.api.dto.goal.CreateGoalRequest;
+import com.everpath.api.dto.goal.GoalResponse;
+import com.everpath.api.dto.goal.UpdateGoalRequest;
+import com.everpath.api.service.goal.GoalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

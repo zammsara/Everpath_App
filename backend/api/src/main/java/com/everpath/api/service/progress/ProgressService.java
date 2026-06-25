@@ -1,7 +1,7 @@
-package com.everpath.api.service;
+package com.everpath.api.service.progress;
 
-import com.everpath.api.dto.AchievementResponse;
-import com.everpath.api.dto.UserProgressResponse;
+import com.everpath.api.dto.progress.AchievementResponse;
+import com.everpath.api.dto.progress.UserProgressResponse;
 
 import java.util.List;
 

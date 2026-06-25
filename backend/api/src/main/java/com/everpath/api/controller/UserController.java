@@ -1,13 +1,13 @@
 package com.everpath.api.controller;
 
-import com.everpath.api.dto.LoginRequest;
-import com.everpath.api.dto.LoginResponse;
-import com.everpath.api.dto.RegisterRequest;
-import com.everpath.api.dto.RegisterResponse;
+import com.everpath.api.dto.auth.LoginRequest;
+import com.everpath.api.dto.auth.LoginResponse;
+import com.everpath.api.dto.auth.RegisterRequest;
+import com.everpath.api.dto.auth.RegisterResponse;
 import com.everpath.api.entity.UserEntity;
 import com.everpath.api.mapper.UserMapper;
-import com.everpath.api.service.AuthService;
-import com.everpath.api.service.UserService;
+import com.everpath.api.service.auth.AuthService;
+import com.everpath.api.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

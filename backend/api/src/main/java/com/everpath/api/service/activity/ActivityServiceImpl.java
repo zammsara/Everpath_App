@@ -1,8 +1,8 @@
-package com.everpath.api.service;
+package com.everpath.api.service.activity;
 
-import com.everpath.api.dto.ActivityResponse;
-import com.everpath.api.dto.CreateActivityRequest;
-import com.everpath.api.dto.UpdateActivityRequest;
+import com.everpath.api.dto.activity.ActivityResponse;
+import com.everpath.api.dto.activity.CreateActivityRequest;
+import com.everpath.api.dto.activity.UpdateActivityRequest;
 import com.everpath.api.entity.ActivityEntity;
 import com.everpath.api.entity.GoalEntity;
 import com.everpath.api.mapper.ActivityMapper;

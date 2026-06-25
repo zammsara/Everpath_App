@@ -1,7 +1,7 @@
 package com.everpath.api.mapper;
 
-import com.everpath.api.dto.RegisterRequest;
-import com.everpath.api.dto.RegisterResponse;
+import com.everpath.api.dto.auth.RegisterRequest;
+import com.everpath.api.dto.auth.RegisterResponse;
 import com.everpath.api.entity.UserEntity;
 import org.springframework.stereotype.Component;
 

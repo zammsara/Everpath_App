@@ -1,4 +1,4 @@
-package com.everpath.api.dto;
+package com.everpath.api.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

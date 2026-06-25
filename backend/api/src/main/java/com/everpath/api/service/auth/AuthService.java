@@ -1,7 +1,7 @@
-package com.everpath.api.service;
+package com.everpath.api.service.auth;
 
-import com.everpath.api.dto.LoginRequest;
-import com.everpath.api.dto.LoginResponse;
+import com.everpath.api.dto.auth.LoginRequest;
+import com.everpath.api.dto.auth.LoginResponse;
 
 /**
  * Contrato encargado de definir

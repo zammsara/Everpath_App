@@ -1,8 +1,8 @@
 package com.everpath.api.mapper;
 
-import com.everpath.api.dto.CreateGoalRequest;
-import com.everpath.api.dto.UpdateGoalRequest;
-import com.everpath.api.dto.GoalResponse;
+import com.everpath.api.dto.goal.CreateGoalRequest;
+import com.everpath.api.dto.goal.UpdateGoalRequest;
+import com.everpath.api.dto.goal.GoalResponse;
 import com.everpath.api.entity.GoalEntity;
 import com.everpath.api.domain.enums.GoalStatus;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.everpath.api.dto;
+package com.everpath.api.dto.goal;
 
 import com.everpath.api.domain.enums.GoalStatus;
 import com.everpath.api.domain.enums.LifeAreaType;

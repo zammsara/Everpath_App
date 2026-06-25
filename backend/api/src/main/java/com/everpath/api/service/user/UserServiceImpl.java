@@ -1,4 +1,4 @@
-package com.everpath.api.service;
+package com.everpath.api.service.user;
 
 import com.everpath.api.entity.UserEntity;
 import com.everpath.api.exception.EmailAlreadyExistsException;

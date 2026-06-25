@@ -1,7 +1,7 @@
 package com.everpath.api.mapper;
 
-import com.everpath.api.dto.AchievementResponse;
-import com.everpath.api.dto.UserProgressResponse;
+import com.everpath.api.dto.progress.AchievementResponse;
+import com.everpath.api.dto.progress.UserProgressResponse;
 import com.everpath.api.entity.AchievementEntity;
 import com.everpath.api.entity.UserProgressEntity;
 import org.springframework.stereotype.Component;

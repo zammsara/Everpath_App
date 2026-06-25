@@ -1,5 +1,6 @@
-package com.everpath.api.dto;
+package com.everpath.api.dto.activity;
 
+import com.everpath.api.domain.enums.ActivityStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 
 /**
  * DTO encargado de devolver
- * información de achievements
+ * información de actividades
  * hacia Android.
  */
 @Getter
@@ -18,23 +19,19 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AchievementResponse {
+public class ActivityResponse {
 
-    /**
-     * Identificador del achievement.
-     *
-     * Ejemplo:
-     * ACTIVITY_1
-     * XP_100
-     * LEVEL_5
-     */
     private String id;
+
+    private String goalId;
 
     private String title;
 
     private String description;
 
-    private Boolean unlocked;
+    private ActivityStatus status;
 
-    private LocalDateTime unlockedAt;
+    private Boolean xpGranted;
+
+    private LocalDateTime createdAt;
 }

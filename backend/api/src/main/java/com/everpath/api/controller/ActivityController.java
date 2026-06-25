@@ -1,9 +1,9 @@
 package com.everpath.api.controller;
 
-import com.everpath.api.dto.ActivityResponse;
-import com.everpath.api.dto.CreateActivityRequest;
-import com.everpath.api.dto.UpdateActivityRequest;
-import com.everpath.api.service.ActivityService;
+import com.everpath.api.dto.activity.ActivityResponse;
+import com.everpath.api.dto.activity.CreateActivityRequest;
+import com.everpath.api.dto.activity.UpdateActivityRequest;
+import com.everpath.api.service.activity.ActivityService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

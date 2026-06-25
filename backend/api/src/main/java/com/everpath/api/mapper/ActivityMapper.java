@@ -1,9 +1,9 @@
 package com.everpath.api.mapper;
 
 import com.everpath.api.domain.enums.ActivityStatus;
-import com.everpath.api.dto.ActivityResponse;
-import com.everpath.api.dto.CreateActivityRequest;
-import com.everpath.api.dto.UpdateActivityRequest;
+import com.everpath.api.dto.activity.ActivityResponse;
+import com.everpath.api.dto.activity.CreateActivityRequest;
+import com.everpath.api.dto.activity.UpdateActivityRequest;
 import com.everpath.api.entity.ActivityEntity;
 import org.springframework.stereotype.Component;
 
