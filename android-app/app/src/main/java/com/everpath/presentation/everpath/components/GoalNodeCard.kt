@@ -1,6 +1,7 @@
 package com.everpath.presentation.everpath.components
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -11,20 +12,25 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -33,33 +39,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.everpath.R
 import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.enums.LifeAreaType
 import com.everpath.domain.model.GoalNode
-import com.everpath.ui.theme.EverpathAreaCareer
-import com.everpath.ui.theme.EverpathAreaCareerContainer
-import com.everpath.ui.theme.EverpathAreaCreativity
-import com.everpath.ui.theme.EverpathAreaCreativityContainer
-import com.everpath.ui.theme.EverpathAreaFinance
-import com.everpath.ui.theme.EverpathAreaFinanceContainer
-import com.everpath.ui.theme.EverpathAreaHealth
-import com.everpath.ui.theme.EverpathAreaHealthContainer
-import com.everpath.ui.theme.EverpathAreaRelationships
-import com.everpath.ui.theme.EverpathAreaRelationshipsContainer
-import com.everpath.ui.theme.EverpathAreaStudies
-import com.everpath.ui.theme.EverpathAreaStudiesContainer
-import com.everpath.ui.theme.EverpathAreaTravel
-import com.everpath.ui.theme.EverpathAreaTravelContainer
-import com.everpath.ui.theme.EverpathBorder
-import com.everpath.ui.theme.EverpathStatusActive
-import com.everpath.ui.theme.EverpathStatusArchived
-import com.everpath.ui.theme.EverpathStatusCompleted
-import com.everpath.ui.theme.EverpathStatusLocked
-import com.everpath.ui.theme.EverpathTextPrimary
-import com.everpath.ui.theme.EverpathTextSecondary
 
+/**
+ * Componente visual que representa una meta dentro del mapa.
+ *
+ * Mantiene la lógica original de selección, click y arrastre,
+ * aplicando únicamente un estilo visual tipo burbuja.
+ */
 @Composable
 fun GoalNodeCard(
     goalNode: GoalNode,
@@ -73,40 +63,91 @@ fun GoalNodeCard(
     modifier: Modifier = Modifier
 ) {
 
-    val areaColor =
-        goalNode.lifeArea.toColor()
+    val shape =
+        RoundedCornerShape(34.dp)
 
-    val containerColor =
-        goalNode.lifeArea.toContainerColor()
+    val bubbleColor =
+        goalNode.lifeArea.toBubbleColor()
 
-    Card(
+    val borderColor =
+        if (isSelected) {
+            Color(0xFF7A5CFF)
+        } else {
+            Color.White.copy(
+                alpha = 0.82f
+            )
+        }
+
+    Box(
         modifier =
             modifier
                 .size(
                     width = 180.dp,
                     height = 100.dp
                 )
+                .graphicsLayer {
+                    scaleX =
+                        if (isSelected) {
+                            1.05f
+                        } else {
+                            1f
+                        }
+
+                    scaleY =
+                        if (isSelected) {
+                            1.05f
+                        } else {
+                            1f
+                        }
+                }
+                .shadow(
+                    elevation =
+                        if (isSelected) {
+                            14.dp
+                        } else {
+                            8.dp
+                        },
+                    shape = shape,
+                    clip = false
+                )
+                .clip(shape)
+                .background(
+                    brush =
+                        Brush.linearGradient(
+                            colors =
+                                listOf(
+                                    Color.White.copy(
+                                        alpha = 0.98f
+                                    ),
+                                    bubbleColor.copy(
+                                        alpha = 0.92f
+                                    ),
+                                    bubbleColor.copy(
+                                        alpha = 0.78f
+                                    )
+                                )
+                        )
+                )
                 .border(
                     width =
                         if (isSelected) {
-                            3.dp
+                            2.dp
                         } else {
                             1.dp
                         },
-                    color =
-                        if (isSelected) {
-                            areaColor
-                        } else {
-                            EverpathBorder
-                        },
-                    shape = RoundedCornerShape(22.dp)
+                    color = borderColor,
+                    shape = shape
                 )
                 .pointerInput(goalNode.id) {
+
                     detectDragGestures(
                         onDragStart = {
                             onDragStart()
                         },
                         onDragEnd = {
+                            onDragEnd()
+                        },
+                        onDragCancel = {
                             onDragEnd()
                         }
                     ) { change, dragAmount ->
@@ -117,34 +158,27 @@ fun GoalNodeCard(
                             dragAmount.x,
                             dragAmount.y
                         )
+
                     }
+
                 }
                 .clickable(
                     onClick = onClick
-                ),
-        colors =
-            CardDefaults.cardColors(
-                containerColor = containerColor
-            ),
-        shape = RoundedCornerShape(22.dp),
-        elevation =
-            CardDefaults.cardElevation(
-                defaultElevation =
-                    if (isSelected) {
-                        12.dp
-                    } else {
-                        5.dp
-                    }
-            )
+                )
     ) {
+
+        BubbleGloss(
+            modifier =
+                Modifier.fillMaxSize()
+        )
 
         Column(
             modifier =
                 Modifier
-                    .fillMaxWidth()
+                    .fillMaxSize()
                     .padding(
-                        horizontal = 12.dp,
-                        vertical = 9.dp
+                        horizontal = 10.dp,
+                        vertical = 8.dp
                     ),
             horizontalAlignment =
                 Alignment.CenterHorizontally
@@ -159,60 +193,42 @@ fun GoalNodeCard(
                     Alignment.CenterVertically
             ) {
 
-                Box(
-                    modifier =
-                        Modifier
-                            .size(31.dp)
-                            .background(
-                                color =
-                                    areaColor.copy(
-                                        alpha = 0.18f
-                                    ),
-                                shape = CircleShape
-                            ),
-                    contentAlignment =
-                        Alignment.Center
-                ) {
-
-                    Image(
-                        painter =
-                            painterResource(
-                                id = goalNode.lifeArea.toIconRes()
-                            ),
-                        contentDescription =
-                            goalNode.lifeArea.toSpanishName(),
-                        modifier =
-                            Modifier.size(21.dp),
-                        contentScale =
-                            ContentScale.Fit
-                    )
-
-                }
-
-                Image(
-                    painter =
-                        painterResource(
-                            id = goalNode.status.toIconRes()
+                BubbleIcon(
+                    iconRes =
+                        goalNode.lifeArea.toIconRes(),
+                    backgroundColor =
+                        Color.White.copy(
+                            alpha = 0.48f
                         ),
-                    contentDescription =
-                        goalNode.status.toSpanishName(),
-                    modifier =
-                        Modifier.size(20.dp),
-                    contentScale =
-                        ContentScale.Fit
+                    size = 31,
+                    iconSize = 21
+                )
+
+                BubbleIcon(
+                    iconRes =
+                        goalNode.status.toIconRes(),
+                    backgroundColor =
+                        Color.White.copy(
+                            alpha = 0.38f
+                        ),
+                    size = 28,
+                    iconSize = 18
                 )
 
             }
 
             Spacer(
-                modifier = Modifier.height(4.dp)
+                modifier =
+                    Modifier.height(2.dp)
             )
 
             Text(
                 text = goalNode.title,
-                color = EverpathTextPrimary,
-                fontSize = 14.sp,
-                lineHeight = 16.sp,
+                color = Color(0xFF17122F),
+                style =
+                    MaterialTheme
+                        .typography
+                        .titleSmall,
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.ExtraBold,
                 textAlign = TextAlign.Center,
@@ -223,59 +239,165 @@ fun GoalNodeCard(
             )
 
             Spacer(
-                modifier = Modifier.height(3.dp)
+                modifier =
+                    Modifier.height(2.dp)
             )
 
             Text(
                 text =
-                    goalNode.description
-                        .ifBlank {
-                            "Sin descripción"
-                        },
-                color =
-                    EverpathTextSecondary.copy(
-                        alpha = 0.92f
-                    ),
-                fontSize = 11.sp,
-                lineHeight = 13.sp,
-                fontWeight = FontWeight.SemiBold,
+                    goalNode.description.ifBlank {
+                        "Sin descripción"
+                    },
+                color = Color(0xFF6E6591),
+                style =
+                    MaterialTheme
+                        .typography
+                        .labelSmall,
                 textAlign = TextAlign.Center,
-                maxLines = 2,
+                maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier =
                     Modifier.fillMaxWidth()
             )
+
         }
 
     }
 
 }
 
-private fun LifeAreaType.toSpanishName(): String {
+@Composable
+private fun BubbleGloss(
+    modifier: Modifier = Modifier
+) {
+
+    Canvas(
+        modifier = modifier
+    ) {
+
+        drawOval(
+            color =
+                Color.White.copy(
+                    alpha = 0.45f
+                ),
+            topLeft =
+                Offset(
+                    x = 14.dp.toPx(),
+                    y = 7.dp.toPx()
+                ),
+            size =
+                Size(
+                    width = 78.dp.toPx(),
+                    height = 24.dp.toPx()
+                )
+        )
+
+        drawCircle(
+            color =
+                Color.White.copy(
+                    alpha = 0.42f
+                ),
+            radius = 8.dp.toPx(),
+            center =
+                Offset(
+                    x = size.width - 25.dp.toPx(),
+                    y = 18.dp.toPx()
+                )
+        )
+
+        drawCircle(
+            color =
+                Color.White.copy(
+                    alpha = 0.22f
+                ),
+            radius = 18.dp.toPx(),
+            center =
+                Offset(
+                    x = size.width - 30.dp.toPx(),
+                    y = size.height - 20.dp.toPx()
+                )
+        )
+
+        drawCircle(
+            color =
+                Color.White.copy(
+                    alpha = 0.18f
+                ),
+            radius = 13.dp.toPx(),
+            center =
+                Offset(
+                    x = 28.dp.toPx(),
+                    y = size.height - 18.dp.toPx()
+                )
+        )
+
+    }
+
+}
+
+@Composable
+private fun BubbleIcon(
+    @DrawableRes iconRes: Int,
+    backgroundColor: Color,
+    size: Int,
+    iconSize: Int
+) {
+
+    Box(
+        modifier =
+            Modifier
+                .size(size.dp)
+                .background(
+                    color = backgroundColor,
+                    shape = CircleShape
+                ),
+        contentAlignment =
+            Alignment.Center
+    ) {
+
+        Image(
+            painter =
+                painterResource(
+                    id = iconRes
+                ),
+            contentDescription = null,
+            modifier =
+                Modifier.size(iconSize.dp),
+            contentScale =
+                ContentScale.Fit
+        )
+
+    }
+
+}
+
+private fun LifeAreaType.toBubbleColor(): Color {
 
     return when (this) {
 
         LifeAreaType.HEALTH ->
-            "Salud"
+            Color(0xFFDDF0FF)
 
         LifeAreaType.STUDIES ->
-            "Estudios"
+            Color(0xFFE4F5DC)
 
         LifeAreaType.CAREER ->
-            "Carrera"
+            Color(0xFFE2EEF4)
 
         LifeAreaType.FINANCE ->
-            "Finanzas"
+            Color(0xFFFFF1CD)
 
         LifeAreaType.RELATIONSHIPS ->
-            "Relaciones"
+            Color(0xFFF7DDE8)
 
         LifeAreaType.CREATIVITY ->
-            "Creatividad"
+            Color(0xFFF3DDD2)
 
         LifeAreaType.TRAVEL ->
-            "Viajes"
+            Color(0xFFE6DBFA)
+
     }
+
 }
 
 @DrawableRes
@@ -303,79 +425,9 @@ private fun LifeAreaType.toIconRes(): Int {
 
         LifeAreaType.TRAVEL ->
             R.drawable.ic_area_travel
+
     }
-}
 
-private fun LifeAreaType.toColor(): Color {
-
-    return when (this) {
-
-        LifeAreaType.HEALTH ->
-            EverpathAreaHealth
-
-        LifeAreaType.STUDIES ->
-            EverpathAreaStudies
-
-        LifeAreaType.CAREER ->
-            EverpathAreaCareer
-
-        LifeAreaType.FINANCE ->
-            EverpathAreaFinance
-
-        LifeAreaType.RELATIONSHIPS ->
-            EverpathAreaRelationships
-
-        LifeAreaType.CREATIVITY ->
-            EverpathAreaCreativity
-
-        LifeAreaType.TRAVEL ->
-            EverpathAreaTravel
-    }
-}
-
-private fun LifeAreaType.toContainerColor(): Color {
-
-    return when (this) {
-
-        LifeAreaType.HEALTH ->
-            EverpathAreaHealthContainer
-
-        LifeAreaType.STUDIES ->
-            EverpathAreaStudiesContainer
-
-        LifeAreaType.CAREER ->
-            EverpathAreaCareerContainer
-
-        LifeAreaType.FINANCE ->
-            EverpathAreaFinanceContainer
-
-        LifeAreaType.RELATIONSHIPS ->
-            EverpathAreaRelationshipsContainer
-
-        LifeAreaType.CREATIVITY ->
-            EverpathAreaCreativityContainer
-
-        LifeAreaType.TRAVEL ->
-            EverpathAreaTravelContainer
-    }
-}
-
-private fun GoalStatus.toSpanishName(): String {
-
-    return when (this) {
-
-        GoalStatus.LOCKED ->
-            "Bloqueada"
-
-        GoalStatus.ACTIVE ->
-            "Activa"
-
-        GoalStatus.COMPLETED ->
-            "Completada"
-
-        GoalStatus.ARCHIVED ->
-            "Archivada"
-    }
 }
 
 @DrawableRes
@@ -394,23 +446,7 @@ private fun GoalStatus.toIconRes(): Int {
 
         GoalStatus.ARCHIVED ->
             R.drawable.ic_status_archived
+
     }
-}
 
-private fun GoalStatus.toColor(): Color {
-
-    return when (this) {
-
-        GoalStatus.LOCKED ->
-            EverpathStatusLocked
-
-        GoalStatus.ACTIVE ->
-            EverpathStatusActive
-
-        GoalStatus.COMPLETED ->
-            EverpathStatusCompleted
-
-        GoalStatus.ARCHIVED ->
-            EverpathStatusArchived
-    }
 }
