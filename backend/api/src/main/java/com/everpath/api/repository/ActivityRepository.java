@@ -36,4 +36,16 @@ public interface ActivityRepository
 
     );
 
+    long countByGoal(
+            GoalEntity goal
+    );
+
+    long countByGoalAndStatus(
+
+            GoalEntity goal,
+
+            ActivityStatus status
+
+    );
+
 }
