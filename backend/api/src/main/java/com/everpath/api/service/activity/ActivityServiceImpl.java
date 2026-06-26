@@ -1,6 +1,7 @@
 package com.everpath.api.service.activity;
 
 import com.everpath.api.domain.enums.ActivityStatus;
+import com.everpath.api.domain.enums.GoalStatus;
 import com.everpath.api.dto.activity.ActivityResponse;
 import com.everpath.api.dto.activity.CreateActivityRequest;
 import com.everpath.api.dto.activity.UpdateActivityRequest;
@@ -176,6 +177,10 @@ public class ActivityServiceImpl
                         activity
                 );
 
+        updateGoalStatus(
+                activity.getGoal()
+        );
+
         return activityMapper.toResponse(
                 updatedActivity
         );
@@ -200,5 +205,69 @@ public class ActivityServiceImpl
         activityRepository.delete(
                 activity
         );
+    }
+
+    /**
+     * Recalcula automáticamente
+     * el estado de una meta según
+     * el estado actual de todas
+     * sus actividades.
+     */
+    private void updateGoalStatus(
+            GoalEntity goal
+    ) {
+
+        long totalActivities =
+                activityRepository.countByGoal(
+                        goal
+                );
+
+        long completedActivities =
+                activityRepository
+                        .countByGoalAndStatus(
+
+                                goal,
+                                ActivityStatus.COMPLETED
+
+                        );
+
+        //---------------------------------
+        // Todas completadas
+        if (
+
+                totalActivities > 0
+
+                        &&
+
+                        totalActivities ==
+                                completedActivities
+
+        ) {
+
+            goal.setStatus(
+                    GoalStatus.COMPLETED
+            );
+
+        }
+
+        //---------------------------------
+        // Existe alguna pendiente
+        else if (
+
+                goal.getStatus()
+                        == GoalStatus.COMPLETED
+
+        ) {
+
+            goal.setStatus(
+                    GoalStatus.ACTIVE
+            );
+
+        }
+
+        goalRepository.save(
+                goal
+        );
+
     }
 }
