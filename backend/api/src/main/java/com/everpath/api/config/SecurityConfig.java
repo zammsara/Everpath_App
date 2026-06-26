@@ -8,10 +8,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * Configuración temporal de seguridad.
- *
- * Permite acceder libremente a los
- * endpoints públicos mientras se
- * implementa JWT.
  */
 @Configuration
 public class SecurityConfig {
