@@ -3,6 +3,7 @@ package com.everpath.presentation.goaldetail.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.everpath.domain.enums.GoalStatus
+import com.everpath.domain.enums.LifeAreaType
 import com.everpath.domain.usecase.achievement.CompleteGoalWithAchievementsUseCase
 import com.everpath.domain.usecase.goal.DeleteGoalNodeUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodeByIdUseCase
@@ -66,7 +67,8 @@ class GoalDetailViewModel(
     fun updateGoal(
         title: String,
         description: String,
-        status: GoalStatus
+        status: GoalStatus,
+        lifeArea: LifeAreaType
     ) {
 
         val currentGoal =
@@ -74,11 +76,11 @@ class GoalDetailViewModel(
                 ?: return
 
         val updatedGoal =
-
             currentGoal.copy(
                 title = title,
                 description = description,
-                status = status
+                status = status,
+                lifeArea = lifeArea
             )
 
         viewModelScope.launch {
@@ -92,13 +94,17 @@ class GoalDetailViewModel(
                 it.copy(
                     goal = updatedGoal
                 )
+
             }
+
         }
+
     }
 
     fun updateGoalStatus(
         status: GoalStatus
     ) {
+
         val currentGoal =
             _uiState.value.goal
                 ?: return
@@ -114,16 +120,29 @@ class GoalDetailViewModel(
                 currentGoal.status != GoalStatus.COMPLETED &&
                 status == GoalStatus.COMPLETED
             ) {
+
                 completeGoalWithAchievementsUseCase(
                     currentGoal
                 )
 
             } else {
+
                 updateGoalNodeUseCase(
                     updatedGoal
                 )
+
             }
+
+            _uiState.update {
+
+                it.copy(
+                    goal = updatedGoal
+                )
+
+            }
+
         }
+
     }
 
     fun deleteGoal(

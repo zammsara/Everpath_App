@@ -1,55 +1,156 @@
 package com.everpath.presentation.today.components
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.everpath.R
+import com.everpath.ui.theme.EverpathBorder
+import com.everpath.ui.theme.EverpathSuccess
+import com.everpath.ui.theme.EverpathSurfaceSoft
+import com.everpath.ui.theme.EverpathTextPrimary
+import com.everpath.ui.theme.EverpathTextSecondary
+import kotlin.math.roundToInt
 
-/**
- * Card encargada de mostrar
- * el progreso global del usuario.
- */
 @Composable
 fun ProgressCard(
     progress: Float
 ) {
+
+    val safeProgress =
+        progress.coerceIn(
+            0f,
+            1f
+        )
+
+    val percent =
+        (safeProgress * 100f)
+            .roundToInt()
+
     Card(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Text(
-                text = "Progreso General",
-                style =
-                    MaterialTheme
-                        .typography
-                        .titleLarge
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(28.dp),
+        colors =
+            CardDefaults.cardColors(
+                containerColor = EverpathSurfaceSoft
+            ),
+        elevation =
+            CardDefaults.cardElevation(
+                defaultElevation = 3.dp
             )
+    ) {
+
+        Column(
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp),
+            verticalArrangement =
+                Arrangement.spacedBy(14.dp)
+        ) {
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Box(
+                    modifier =
+                        Modifier
+                            .size(58.dp)
+                            .background(
+                                color =
+                                    EverpathSuccess.copy(
+                                        alpha = 0.12f
+                                    ),
+                                shape = CircleShape
+                            ),
+                    contentAlignment = Alignment.Center
+                ) {
+
+                    Image(
+                        painter =
+                            painterResource(
+                                id = R.drawable.ic_dashbord_pogress
+                            ),
+                        contentDescription = "Progreso general",
+                        modifier = Modifier.size(42.dp),
+                        contentScale = ContentScale.Fit
+                    )
+
+                }
+
+                Spacer(
+                    modifier = Modifier.size(14.dp)
+                )
+
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+
+                    Text(
+                        text = "Progreso General",
+                        color = EverpathTextPrimary,
+                        style = MaterialTheme.typography.titleLarge,
+                        fontFamily = FontFamily.Serif,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+
+                    Text(
+                        text = "Avance total de tus metas.",
+                        color = EverpathTextSecondary,
+                        style = MaterialTheme.typography.bodySmall
+                    )
+
+                }
+
+                Text(
+                    text = "$percent%",
+                    color = EverpathSuccess,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.ExtraBold
+                )
+
+            }
 
             LinearProgressIndicator(
-                progress = { progress },
+                progress = {
+                    safeProgress
+                },
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .padding(top = 12.dp)
-
-            )
-
-            Text(
-                text =
-                    "${(progress * 100).toInt()}%",
-                modifier =
-                    Modifier.padding(
-                        top = 8.dp
+                        .height(9.dp),
+                color = EverpathSuccess,
+                trackColor =
+                    EverpathBorder.copy(
+                        alpha = 0.45f
                     )
             )
+
         }
+
     }
+
 }

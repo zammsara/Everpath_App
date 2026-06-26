@@ -11,14 +11,14 @@ import com.everpath.domain.usecase.goal.DeleteGoalNodeUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
 import com.everpath.domain.usecase.goal.SaveGoalNodeUseCase
 import com.everpath.domain.usecase.goal.UpdateGoalNodeUseCase
-import com.everpath.domain.usecase.goalposition.GetGoalPositionsUseCase
-import com.everpath.domain.usecase.goalposition.SaveGoalPositionUseCase
-import com.everpath.presentation.everpath.model.GoalNodePosition
-import com.everpath.presentation.everpath.state.EverpathUiState
+import com.everpath.domain.usecase.goalconnection.DeleteGoalConnectionUseCase
 import com.everpath.domain.usecase.goalconnection.GetGoalConnectionsUseCase
 import com.everpath.domain.usecase.goalconnection.SaveGoalConnectionUseCase
-import com.everpath.domain.usecase.goalconnection.DeleteGoalConnectionUseCase
+import com.everpath.domain.usecase.goalposition.GetGoalPositionsUseCase
+import com.everpath.domain.usecase.goalposition.SaveGoalPositionUseCase
 import com.everpath.domain.usecase.goalposition.UpdateGoalPositionUseCase
+import com.everpath.presentation.everpath.model.GoalNodePosition
+import com.everpath.presentation.everpath.state.EverpathUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,16 +26,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
 
-
-/**
- * ViewModel principal del mapa Everpath.
- *
- * Es responsable de coordinar la comunicación entre
- * la capa de presentación y los casos de uso del dominio.
- *
- * Mantiene actualizado el EverpathUiState que consume
- * la interfaz de usuario.
- */
 class EverpathViewModel(
     private val getGoalNodesUseCase: GetGoalNodesUseCase,
     private val saveGoalNodeUseCase: SaveGoalNodeUseCase,
@@ -48,7 +38,6 @@ class EverpathViewModel(
     private val saveGoalConnectionUseCase: SaveGoalConnectionUseCase,
     private val deleteGoalConnectionUseCase: DeleteGoalConnectionUseCase
 ) : ViewModel() {
-
 
     private val _uiState =
         MutableStateFlow(
@@ -99,13 +88,10 @@ class EverpathViewModel(
         }
     }
 
-   private fun observeConnections() {
-
+    private fun observeConnections() {
         viewModelScope.launch {
-
             getGoalConnectionsUseCase()
                 .collect { connections ->
-
                     _uiState.update {
                         it.copy(
                             connections = connections
@@ -120,7 +106,6 @@ class EverpathViewModel(
         x: Float,
         y: Float
     ) {
-
         viewModelScope.launch {
             updateGoalPositionUseCase(
                 GoalPositionEntity(
@@ -132,9 +117,6 @@ class EverpathViewModel(
         }
     }
 
-    /**
-     * Inicia el arrastre temporal de una meta.
-     */
     fun startDragging(
         goalId: String
     ) {
@@ -147,7 +129,6 @@ class EverpathViewModel(
                 ?: return
 
         _uiState.update {
-
             it.copy(
                 draggingPositions =
                     it.draggingPositions +
@@ -155,15 +136,9 @@ class EverpathViewModel(
                                     goalId to currentPosition
                                     )
             )
-
         }
-
     }
 
-    /**
-     * Actualiza visualmente la posición mientras
-     * el usuario arrastra la tarjeta.
-     */
     fun dragGoal(
         goalId: String,
         dragX: Float,
@@ -181,7 +156,6 @@ class EverpathViewModel(
             )
 
         _uiState.update {
-
             it.copy(
                 draggingPositions =
                     it.draggingPositions +
@@ -189,14 +163,9 @@ class EverpathViewModel(
                                     goalId to newPosition
                                     )
             )
-
         }
-
     }
 
-    /**
-     * Finaliza el arrastre.
-     */
     fun finishDragging(
         goalId: String
     ) {
@@ -206,7 +175,6 @@ class EverpathViewModel(
                 ?: return
 
         viewModelScope.launch {
-
             updateGoalPositionUseCase(
                 GoalPositionEntity(
                     goalId = goalId,
@@ -214,18 +182,14 @@ class EverpathViewModel(
                     y = finalPosition.y
                 )
             )
-
         }
 
         _uiState.update {
-
             it.copy(
                 draggingPositions =
                     it.draggingPositions - goalId
             )
-
         }
-
     }
 
     fun updateDraggingPosition(
@@ -249,35 +213,17 @@ class EverpathViewModel(
         }
     }
 
-   fun clearDraggingPosition(
+    fun clearDraggingPosition(
         goalId: String
     ) {
-
         _uiState.update {
-
             it.copy(
                 draggingPositions =
-                    it.draggingPositions -
-                            goalId
+                    it.draggingPositions - goalId
             )
-
         }
-
     }
 
-    /**
-     * ---------------------------------------------------------
-     * Viewport
-     * ---------------------------------------------------------
-     *
-     * Gestiona la posición de la cámara virtual del mapa.
-     *
-     * Las coordenadas reales de las metas nunca cambian.
-     * Únicamente cambia el desplazamiento visual aplicado
-     * durante el renderizado.
-     */
-
-    //Desplaza la cámara del mapa.
     fun moveViewport(
         deltaX: Float,
         deltaY: Float
@@ -297,10 +243,8 @@ class EverpathViewModel(
                     )
             )
         }
-
     }
 
-    //Restablece la cámara a su posición inicial.
     fun resetViewport() {
         _uiState.update { currentState ->
             currentState.copy(
@@ -315,30 +259,32 @@ class EverpathViewModel(
 
     fun createGoal(
         title: String,
-        description: String
+        description: String,
+        lifeArea: LifeAreaType
     ) {
         val goalId =
             UUID.randomUUID().toString()
 
-        val goal = GoalNode(
-            id = goalId,
-            title = title,
-            description = description,
-            lifeArea = LifeAreaType.HEALTH,
-            status = GoalStatus.ACTIVE,
-            activities = emptyList(),
-            progress = 0f
-        )
+        val goal =
+            GoalNode(
+                id = goalId,
+                title = title,
+                description = description,
+                lifeArea = lifeArea,
+                status = GoalStatus.ACTIVE,
+                activities = emptyList(),
+                progress = 0f
+            )
 
         val position =
             GoalPositionEntity(
                 goalId = goalId,
-                x = (
-                        100f +
-                                (_uiState.value.goalNodes.size * 220f)
-                        ),
+                x =
+                    100f +
+                            (_uiState.value.goalNodes.size * 220f),
                 y = 100f
             )
+
         viewModelScope.launch {
             saveGoalNodeUseCase(goal)
             saveGoalPositionUseCase(position)
@@ -348,7 +294,8 @@ class EverpathViewModel(
     fun updateGoal(
         title: String,
         description: String,
-        status: GoalStatus
+        status: GoalStatus,
+        lifeArea: LifeAreaType
     ) {
         val selectedGoalId =
             _uiState.value.selectedGoalId
@@ -365,7 +312,8 @@ class EverpathViewModel(
             currentGoal.copy(
                 title = title,
                 description = description,
-                status = status
+                status = status,
+                lifeArea = lifeArea
             )
 
         viewModelScope.launch {
@@ -396,28 +344,23 @@ class EverpathViewModel(
                 selectedGoalId = goalId
             )
         }
-
     }
 
-    /**
-     * Crea una conexión entre dos metas validando
-     * las reglas básicas del mapa de progreso.
-     */
     fun createConnection(
         sourceGoalId: String,
         targetGoalId: String
     ) {
 
-        if (sourceGoalId == targetGoalId) {return}
+        if (sourceGoalId == targetGoalId) {
+            return
+        }
 
         val existingConnections =
             _uiState.value.connections
 
         val sourceAlreadyConnected =
             existingConnections.any {
-
-                it.sourceGoalId ==
-                        sourceGoalId
+                it.sourceGoalId == sourceGoalId
             }
 
         if (sourceAlreadyConnected) {
@@ -426,14 +369,13 @@ class EverpathViewModel(
 
         val duplicatedConnection =
             existingConnections.any {
-
-                it.sourceGoalId ==
-                        sourceGoalId &&
-                        it.targetGoalId ==
-                        targetGoalId
+                it.sourceGoalId == sourceGoalId &&
+                        it.targetGoalId == targetGoalId
             }
 
-        if (duplicatedConnection) {return}
+        if (duplicatedConnection) {
+            return
+        }
 
         val connection =
             GoalConnection(
@@ -455,8 +397,7 @@ class EverpathViewModel(
         _uiState.update {
             it.copy(
                 isConnectionMode = true,
-                connectionSourceGoalId =
-                    selectedGoalId
+                connectionSourceGoalId = selectedGoalId
             )
         }
     }
@@ -471,7 +412,6 @@ class EverpathViewModel(
 
     fun clearSelection() {
         _uiState.update {
-
             it.copy(
                 selectedGoalId = null,
                 selectedConnectionId = null
@@ -511,16 +451,17 @@ class EverpathViewModel(
         val currentState =
             _uiState.value
 
-        if (
-            currentState.isConnectionMode
-        ) {
+        if (currentState.isConnectionMode) {
+
             val sourceGoalId =
                 currentState.connectionSourceGoalId
                     ?: return
+
             createConnection(
                 sourceGoalId = sourceGoalId,
                 targetGoalId = goalId
             )
+
             _uiState.update {
                 it.copy(
                     isConnectionMode = false,
@@ -528,9 +469,10 @@ class EverpathViewModel(
                     selectedGoalId = null
                 )
             }
+
             return
         }
+
         selectGoal(goalId)
     }
-
 }
