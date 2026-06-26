@@ -150,20 +150,12 @@ public class GoalServiceImpl
                         request.getStatus()
                                 == GoalStatus.COMPLETED
 
-                        &&
-
-                        !goal.getXpGranted()
-
         ) {
 
-            xpService.addXp(
-                    goal.getUser(),
-                    100
+            completeGoal(
+                    goal
             );
 
-            goal.setXpGranted(
-                    true
-            );
         }
 
         GoalEntity updatedGoal =
@@ -173,6 +165,48 @@ public class GoalServiceImpl
 
         return goalMapper.toResponse(
                 updatedGoal
+        );
+    }
+
+
+    @Transactional
+    @Override
+    public void completeGoal(
+            GoalEntity goal
+    ) {
+
+        if (
+                goal.getStatus()
+                        == GoalStatus.COMPLETED
+                        &&
+                        goal.getXpGranted()
+
+        ) {
+
+            return;
+
+        }
+
+        goal.setStatus(
+                GoalStatus.COMPLETED
+        );
+
+        if (
+                !goal.getXpGranted()
+        ) {
+            xpService.addXp(
+                    goal.getUser(),
+                    100
+            );
+
+            goal.setXpGranted(
+                    true
+            );
+
+        }
+
+        goalRepository.save(
+                goal
         );
     }
 

@@ -10,6 +10,7 @@ import com.everpath.api.entity.GoalEntity;
 import com.everpath.api.mapper.ActivityMapper;
 import com.everpath.api.repository.ActivityRepository;
 import com.everpath.api.repository.GoalRepository;
+import com.everpath.api.service.goal.GoalService;
 import com.everpath.api.service.progress.XpService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -35,6 +36,8 @@ public class ActivityServiceImpl
     private final ActivityMapper activityMapper;
 
     private final XpService xpService;
+
+    private final GoalService goalService;
 
     @Transactional
     @Override
@@ -244,10 +247,11 @@ public class ActivityServiceImpl
 
         ) {
 
-            goal.setStatus(
-                    GoalStatus.COMPLETED
+            goalService.completeGoal(
+                    goal
             );
 
+            return;
         }
 
         //---------------------------------
