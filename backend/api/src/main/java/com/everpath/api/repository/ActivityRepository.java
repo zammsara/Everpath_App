@@ -29,21 +29,28 @@ public interface ActivityRepository
             GoalEntity goal
     );
 
-    long countByGoalUserAndStatus(
+    /**
+     * Cuenta actividades de una meta
+     * con un estado específico.
+     */
+    long countByGoalAndStatus(
 
-            UserEntity user,
+            GoalEntity goal,
             ActivityStatus status
 
     );
 
+    /**
+     * Cuenta todas las actividades
+     * pertenecientes a una meta.
+     */
     long countByGoal(
             GoalEntity goal
     );
 
-    long countByGoalAndStatus(
+    long countByGoalUserAndStatus(
 
-            GoalEntity goal,
-
+            UserEntity user,
             ActivityStatus status
 
     );
