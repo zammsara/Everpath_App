@@ -1,21 +1,33 @@
 package com.everpath.domain.repository
 
 import com.everpath.domain.model.Achievement
-import kotlinx.coroutines.flow.Flow
 
 /**
- * Repositorio encargado de gestionar
- * la persistencia de achievements.
+ * Contrato del repositorio encargado de gestionar
+ * la información de achievements del usuario.
+ *
+ * Este repositorio representa únicamente las
+ * operaciones del dominio, sin exponer detalles
+ * sobre si los datos provienen del backend REST,
+ * Room o una estrategia híbrida Offline First.
  */
 interface AchievementRepository {
 
-    fun getAchievements():
-            Flow<List<Achievement>>
+
+    suspend fun getAchievementsByUser(
+        userId: Long
+    ): List<Achievement>
+
 
     suspend fun getAchievementById(
-        id: String
+        achievementId: String
     ): Achievement?
 
+    /**
+     * Sincroniza un achievement
+     * desbloqueado con el backend
+     * y la persistencia local.
+     */
     suspend fun saveAchievement(
         achievement: Achievement
     )
