@@ -3,45 +3,70 @@ package com.everpath.data.repository
 import com.everpath.data.local.dao.AchievementDao
 import com.everpath.data.local.mapper.toDomain
 import com.everpath.data.local.mapper.toEntity
+import com.everpath.data.remote.datasource.AchievementRemoteDataSource
+import com.everpath.data.remote.mapper.toDomain
 import com.everpath.domain.model.Achievement
 import com.everpath.domain.repository.AchievementRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.first
 
 /**
- * Implementación Room del repositorio
- * de achievements.
+ * Repositorio híbrido encargado de sincronizar
+ * achievements entre el backend y Room.
+ *
+ * Los achievements son calculados exclusivamente
+ * por el backend y almacenados localmente para
+ * soportar la estrategia Offline First.
  */
 class AchievementRepositoryImpl(
-    private val achievementDao: AchievementDao
+    private val achievementDao: AchievementDao,
+    private val achievementRemoteDataSource:
+    AchievementRemoteDataSource
 ) : AchievementRepository {
 
-    override fun getAchievements():
-            Flow<List<Achievement>> {
+    override suspend fun getAchievementsByUser(
+        userId: Long
+    ): List<Achievement> {
 
-        return achievementDao
-            .getAchievements()
-            .map { entities ->
-                entities.map {
+        return try {
+
+            val remoteAchievements =
+                achievementRemoteDataSource
+                    .getAchievements(
+                        userId
+                    )
+
+            remoteAchievements.forEach {
+                achievementDao.saveAchievement(
+                    it.toDomain()
+                        .toEntity()
+                )
+            }
+
+            remoteAchievements.map {
+                it.toDomain()
+            }
+
+        } catch (
+            exception: Exception
+        ) {
+
+            achievementDao
+                .getAchievements()
+                .first()
+                .map {
                     it.toDomain()
                 }
-            }
+        }
     }
 
     override suspend fun getAchievementById(
-        id: String
+        achievementId: String
     ): Achievement? {
 
         return achievementDao
-            .getAchievementById(id)
+            .getAchievementById(
+                achievementId
+            )
             ?.toDomain()
-    }
-
-    override suspend fun saveAchievement(
-        achievement: Achievement
-    ) {
-        achievementDao.saveAchievement(
-            achievement.toEntity()
-        )
     }
 }
