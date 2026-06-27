@@ -9,7 +9,6 @@ import com.everpath.domain.model.GoalNode
  */
 class CompleteGoalNodeUseCase(
     private val updateGoalNodeUseCase: UpdateGoalNodeUseCase,
-    private val addXpUseCase: AddXpUseCase
 ) {
 
     suspend operator fun invoke(
@@ -33,6 +32,5 @@ class CompleteGoalNodeUseCase(
                 xpGranted = true
             )
         )
-        addXpUseCase(100)
     }
 }

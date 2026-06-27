@@ -9,7 +9,6 @@ import com.everpath.domain.model.Activity
  */
 class CompleteActivityUseCase(
     private val updateActivityUseCase: UpdateActivityUseCase,
-    private val addXpUseCase: AddXpUseCase
 ) {
 
     suspend operator fun invoke(
@@ -33,7 +32,5 @@ class CompleteActivityUseCase(
                 xpGranted = true
             )
         )
-
-        addXpUseCase(10)
     }
 }
