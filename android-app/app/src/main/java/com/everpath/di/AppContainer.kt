@@ -36,6 +36,13 @@ import com.everpath.domain.usecase.activity.CompleteActivityUseCase
 import com.everpath.domain.usecase.goal.CompleteGoalNodeUseCase
 import com.everpath.domain.usecase.userprogress.GetLevelProgressUseCase
 import com.everpath.domain.usecase.userprogress.GetUserLevelUseCase
+import com.everpath.data.remote.datasource.ActivityRemoteDataSource
+import com.everpath.data.remote.datasource.AchievementRemoteDataSource
+import com.everpath.data.remote.datasource.GoalRemoteDataSource
+import com.everpath.data.remote.datasource.UserProgressRemoteDataSource
+import com.everpath.data.remote.network.RetrofitProvider
+import com.everpath.data.remote.service.ActivityApiService
+import com.everpath.data.remote.service.GoalApiService
 
 
 /**
@@ -59,11 +66,50 @@ class AppContainer(
             .fallbackToDestructiveMigration()
             .build()
 
+
+    // Api Services
+
+    private val goalApiService =
+        RetrofitProvider
+            .retrofit
+            .create(
+                GoalApiService::class.java
+            )
+
+    private val activityApiService =
+        RetrofitProvider
+            .retrofit
+            .create(
+                ActivityApiService::class.java
+            )
+
+
+    // Remote Data Sources
+
+    private val goalRemoteDataSource =
+        GoalRemoteDataSource(
+            goalApiService
+        )
+
+    private val activityRemoteDataSource =
+        ActivityRemoteDataSource(
+            activityApiService
+        )
+
+    private val userProgressRemoteDataSource =
+        UserProgressRemoteDataSource()
+
+    private val achievementRemoteDataSource =
+        AchievementRemoteDataSource()
+
+
     // Repositorios
 
     private val goalRepository: GoalRepository =
         GoalRepositoryImpl(
-            goalDao = database.goalDao()
+            goalDao = database.goalDao(),
+            goalRemoteDataSource =
+                goalRemoteDataSource
         )
 
     private val activityRepository:
@@ -71,7 +117,10 @@ class AppContainer(
 
         ActivityRepositoryImpl(
             activityDao =
-                database.activityDao()
+                database.activityDao(),
+
+            remoteDataSource =
+                activityRemoteDataSource
         )
 
     private val goalPositionRepository:
@@ -90,20 +139,26 @@ class AppContainer(
                 database.goalConnectionDao()
         )
 
+
     private val userProgressRepository:
             UserProgressRepository =
 
         UserProgressRepositoryImpl(
             userProgressDao =
-                database.userProgressDao()
-        )
+                database.userProgressDao(),
 
+            remoteDataSource =
+                userProgressRemoteDataSource
+        )
     private val achievementRepository:
             AchievementRepository =
 
         AchievementRepositoryImpl(
             achievementDao =
-                database.achievementDao()
+                database.achievementDao(),
+
+            achievementRemoteDataSource =
+                achievementRemoteDataSource
         )
 
     // Goals
@@ -202,33 +257,14 @@ class AppContainer(
             userProgressRepository
         )
 
-    val saveUserProgressUseCase =
-        SaveUserProgressUseCase(
-            userProgressRepository
-        )
-
-    val updateUserProgressUseCase =
-        UpdateUserProgressUseCase(
-            userProgressRepository
-        )
-
     val getUserLevelUseCase =
         GetUserLevelUseCase()
 
     val getLevelProgressUseCase =
         GetLevelProgressUseCase()
 
-    val addXpUseCase =
-        AddXpUseCase(
-            userProgressRepository
-        )
-
-
 
     // Achievements
-
-    val evaluateAchievementsUseCase =
-        EvaluateAchievementsUseCase()
 
     val getAchievementsUseCase =
         GetAchievementsUseCase(
@@ -240,59 +276,17 @@ class AppContainer(
             achievementRepository
         )
 
-    val getUnlockedAchievementsUseCase =
-        GetUnlockedAchievementsUseCase(
-            achievementRepository
-        )
-
-    val saveAchievementUseCase =
-        SaveAchievementUseCase(
-            achievementRepository
-        )
-
-    val unlockAchievementsUseCase =
-        UnlockAchievementsUseCase(
-            evaluateAchievementsUseCase =
-                evaluateAchievementsUseCase,
-
-            saveAchievementUseCase =
-                saveAchievementUseCase,
-
-            achievementRepository =
-                achievementRepository
-        )
-
 
     // Casos de uso compuestos
 
     val completeActivityUseCase =
         CompleteActivityUseCase(
-            updateActivityUseCase,
-            addXpUseCase
+            updateActivityUseCase
         )
 
     val completeGoalNodeUseCase =
         CompleteGoalNodeUseCase(
-            updateGoalNodeUseCase,
-            addXpUseCase
-        )
-
-    val completeActivityWithAchievementsUseCase =
-        CompleteActivityWithAchievementsUseCase(
-            completeActivityUseCase = completeActivityUseCase,
-            getGoalNodesUseCase = getGoalNodesUseCase,
-            getUserProgressUseCase = getUserProgressUseCase,
-            getUserLevelUseCase = getUserLevelUseCase,
-            unlockAchievementsUseCase = unlockAchievementsUseCase
-        )
-
-    val completeGoalWithAchievementsUseCase =
-        CompleteGoalWithAchievementsUseCase(
-            completeGoalNodeUseCase = completeGoalNodeUseCase,
-            getGoalNodesUseCase = getGoalNodesUseCase,
-            getUserProgressUseCase = getUserProgressUseCase,
-            getUserLevelUseCase = getUserLevelUseCase,
-            unlockAchievementsUseCase = unlockAchievementsUseCase
+            updateGoalNodeUseCase
         )
 
 }
