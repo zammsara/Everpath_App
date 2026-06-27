@@ -1,27 +1,35 @@
 package com.everpath.domain.repository
 
 import com.everpath.domain.model.UserProgress
-import kotlinx.coroutines.flow.Flow
 
 /**
- * Repositorio encargado de
- * gestionar el progreso global
- * del usuario.
+ * Contrato encargado de definir
+ * todas las operaciones relacionadas
+ * con el progreso global del usuario.
+ *
+ * El dominio únicamente conoce
+ * las operaciones disponibles,
+ * sin depender de la fuente
+ * de datos utilizada para obtenerlas.
+ *
+ * La implementación concreta será
+ * responsable de coordinar Room
+ * y el backend mediante Retrofit.
  */
 interface UserProgressRepository {
 
-    fun getUserProgress():
-            Flow<UserProgress?>
+    suspend fun getUserProgress(
+        userId: Long
+    ): UserProgress
 
-    suspend fun getCurrentUserProgress():
-            UserProgress?
-
-    suspend fun saveUserProgress(
-        userProgress: UserProgress
-    )
-
+    /**
+     * Actualiza el progreso
+     * del usuario en el backend
+     * y sincroniza la información
+     * local cuando sea necesario.
+     */
     suspend fun updateUserProgress(
         userProgress: UserProgress
-    )
+    ): UserProgress
 
 }
