@@ -38,9 +38,6 @@ import com.everpath.domain.usecase.achievement.GetUnlockedAchievementsUseCase
 import com.everpath.domain.usecase.achievement.SaveAchievementUseCase
 import com.everpath.domain.usecase.achievement.UnlockAchievementsUseCase
 import com.everpath.domain.usecase.userprogress.GetUserProgressUseCase
-import com.everpath.domain.usecase.userprogress.SaveUserProgressUseCase
-import com.everpath.domain.usecase.userprogress.UpdateUserProgressUseCase
-import com.everpath.domain.usecase.userprogress.AddXpUseCase
 import com.everpath.domain.usecase.activity.CompleteActivityUseCase
 import com.everpath.domain.usecase.goal.CompleteGoalNodeUseCase
 import com.everpath.domain.usecase.userprogress.GetLevelProgressUseCase

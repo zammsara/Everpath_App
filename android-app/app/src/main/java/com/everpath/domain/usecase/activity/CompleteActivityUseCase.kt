@@ -2,7 +2,6 @@ package com.everpath.domain.usecase.activity
 
 import com.everpath.domain.enums.ActivityStatus
 import com.everpath.domain.model.Activity
-import com.everpath.domain.usecase.userprogress.AddXpUseCase
 
 /**
  * Caso de uso encargado de completar

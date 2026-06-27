@@ -2,7 +2,6 @@ package com.everpath.domain.usecase.goal
 
 import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.model.GoalNode
-import com.everpath.domain.usecase.userprogress.AddXpUseCase
 
 /**
  * Caso de uso encargado de completar
