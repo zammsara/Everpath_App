@@ -1,25 +1,38 @@
 package com.everpath.domain.repository
 
 import com.everpath.domain.model.Activity
-import kotlinx.coroutines.flow.Flow
 
+/**
+ * Contrato del repositorio de actividades
+ * del dominio.
+ *
+ * Define todas las operaciones relacionadas
+ * con actividades sin exponer detalles
+ * de implementación como Room,
+ * Retrofit o cualquier otra fuente
+ * de datos.
+ */
 interface ActivityRepository {
-
-    fun getActivitiesByGoalId(
-        goalId: String
-    ): Flow<List<Activity>>
 
     suspend fun getActivityById(
         activityId: String
-    ): Activity?
+    ): Activity
 
-    suspend fun saveActivity(
+
+    suspend fun getActivitiesByGoal(
+        goalId: String
+    ): List<Activity>
+
+
+    suspend fun createActivity(
         activity: Activity
-    )
+    ): Activity
+
 
     suspend fun updateActivity(
         activity: Activity
-    )
+    ): Activity
+
 
     suspend fun deleteActivity(
         activityId: String
