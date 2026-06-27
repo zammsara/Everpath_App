@@ -8,7 +8,6 @@ import androidx.navigation.compose.composable
 import com.everpath.presentation.everpath.screen.EverpathScreen
 import com.everpath.presentation.goaldetail.screen.GoalDetailScreen
 import com.everpath.presentation.profile.screen.ProfileScreen
-import com.everpath.presentation.quest.screen.QuestScreen
 import com.everpath.presentation.today.screen.TodayScreen
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -124,15 +123,6 @@ fun AppNavHost(
         ) {
 
             TodayScreen()
-
-        }
-
-        composable(
-            route =
-                AppDestination.Quests.route
-        ) {
-
-            QuestScreen()
 
         }
 
