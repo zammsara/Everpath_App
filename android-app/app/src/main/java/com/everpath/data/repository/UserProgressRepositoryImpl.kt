@@ -3,51 +3,64 @@ package com.everpath.data.repository
 import com.everpath.data.local.dao.UserProgressDao
 import com.everpath.data.local.mapper.toDomain
 import com.everpath.data.local.mapper.toEntity
+import com.everpath.data.remote.datasource.UserProgressRemoteDataSource
+import com.everpath.data.remote.mapper.toDomain
 import com.everpath.domain.model.UserProgress
 import com.everpath.domain.repository.UserProgressRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 /**
- * Implementación Room del
- * repositorio UserProgress.
+ * Implementación híbrida del repositorio
+ * de progreso del usuario.
+ *
+ * Sigue una estrategia Offline First:
+ *
+ * 1. Consulta Room.
+ * 2. Si no existe información, consulta
+ *    el backend.
+ * 3. Actualiza la caché local.
+ * 4. Devuelve el modelo de dominio.
  */
 class UserProgressRepositoryImpl(
-    private val userProgressDao: UserProgressDao
+
+    private val userProgressDao: UserProgressDao,
+
+    private val remoteDataSource:
+    UserProgressRemoteDataSource
+
 ) : UserProgressRepository {
 
-    override fun getUserProgress():
-            Flow<UserProgress?> {
+    override suspend fun getUserProgress(
+        userId: Long
+    ): UserProgress {
 
-        return userProgressDao
-            .getUserProgress()
-            .map { entity ->
-                entity?.toDomain()
-            }
-    }
-
-    override suspend fun
-            getCurrentUserProgress():
-            UserProgress? {
-
-        return userProgressDao
+        userProgressDao
             .getCurrentUserProgress()
-            ?.toDomain()
+            ?.let {
+
+                return it.toDomain()
+
+            }
+
+        val remoteProgress =
+
+            remoteDataSource
+                .getUserProgress(
+                    userId
+                )
+
+        val domainProgress =
+
+            remoteProgress
+                .toDomain()
+
+        userProgressDao.upsertUserProgress(
+
+            domainProgress.toEntity()
+
+        )
+
+        return domainProgress
+
     }
 
-    override suspend fun saveUserProgress(
-        userProgress: UserProgress
-    ) {
-        userProgressDao.insertUserProgress(
-            userProgress.toEntity()
-        )
-    }
-
-    override suspend fun updateUserProgress(
-        userProgress: UserProgress
-    ) {
-        userProgressDao.updateUserProgress(
-            userProgress.toEntity()
-        )
-    }
 }
