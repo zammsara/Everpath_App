@@ -39,6 +39,13 @@ interface GoalDao {
         goals: List<GoalEntity>
     )
 
+    @Insert(
+        onConflict = OnConflictStrategy.REPLACE
+    )
+    suspend fun upsertGoal(
+        goal: GoalEntity
+    )
+
     @Update
     suspend fun updateGoal(
         goal: GoalEntity
