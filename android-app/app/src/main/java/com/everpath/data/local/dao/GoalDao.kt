@@ -56,6 +56,20 @@ interface GoalDao {
         goal: GoalEntity
     )
 
+    /**
+     * Elimina todas las metas almacenadas
+     * localmente.
+     *
+     * Será utilizado por el repositorio
+     * para reemplazar completamente
+     * la información después de una
+     * sincronización con el backend.
+     */
+    @Query(
+        "DELETE FROM goal_nodes"
+    )
+    suspend fun deleteAllGoals()
+
     @Query(
         "DELETE FROM goal_nodes WHERE id = :goalId"
     )
