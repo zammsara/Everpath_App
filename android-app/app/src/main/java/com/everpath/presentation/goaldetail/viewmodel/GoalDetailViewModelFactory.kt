@@ -18,9 +18,6 @@ class GoalDetailViewModelFactory(
     private val updateGoalNodeUseCase:
     UpdateGoalNodeUseCase,
 
-    private val completeGoalWithAchievementsUseCase:
-    CompleteGoalWithAchievementsUseCase,
-
     private val deleteGoalNodeUseCase:
     DeleteGoalNodeUseCase
 
@@ -38,9 +35,6 @@ class GoalDetailViewModelFactory(
 
             updateGoalNodeUseCase =
                 updateGoalNodeUseCase,
-
-            completeGoalWithAchievementsUseCase =
-                completeGoalWithAchievementsUseCase,
 
             deleteGoalNodeUseCase =
                 deleteGoalNodeUseCase

@@ -22,9 +22,6 @@ class GoalDetailViewModel(
     private val updateGoalNodeUseCase:
     UpdateGoalNodeUseCase,
 
-    private val completeGoalWithAchievementsUseCase:
-    CompleteGoalWithAchievementsUseCase,
-
     private val deleteGoalNodeUseCase:
     DeleteGoalNodeUseCase
 
@@ -115,22 +112,9 @@ class GoalDetailViewModel(
 
         viewModelScope.launch {
 
-            if (
-                currentGoal.status != GoalStatus.COMPLETED &&
-                status == GoalStatus.COMPLETED
-            ) {
-
-                completeGoalWithAchievementsUseCase(
-                    currentGoal
-                )
-
-            } else {
-
-                updateGoalNodeUseCase(
-                    updatedGoal
-                )
-
-            }
+            updateGoalNodeUseCase(
+                updatedGoal
+            )
 
             _uiState.update {
 

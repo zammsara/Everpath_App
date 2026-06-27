@@ -37,19 +37,19 @@ class ActivityViewModel(
 
         viewModelScope.launch {
 
-            getActivitiesByGoalIdUseCase(goalId)
-                .collect { activities ->
+            val activities =
+                getActivitiesByGoalIdUseCase(
+                    goalId
+                )
 
-                    _uiState.update {
+            _uiState.update {
 
-                        it.copy(
-                            activities = activities,
-                            isLoading = false
-                        )
+                it.copy(
+                    activities = activities,
+                    isLoading = false
+                )
 
-                    }
-
-                }
+            }
 
         }
 

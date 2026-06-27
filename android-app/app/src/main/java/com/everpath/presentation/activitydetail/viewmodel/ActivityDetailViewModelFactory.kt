@@ -18,9 +18,6 @@ class ActivityDetailViewModelFactory(
     private val updateActivityUseCase:
     UpdateActivityUseCase,
 
-    private val completeActivityWithAchievementsUseCase:
-    CompleteActivityWithAchievementsUseCase,
-
     private val deleteActivityUseCase:
     DeleteActivityUseCase
 
@@ -38,9 +35,6 @@ class ActivityDetailViewModelFactory(
 
             updateActivityUseCase =
                 updateActivityUseCase,
-
-            completeActivityWithAchievementsUseCase =
-                completeActivityWithAchievementsUseCase,
 
             deleteActivityUseCase =
                 deleteActivityUseCase

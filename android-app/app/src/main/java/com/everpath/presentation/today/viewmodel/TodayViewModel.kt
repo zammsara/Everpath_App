@@ -98,29 +98,22 @@ class TodayViewModel(
     private fun loadUserProgress() {
 
         viewModelScope.launch {
-            getUserProgressUseCase()
-                .collect { progress ->
-                    val xp =
-                        progress?.xp ?: 0
 
-                    val level =
-                        getUserLevelUseCase(
-                            xp
-                        )
+            val progress = getUserProgressUseCase(1L)
 
-                    val levelProgress =
-                        getLevelProgressUseCase(
-                            xp
-                        )
+            val xp = progress.xp
 
-                    _uiState.update {
-                        it.copy(
-                            xp = xp,
-                            level = level,
-                            levelProgress = levelProgress
-                        )
-                    }
-                }
+            val level = getUserLevelUseCase(xp)
+
+            val levelProgress = getLevelProgressUseCase(xp)
+
+            _uiState.update {
+                it.copy(
+                    xp = xp,
+                    level = level,
+                    levelProgress = levelProgress
+                )
+            }
         }
     }
 }

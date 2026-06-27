@@ -286,7 +286,10 @@ class EverpathViewModel(
             )
 
         viewModelScope.launch {
-            saveGoalNodeUseCase(goal)
+            saveGoalNodeUseCase(
+                goal,
+                userId = 1L
+            )
             saveGoalPositionUseCase(position)
         }
     }

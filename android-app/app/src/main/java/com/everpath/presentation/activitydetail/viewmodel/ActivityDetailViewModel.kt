@@ -18,7 +18,6 @@ import kotlinx.coroutines.launch
 class ActivityDetailViewModel(
     private val getActivityByIdUseCase: GetActivityByIdUseCase,
     private val updateActivityUseCase: UpdateActivityUseCase,
-    private val completeActivityWithAchievementsUseCase: CompleteActivityWithAchievementsUseCase,
     private val deleteActivityUseCase: DeleteActivityUseCase
 ) : ViewModel() {
 
@@ -61,19 +60,9 @@ class ActivityDetailViewModel(
             )
 
         viewModelScope.launch {
-            if (
-                currentActivity.status != ActivityStatus.COMPLETED &&
-                status == ActivityStatus.COMPLETED
-            ) {
-                completeActivityWithAchievementsUseCase(
-                    currentActivity
-                )
-
-            } else {
-                updateActivityUseCase(
-                    updatedActivity
-                )
-            }
+            updateActivityUseCase(
+                updatedActivity
+            )
 
             _activity.value =
                 getActivityByIdUseCase(

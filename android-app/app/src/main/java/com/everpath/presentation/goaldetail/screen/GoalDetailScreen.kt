@@ -127,11 +127,6 @@ fun GoalDetailScreen(
                         .appContainer
                         .updateGoalNodeUseCase,
 
-                completeGoalWithAchievementsUseCase =
-                    application
-                        .appContainer
-                        .completeGoalWithAchievementsUseCase,
-
                 deleteGoalNodeUseCase =
                     application
                         .appContainer
