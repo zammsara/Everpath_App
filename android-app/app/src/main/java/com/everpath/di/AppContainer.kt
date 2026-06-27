@@ -43,6 +43,8 @@ import com.everpath.data.remote.datasource.UserProgressRemoteDataSource
 import com.everpath.data.remote.network.RetrofitProvider
 import com.everpath.data.remote.service.ActivityApiService
 import com.everpath.data.remote.service.GoalApiService
+import com.everpath.data.sync.SyncManagerImpl
+import com.everpath.domain.sync.SyncManager
 
 
 /**
@@ -160,6 +162,15 @@ class AppContainer(
             achievementRemoteDataSource =
                 achievementRemoteDataSource
         )
+
+
+    // Sincronización
+
+    val syncManager: SyncManager =
+        SyncManagerImpl(
+            goalRepository = goalRepository
+        )
+
 
     // Goals
 
