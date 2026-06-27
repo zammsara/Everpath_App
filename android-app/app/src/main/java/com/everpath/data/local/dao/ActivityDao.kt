@@ -37,6 +37,20 @@ interface ActivityDao {
         activity: ActivityEntity
     )
 
+    @Insert(
+        onConflict = OnConflictStrategy.REPLACE
+    )
+    suspend fun insertActivities(
+        activities: List<ActivityEntity>
+    )
+
+    @Insert(
+        onConflict = OnConflictStrategy.REPLACE
+    )
+    suspend fun upsertActivity(
+        activity: ActivityEntity
+    )
+
     @Update
     suspend fun updateActivity(
         activity: ActivityEntity
