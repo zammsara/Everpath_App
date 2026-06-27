@@ -83,9 +83,7 @@ class GoalRepositoryImpl(
                         .toEntity()
                 }
 
-        goalDao.deleteAllGoals()
-
-        goalDao.insertGoals(
+        goalDao.replaceGoals(
             entities
         )
     }

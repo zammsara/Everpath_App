@@ -76,4 +76,26 @@ interface GoalDao {
     suspend fun deleteGoalById(
         goalId: String
     )
+
+    /**
+     * Reemplaza completamente las metas
+     * almacenadas localmente mediante
+     * una única transacción.
+     *
+     * Garantiza que nunca exista un
+     * estado intermedio donde la base
+     * quede vacía durante la sincronización.
+     */
+    @Transaction
+    suspend fun replaceGoals(
+        goals: List<GoalEntity>
+    ) {
+
+        deleteAllGoals()
+
+        insertGoals(
+            goals
+        )
+
+    }
 }
