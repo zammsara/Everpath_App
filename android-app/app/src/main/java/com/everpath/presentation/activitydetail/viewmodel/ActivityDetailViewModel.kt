@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.everpath.domain.enums.ActivityStatus
 import com.everpath.domain.model.Activity
-import com.everpath.domain.usecase.achievement.CompleteActivityWithAchievementsUseCase
 import com.everpath.domain.usecase.activity.DeleteActivityUseCase
 import com.everpath.domain.usecase.activity.GetActivityByIdUseCase
 import com.everpath.domain.usecase.activity.UpdateActivityUseCase

@@ -2,20 +2,22 @@ package com.everpath.domain.usecase.achievement
 
 import com.everpath.domain.model.Achievement
 import com.everpath.domain.repository.AchievementRepository
-import kotlinx.coroutines.flow.Flow
 
 /**
  * Caso de uso encargado de obtener
- * los achievements almacenados.
+ * todos los achievements desbloqueados
+ * por un usuario.
  */
 class GetAchievementsUseCase(
     private val repository: AchievementRepository
 ) {
 
-    operator fun invoke():
-            Flow<List<Achievement>> {
+    suspend operator fun invoke(
+        userId: Long
+    ): List<Achievement> {
 
-        return repository
-            .getAchievements()
+        return repository.getAchievementsByUser(
+            userId
+        )
     }
 }

@@ -29,14 +29,8 @@ import com.everpath.domain.usecase.goalconnection.SaveGoalConnectionUseCase
 import com.everpath.data.repository.UserProgressRepositoryImpl
 import com.everpath.domain.repository.AchievementRepository
 import com.everpath.domain.repository.UserProgressRepository
-import com.everpath.domain.usecase.achievement.CompleteActivityWithAchievementsUseCase
-import com.everpath.domain.usecase.achievement.CompleteGoalWithAchievementsUseCase
-import com.everpath.domain.usecase.achievement.EvaluateAchievementsUseCase
 import com.everpath.domain.usecase.achievement.GetAchievementByIdUseCase
 import com.everpath.domain.usecase.achievement.GetAchievementsUseCase
-import com.everpath.domain.usecase.achievement.GetUnlockedAchievementsUseCase
-import com.everpath.domain.usecase.achievement.SaveAchievementUseCase
-import com.everpath.domain.usecase.achievement.UnlockAchievementsUseCase
 import com.everpath.domain.usecase.userprogress.GetUserProgressUseCase
 import com.everpath.domain.usecase.activity.CompleteActivityUseCase
 import com.everpath.domain.usecase.goal.CompleteGoalNodeUseCase

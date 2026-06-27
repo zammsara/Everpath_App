@@ -2,7 +2,6 @@ package com.everpath.presentation.activitydetail.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.everpath.domain.usecase.achievement.CompleteActivityWithAchievementsUseCase
 import com.everpath.domain.usecase.activity.DeleteActivityUseCase
 import com.everpath.domain.usecase.activity.GetActivityByIdUseCase
 import com.everpath.domain.usecase.activity.UpdateActivityUseCase
