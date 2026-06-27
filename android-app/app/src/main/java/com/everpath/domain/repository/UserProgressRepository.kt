@@ -4,32 +4,32 @@ import com.everpath.domain.model.UserProgress
 
 /**
  * Contrato encargado de definir
- * todas las operaciones relacionadas
- * con el progreso global del usuario.
+ * las operaciones disponibles
+ * para sincronizar el progreso
+ * global del usuario.
  *
- * El dominio únicamente conoce
- * las operaciones disponibles,
- * sin depender de la fuente
- * de datos utilizada para obtenerlas.
+ * El backend constituye la fuente
+ * de verdad para la experiencia (XP),
+ * mientras que Android únicamente
+ * mantiene una copia local sincronizada.
  *
- * La implementación concreta será
- * responsable de coordinar Room
- * y el backend mediante Retrofit.
+ * El nivel y el progreso visual
+ * continúan calculándose mediante
+ * los casos de uso del dominio.
  */
 interface UserProgressRepository {
 
+    /**
+     * Obtiene el progreso global
+     * del usuario.
+     *
+     * La implementación concreta
+     * decidirá cuándo utilizar
+     * la caché local y cuándo
+     * consultar el backend.
+     */
     suspend fun getUserProgress(
         userId: Long
-    ): UserProgress
-
-    /**
-     * Actualiza el progreso
-     * del usuario en el backend
-     * y sincroniza la información
-     * local cuando sea necesario.
-     */
-    suspend fun updateUserProgress(
-        userProgress: UserProgress
     ): UserProgress
 
 }
