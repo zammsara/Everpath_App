@@ -27,4 +27,12 @@ interface UserProgressRepository {
     fun observeUserProgress():
             Flow<UserProgress?>
 
+    /**
+     * Sincroniza el progreso del usuario
+     * desde el backend hacia Room.
+     */
+    suspend fun fetchUserProgress(
+        userId: Long
+    )
+
 }

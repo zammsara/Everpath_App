@@ -25,7 +25,6 @@ import kotlinx.coroutines.flow.map
 class UserProgressRepositoryImpl(
 
     private val userProgressDao: UserProgressDao,
-
     private val remoteDataSource: UserProgressRemoteDataSource
 
 ) : UserProgressRepository {
@@ -44,6 +43,28 @@ class UserProgressRepositoryImpl(
                 progress?.toDomain()
 
             }
+    }
+
+    /**
+     * Obtiene el progreso desde el backend
+     * y actualiza la copia almacenada en Room.
+     */
+    override suspend fun fetchUserProgress(
+        userId: Long
+    ) {
+
+        val remoteProgress =
+            remoteDataSource
+                .getUserProgress(
+                    userId
+                )
+
+        userProgressDao.upsertUserProgress(
+
+            remoteProgress
+                .toDomain()
+                .toEntity()
+        )
     }
 
 }
