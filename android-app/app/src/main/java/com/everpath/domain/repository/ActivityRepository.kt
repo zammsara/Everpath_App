@@ -53,12 +53,12 @@ interface ActivityRepository {
 
     suspend fun createActivity(
         activity: Activity
-    ): Activity
+    )
 
 
     suspend fun updateActivity(
         activity: Activity
-    ): Activity
+    )
 
 
     suspend fun deleteActivity(

@@ -162,7 +162,7 @@ class ActivityRepositoryImpl(
      */
     override suspend fun createActivity(
         activity: Activity
-    ): Activity {
+    ) {
 
         val result =
             safeApiCall(
@@ -180,7 +180,7 @@ class ActivityRepositoryImpl(
                     "ActivityRepository",
                     "No fue posible crear la actividad en el servidor."
                 )
-                return activity
+                return
             }
 
         activityDao.upsertActivity(
@@ -188,8 +188,6 @@ class ActivityRepositoryImpl(
                 .toDomain()
                 .toEntity()
         )
-
-        return createdActivity.toDomain()
     }
 
     /**
@@ -198,7 +196,7 @@ class ActivityRepositoryImpl(
      */
     override suspend fun updateActivity(
         activity: Activity
-    ): Activity {
+    ) {
 
         val result =
             safeApiCall(
@@ -217,7 +215,7 @@ class ActivityRepositoryImpl(
                     "ActivityRepository",
                     "No fue posible actualizar la actividad en el servidor."
                 )
-                return activity
+                return
             }
 
         activityDao.upsertActivity(
@@ -225,7 +223,6 @@ class ActivityRepositoryImpl(
                 .toDomain()
                 .toEntity()
         )
-        return updatedActivity.toDomain()
     }
 
     /**

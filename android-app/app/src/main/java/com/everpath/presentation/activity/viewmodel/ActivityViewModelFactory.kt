@@ -2,11 +2,13 @@ package com.everpath.presentation.activity.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.everpath.domain.usecase.achievement.FetchAchievementsUseCase
 import com.everpath.domain.usecase.activity.DeleteActivityUseCase
 import com.everpath.domain.usecase.activity.FetchActivitiesByGoalUseCase
 import com.everpath.domain.usecase.activity.GetActivitiesByGoalIdUseCase
 import com.everpath.domain.usecase.activity.SaveActivityUseCase
 import com.everpath.domain.usecase.activity.UpdateActivityUseCase
+import com.everpath.domain.usecase.userprogress.FetchUserProgressUseCase
 
 class ActivityViewModelFactory(
 
@@ -23,7 +25,13 @@ class ActivityViewModelFactory(
     UpdateActivityUseCase,
 
     private val deleteActivityUseCase:
-    DeleteActivityUseCase
+    DeleteActivityUseCase,
+
+    private val fetchUserProgressUseCase:
+    FetchUserProgressUseCase,
+
+    private val fetchAchievementsUseCase:
+    FetchAchievementsUseCase
 
 ) : ViewModelProvider.Factory {
 
@@ -46,7 +54,13 @@ class ActivityViewModelFactory(
                 updateActivityUseCase,
 
             deleteActivityUseCase =
-                deleteActivityUseCase
+                deleteActivityUseCase,
+
+            fetchUserProgressUseCase =
+                fetchUserProgressUseCase,
+
+            fetchAchievementsUseCase =
+                fetchAchievementsUseCase
 
         ) as T
 

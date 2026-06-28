@@ -13,9 +13,8 @@ class SaveActivityUseCase(
 
     suspend operator fun invoke(
         activity: Activity
-    ): Activity {
-
-        return activityRepository
+    ) {
+        activityRepository
             .createActivity(activity)
 
     }

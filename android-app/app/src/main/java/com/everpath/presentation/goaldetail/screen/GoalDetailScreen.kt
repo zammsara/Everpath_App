@@ -165,7 +165,17 @@ fun GoalDetailScreen(
                 deleteActivityUseCase =
                     application
                         .appContainer
-                        .deleteActivityUseCase
+                        .deleteActivityUseCase,
+
+                fetchUserProgressUseCase =
+                    application
+                        .appContainer
+                        .fetchUserProgressUseCase,
+
+                fetchAchievementsUseCase =
+                    application
+                        .appContainer
+                        .fetchAchievementsUseCase
             )
         }
 

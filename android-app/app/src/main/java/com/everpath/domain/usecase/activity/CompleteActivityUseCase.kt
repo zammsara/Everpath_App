@@ -11,45 +11,46 @@ import com.everpath.domain.usecase.userprogress.FetchUserProgressUseCase
  * una actividad y otorgar experiencia.
  */
 class CompleteActivityUseCase(
-    private val updateActivityUseCase: UpdateActivityUseCase,
-    private val fetchUserProgressUseCase: FetchUserProgressUseCase,
-    private val fetchAchievementsUseCase: FetchAchievementsUseCase
+
+    private val updateActivityUseCase:
+    UpdateActivityUseCase,
+
+    private val fetchUserProgressUseCase:
+    FetchUserProgressUseCase,
+
+    private val fetchAchievementsUseCase:
+    FetchAchievementsUseCase
+
 ) {
 
     suspend operator fun invoke(
         activity: Activity
     ) {
 
-        val wasXpGranted = activity.xpGranted
+        if (activity.xpGranted) {
 
-        val completedActivity =
-            if (wasXpGranted) {
+            updateActivityUseCase(
                 activity.copy(
                     status =
                         ActivityStatus.COMPLETED
                 )
-
-            } else {
-
-                activity.copy(
-                    status =
-                        ActivityStatus.COMPLETED,
-
-                    xpGranted = true
-                )
-            }
-
-        updateActivityUseCase(
-            completedActivity
-        )
-
-        if (!wasXpGranted) {
-
-            fetchUserProgressUseCase()
-            fetchAchievementsUseCase(
-                UserSession.userId
             )
 
+            return
         }
+
+        updateActivityUseCase(
+            activity.copy(
+                status =
+                    ActivityStatus.COMPLETED,
+                xpGranted = true
+            )
+        )
+
+        fetchUserProgressUseCase()
+
+        fetchAchievementsUseCase(
+            UserSession.userId
+        )
     }
 }
