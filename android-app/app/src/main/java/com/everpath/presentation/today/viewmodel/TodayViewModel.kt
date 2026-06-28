@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.everpath.data.session.UserSession
 import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
+import com.everpath.domain.usecase.userprogress.FetchUserProgressUseCase
 import com.everpath.domain.usecase.userprogress.GetLevelProgressUseCase
 import com.everpath.domain.usecase.userprogress.GetUserLevelUseCase
 import com.everpath.domain.usecase.userprogress.GetUserProgressUseCase
@@ -24,6 +25,7 @@ import kotlinx.coroutines.launch
 class TodayViewModel(
     private val getGoalNodesUseCase: GetGoalNodesUseCase,
     private val getUserProgressUseCase:  GetUserProgressUseCase,
+    private val fetchUserProgressUseCase: FetchUserProgressUseCase,
     private val getUserLevelUseCase: GetUserLevelUseCase,
     private val getLevelProgressUseCase: GetLevelProgressUseCase
 
@@ -38,14 +40,14 @@ class TodayViewModel(
 
     init {
         loadDashboard()
-        loadUserProgress()
+        syncUserProgress()
+        observeUserProgress()
     }
 
     private fun loadDashboard() {
         viewModelScope.launch {
             getGoalNodesUseCase()
                 .collect { goals ->
-
                     val goalCount = goals.size
                     val completedGoalCount =
                         goals.count {
@@ -96,25 +98,45 @@ class TodayViewModel(
         }
     }
 
-    private fun loadUserProgress() {
 
+    /**
+     * Observa continuamente el progreso
+     * almacenado en Room y actualiza
+     * el estado de la interfaz.
+     */
+    private fun observeUserProgress() {
         viewModelScope.launch {
+            getUserProgressUseCase()
+                .collect { progress ->
+                    progress ?: return@collect
 
-            val progress = getUserProgressUseCase( UserSession.userId )
+                    val xp = progress.xp
+                    val level = getUserLevelUseCase(xp)
+                    val levelProgress = getLevelProgressUseCase(xp)
 
-            val xp = progress.xp
-
-            val level = getUserLevelUseCase(xp)
-
-            val levelProgress = getLevelProgressUseCase(xp)
-
-            _uiState.update {
-                it.copy(
-                    xp = xp,
-                    level = level,
-                    levelProgress = levelProgress
-                )
-            }
+                    _uiState.update {
+                        it.copy(
+                            xp = xp,
+                            level = level,
+                            levelProgress = levelProgress
+                        )
+                    }
+                }
         }
     }
+
+
+    /**
+     * Solicita la sincronización del
+     * progreso del usuario con el backend.
+     */
+    private fun syncUserProgress() {
+        viewModelScope.launch {
+            fetchUserProgressUseCase(
+                UserSession.userId
+            )
+        }
+    }
+
+
 }
