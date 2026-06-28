@@ -173,9 +173,14 @@ fun ProfileScreen(
 
             LevelProgressHeroCard(
                 level = uiState.level,
-                xp = uiState.xp,
-                nextLevelXp = levelProgress.requiredXpForNextLevel,
-                progress = levelProgress.progress
+                currentLevelXp =
+                    levelProgress.currentLevelXp,
+                nextLevelXp =
+                    levelProgress.requiredXpForNextLevel,
+                totalXp =
+                    uiState.xp,
+                progress =
+                    levelProgress.progress
             )
 
             ProfileStatsCard(
@@ -354,8 +359,9 @@ private fun ProfileHeader(
 @Composable
 private fun LevelProgressHeroCard(
     level: Int,
-    xp: Int,
+    currentLevelXp: Int,
     nextLevelXp: Int,
+    totalXp: Int,
     progress: Float
 ) {
 
@@ -366,10 +372,8 @@ private fun LevelProgressHeroCard(
     val remainingXp =
         (
                 nextLevelXp -
-                        xp
-                ).coerceAtLeast(
-                0
-            )
+                        currentLevelXp
+                ).coerceAtLeast(0)
 
     Card(
         modifier =
@@ -533,7 +537,7 @@ private fun LevelProgressHeroCard(
                         ) {
 
                             Text(
-                                text = "$xp",
+                                text = "$currentLevelXp",
                                 color = ProfilePrimary,
                                 style =
                                     MaterialTheme

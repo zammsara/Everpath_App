@@ -18,6 +18,6 @@ object UserSession {
      * Identificador del usuario
      * actualmente autenticado.
      */
-    var userId: Long = 6L
+    var userId: Long = 7L
 
 }

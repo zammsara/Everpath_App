@@ -1,5 +1,6 @@
 package com.everpath.data.repository
 
+import android.util.Log
 import com.everpath.data.local.dao.ActivityDao
 import com.everpath.data.local.mapper.toDomain
 import com.everpath.data.local.mapper.toEntity
@@ -7,6 +8,7 @@ import com.everpath.data.remote.datasource.ActivityRemoteDataSource
 import com.everpath.data.remote.mapper.toCreateRequestDto
 import com.everpath.data.remote.mapper.toDomain
 import com.everpath.data.remote.mapper.toUpdateRequestDto
+import com.everpath.data.remote.util.safeApiCall
 import com.everpath.domain.model.Activity
 import com.everpath.domain.repository.ActivityRepository
 import kotlinx.coroutines.flow.Flow
@@ -37,16 +39,37 @@ class ActivityRepositoryImpl(
         activityId: String
     ): Activity {
 
+        val result =
+            safeApiCall(
+                tag = "ActivityRepository"
+            ) {
+
+                remoteDataSource
+                    .getActivityById(
+                        activityId
+                    )
+            }
+
         val remoteActivity =
-            remoteDataSource
-                .getActivityById(activityId)
-                .toDomain()
+            result.getOrElse {
+
+                Log.i(
+                    "ActivityRepository",
+                    "No fue posible obtener la actividad desde el servidor."
+                )
+
+                return activityDao
+                    .getActivityById(activityId)
+                    ?.toDomain()
+                    ?: throw it
+            }
 
         activityDao.upsertActivity(
-            remoteActivity.toEntity()
+            remoteActivity
+                .toDomain()
+                .toEntity()
         )
-
-        return remoteActivity
+        return remoteActivity.toDomain()
     }
 
     /**
@@ -78,19 +101,32 @@ class ActivityRepositoryImpl(
         goalId: String
     ) {
 
+        val result =
+            safeApiCall(
+                tag = "ActivityRepository"
+            ) {
+
+                remoteDataSource
+                    .getActivitiesByGoal(
+                        goalId
+                    )
+            }
+
+        if (result.isFailure) {
+            Log.i(
+                "ActivityRepository",
+                "Sincronización omitida. Se utilizarán las actividades almacenadas localmente."
+            )
+            return
+        }
+
         val remoteActivities =
-            remoteDataSource
-                .getActivitiesByGoal(
-                    goalId
-                )
+            result.getOrThrow()
 
         activityDao.insertActivities(
-
             remoteActivities.map {
-
                 it.toDomain()
                     .toEntity()
-
             }
         )
     }
@@ -104,18 +140,32 @@ class ActivityRepositoryImpl(
         activity: Activity
     ): Activity {
 
+        val result =
+            safeApiCall(
+                tag = "ActivityRepository"
+            ) {
+                remoteDataSource
+                    .createActivity(
+                        activity.toCreateRequestDto()
+                    )
+            }
+
         val createdActivity =
-            remoteDataSource
-                .createActivity(
-                    activity.toCreateRequestDto()
+            result.getOrElse {
+                Log.i(
+                    "ActivityRepository",
+                    "No fue posible crear la actividad en el servidor."
                 )
-                .toDomain()
+                return activity
+            }
 
         activityDao.upsertActivity(
-            createdActivity.toEntity()
+            createdActivity
+                .toDomain()
+                .toEntity()
         )
 
-        return createdActivity
+        return createdActivity.toDomain()
     }
 
     /**
@@ -126,19 +176,32 @@ class ActivityRepositoryImpl(
         activity: Activity
     ): Activity {
 
+        val result =
+            safeApiCall(
+                tag = "ActivityRepository"
+            ) {
+                remoteDataSource
+                    .updateActivity(
+                        activity.id,
+                        activity.toUpdateRequestDto()
+                    )
+            }
+
         val updatedActivity =
-            remoteDataSource
-                .updateActivity(
-                    activity.id,
-                    activity.toUpdateRequestDto()
+            result.getOrElse {
+                Log.i(
+                    "ActivityRepository",
+                    "No fue posible actualizar la actividad en el servidor."
                 )
-                .toDomain()
+                return activity
+            }
 
         activityDao.upsertActivity(
-            updatedActivity.toEntity()
+            updatedActivity
+                .toDomain()
+                .toEntity()
         )
-
-        return updatedActivity
+        return updatedActivity.toDomain()
     }
 
     /**
@@ -149,10 +212,23 @@ class ActivityRepositoryImpl(
         activityId: String
     ) {
 
-        remoteDataSource.deleteActivity(
-            activityId
-        )
+        val result =
+            safeApiCall(
+                tag = "ActivityRepository"
+            ) {
+                remoteDataSource
+                    .deleteActivity(
+                        activityId
+                    )
+            }
 
+        if (result.isFailure) {
+            Log.i(
+                "ActivityRepository",
+                "No fue posible eliminar la actividad del servidor."
+            )
+            return
+        }
         activityDao.deleteActivityById(
             activityId
         )

@@ -277,21 +277,12 @@ class EverpathViewModel(
                 progress = 0f
             )
 
-        val position =
-            GoalPositionEntity(
-                goalId = goalId,
-                x =
-                    100f +
-                            (_uiState.value.goalNodes.size * 220f),
-                y = 100f
-            )
 
         viewModelScope.launch {
             saveGoalNodeUseCase(
                 goal,
                 userId = UserSession.userId
             )
-            saveGoalPositionUseCase(position)
         }
     }
 
