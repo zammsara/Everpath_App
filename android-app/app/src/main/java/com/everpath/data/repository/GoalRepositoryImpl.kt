@@ -1,6 +1,7 @@
 package com.everpath.data.repository
 
 import com.everpath.data.local.dao.GoalDao
+import com.everpath.data.local.entity.GoalPositionEntity
 import com.everpath.data.local.mapper.toDomain
 import com.everpath.data.local.mapper.toEntity
 import com.everpath.data.remote.datasource.GoalRemoteDataSource
@@ -87,6 +88,37 @@ class GoalRepositoryImpl(
         goalDao.replaceGoals(
             entities
         )
+
+        remoteGoals.forEachIndexed { index, goal ->
+
+            val existingPosition =
+                goalPositionRepository
+                    .getGoalPositionById(
+                        goal.id
+                    )
+
+            if (
+                existingPosition == null
+            ) {
+
+                goalPositionRepository
+                    .saveGoalPosition(
+
+                        GoalPositionEntity(
+
+                            goalId = goal.id,
+
+                            x =
+                                100f +
+                                        (
+                                                index * 250f
+                                                ),
+
+                            y = 100f
+                        )
+                    )
+            }
+        }
     }
 
     /**
