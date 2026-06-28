@@ -130,7 +130,12 @@ fun GoalDetailScreen(
                 deleteGoalNodeUseCase =
                     application
                         .appContainer
-                        .deleteGoalNodeUseCase
+                        .deleteGoalNodeUseCase,
+
+                fetchActivitiesByGoalUseCase =
+                    application
+                        .appContainer
+                        .fetchActivitiesByGoalUseCase
             )
         }
 

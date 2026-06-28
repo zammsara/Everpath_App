@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.enums.LifeAreaType
+import com.everpath.domain.usecase.activity.FetchActivitiesByGoalUseCase
 import com.everpath.domain.usecase.goal.DeleteGoalNodeUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodeByIdUseCase
 import com.everpath.domain.usecase.goal.UpdateGoalNodeUseCase
@@ -23,7 +24,10 @@ class GoalDetailViewModel(
     UpdateGoalNodeUseCase,
 
     private val deleteGoalNodeUseCase:
-    DeleteGoalNodeUseCase
+    DeleteGoalNodeUseCase,
+
+    private val fetchActivitiesByGoalUseCase:
+    FetchActivitiesByGoalUseCase
 
 ) : ViewModel() {
 
@@ -44,18 +48,19 @@ class GoalDetailViewModel(
             getGoalNodeByIdUseCase(
                 goalId
             ).collect { goal ->
-
                 _uiState.update {
-
                     it.copy(
                         goal = goal,
                         isLoading = false
                     )
-
                 }
-
             }
 
+            viewModelScope.launch {
+                fetchActivitiesByGoalUseCase(
+                    goalId
+                )
+            }
         }
 
     }
