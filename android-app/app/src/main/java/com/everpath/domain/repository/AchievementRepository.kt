@@ -16,14 +16,6 @@ import kotlinx.coroutines.flow.Flow
 interface AchievementRepository {
 
     /**
-     * Obtiene todos los achievements
-     * desbloqueados por un usuario.
-     */
-    suspend fun getAchievementsByUser(
-        userId: Long
-    ): List<Achievement>
-
-    /**
      * Observa continuamente los achievements
      * almacenados en Room.
      *

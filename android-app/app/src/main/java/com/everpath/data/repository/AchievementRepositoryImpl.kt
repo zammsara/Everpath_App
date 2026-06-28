@@ -27,23 +27,7 @@ class AchievementRepositoryImpl(
     AchievementRemoteDataSource
 ) : AchievementRepository {
 
-    /**
-     * Obtiene los achievements del usuario.
-     *
-     * Este método se mantiene únicamente por
-     * compatibilidad mientras la aplicación
-     * migra completamente al patrón
-     * observe + fetch.
-     */
-    override suspend fun getAchievementsByUser(
-        userId: Long
-    ): List<Achievement> {
 
-        fetchAchievements(userId)
-
-        return observeAchievements()
-            .first()
-    }
 
     /**
      * Sincroniza los achievements del usuario
