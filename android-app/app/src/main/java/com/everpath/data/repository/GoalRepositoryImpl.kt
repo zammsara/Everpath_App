@@ -85,16 +85,18 @@ class GoalRepositoryImpl(
                         .toEntity()
                 }
 
-        goalDao.replaceGoals(
+        goalDao.upsertGoals(
             entities
         )
 
         remoteGoals.forEachIndexed { index, goal ->
+
             val existingPosition =
                 goalPositionRepository
                     .getGoalPositionById(
                         goal.id
                     )
+
             if (
                 existingPosition == null
             ) {
