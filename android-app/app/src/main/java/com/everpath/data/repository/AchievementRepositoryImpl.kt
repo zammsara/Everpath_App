@@ -1,13 +1,17 @@
 package com.everpath.data.repository
 
+import android.util.Log
 import com.everpath.data.local.dao.AchievementDao
 import com.everpath.data.local.mapper.toDomain
 import com.everpath.data.local.mapper.toEntity
 import com.everpath.data.remote.datasource.AchievementRemoteDataSource
 import com.everpath.data.remote.mapper.toDomain
+import com.everpath.data.remote.util.safeApiCall
 import com.everpath.domain.model.Achievement
 import com.everpath.domain.repository.AchievementRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 
 /**
  * Repositorio híbrido encargado de sincronizar
@@ -23,40 +27,85 @@ class AchievementRepositoryImpl(
     AchievementRemoteDataSource
 ) : AchievementRepository {
 
+    /**
+     * Obtiene los achievements del usuario.
+     *
+     * Este método se mantiene únicamente por
+     * compatibilidad mientras la aplicación
+     * migra completamente al patrón
+     * observe + fetch.
+     */
     override suspend fun getAchievementsByUser(
         userId: Long
     ): List<Achievement> {
 
-        return try {
+        fetchAchievements(userId)
 
-            val remoteAchievements =
+        return observeAchievements()
+            .first()
+    }
+
+    /**
+     * Sincroniza los achievements del usuario
+     * desde el backend hacia Room.
+     */
+    override suspend fun fetchAchievements(
+        userId: Long
+    ) {
+
+        val result =
+            safeApiCall(
+                tag = "AchievementRepository"
+            ) {
+
                 achievementRemoteDataSource
                     .getAchievements(
                         userId
                     )
 
-            remoteAchievements.forEach {
-                achievementDao.saveAchievement(
-                    it.toDomain()
-                        .toEntity()
+            }
+
+        val remoteAchievements =
+            result.getOrElse {
+
+                Log.i(
+                    "AchievementRepository",
+                    "No fue posible sincronizar los achievements. Se utilizará la información almacenada localmente."
                 )
+
+                return
             }
 
-            remoteAchievements.map {
+        remoteAchievements.forEach {
+
+            achievementDao.saveAchievement(
+
                 it.toDomain()
-            }
+                    .toEntity()
+            )
+        }
+    }
 
-        } catch (
-            exception: Exception
-        ) {
+    /**
+     * Observa continuamente los achievements
+     * almacenados localmente en Room.
+     *
+     * La UI consume exclusivamente este Flow
+     * para mantenerse sincronizada automáticamente
+     * con los cambios realizados sobre la base
+     * de datos local.
+     */
+    override fun observeAchievements():
+            Flow<List<Achievement>> {
 
-            achievementDao
-                .getAchievements()
-                .first()
-                .map {
+        return achievementDao
+            .getAchievements()
+            .map { achievements ->
+
+                achievements.map {
                     it.toDomain()
                 }
-        }
+            }
     }
 
     override suspend fun getAchievementById(

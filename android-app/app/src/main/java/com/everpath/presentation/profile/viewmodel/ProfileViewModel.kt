@@ -2,7 +2,6 @@ package com.everpath.presentation.profile.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.everpath.data.session.UserSession
 import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.usecase.achievement.GetAchievementsUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
@@ -15,8 +14,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -54,7 +51,7 @@ class ProfileViewModel(
 
             val goalsDeferred = async { getGoalNodesUseCase().first() }
             val progressDeferred = async { getUserProgressUseCase().first() }
-            val achievementsDeferred = async { getAchievementsUseCase(UserSession.userId)}
+            val achievementsDeferred = async { getAchievementsUseCase().first()}
 
             val goals = goalsDeferred.await()
             val progress = progressDeferred.await()
