@@ -1,6 +1,7 @@
 package com.everpath.domain.repository
 
 import com.everpath.domain.model.UserProgress
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Contrato encargado de definir
@@ -20,16 +21,10 @@ import com.everpath.domain.model.UserProgress
 interface UserProgressRepository {
 
     /**
-     * Obtiene el progreso global
-     * del usuario.
-     *
-     * La implementación concreta
-     * decidirá cuándo utilizar
-     * la caché local y cuándo
-     * consultar el backend.
+     * Observa continuamente el progreso
+     * almacenado en Room.
      */
-    suspend fun getUserProgress(
-        userId: Long
-    ): UserProgress
+    fun observeUserProgress():
+            Flow<UserProgress?>
 
 }

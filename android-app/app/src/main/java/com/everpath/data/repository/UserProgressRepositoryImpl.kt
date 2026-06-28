@@ -7,6 +7,8 @@ import com.everpath.data.remote.datasource.UserProgressRemoteDataSource
 import com.everpath.data.remote.mapper.toDomain
 import com.everpath.domain.model.UserProgress
 import com.everpath.domain.repository.UserProgressRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 /**
  * Implementación híbrida del repositorio
@@ -24,43 +26,24 @@ class UserProgressRepositoryImpl(
 
     private val userProgressDao: UserProgressDao,
 
-    private val remoteDataSource:
-    UserProgressRemoteDataSource
+    private val remoteDataSource: UserProgressRemoteDataSource
 
 ) : UserProgressRepository {
 
-    override suspend fun getUserProgress(
-        userId: Long
-    ): UserProgress {
+    /**
+     * Observa continuamente el progreso
+     * almacenado localmente.
+     */
+    override fun observeUserProgress():
+            Flow<UserProgress?> {
 
-        userProgressDao
-            .getCurrentUserProgress()
-            ?.let {
+        return userProgressDao
+            .getUserProgress()
+            .map { progress ->
 
-                return it.toDomain()
+                progress?.toDomain()
 
             }
-
-        val remoteProgress =
-
-            remoteDataSource
-                .getUserProgress(
-                    userId
-                )
-
-        val domainProgress =
-
-            remoteProgress
-                .toDomain()
-
-        userProgressDao.upsertUserProgress(
-
-            domainProgress.toEntity()
-
-        )
-
-        return domainProgress
-
     }
 
 }
