@@ -107,11 +107,21 @@ class AppContainer(
 
     // Repositorios
 
+    private val goalPositionRepository:
+            GoalPositionRepository =
+
+        GoalPositionRepositoryImpl(
+            goalPositionDao =
+                database.goalPositionDao()
+        )
+
     private val goalRepository: GoalRepository =
         GoalRepositoryImpl(
             goalDao = database.goalDao(),
             goalRemoteDataSource =
-                goalRemoteDataSource
+                goalRemoteDataSource,
+            goalPositionRepository =
+                goalPositionRepository
         )
 
     private val activityRepository:
@@ -123,14 +133,6 @@ class AppContainer(
 
             remoteDataSource =
                 activityRemoteDataSource
-        )
-
-    private val goalPositionRepository:
-            GoalPositionRepository =
-
-        GoalPositionRepositoryImpl(
-            goalPositionDao =
-                database.goalPositionDao()
         )
 
     private val goalConnectionRepository:

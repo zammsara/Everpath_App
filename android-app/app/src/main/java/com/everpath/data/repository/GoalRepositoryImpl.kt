@@ -8,6 +8,7 @@ import com.everpath.data.remote.mapper.toCreateRequestDto
 import com.everpath.data.remote.mapper.toDomain
 import com.everpath.data.remote.mapper.toUpdateRequestDto
 import com.everpath.domain.model.GoalNode
+import com.everpath.domain.repository.GoalPositionRepository
 import com.everpath.domain.repository.GoalRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -25,8 +26,8 @@ import kotlinx.coroutines.flow.map
 class GoalRepositoryImpl(
 
     private val goalDao: GoalDao,
-
-    private val goalRemoteDataSource: GoalRemoteDataSource
+    private val goalRemoteDataSource: GoalRemoteDataSource,
+    private val goalPositionRepository: GoalPositionRepository
 
 ) : GoalRepository {
 
