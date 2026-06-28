@@ -1,7 +1,10 @@
 package com.everpath.domain.usecase.activity
 
+import com.everpath.data.session.UserSession
 import com.everpath.domain.enums.ActivityStatus
 import com.everpath.domain.model.Activity
+import com.everpath.domain.usecase.achievement.FetchAchievementsUseCase
+import com.everpath.domain.usecase.userprogress.FetchUserProgressUseCase
 
 /**
  * Caso de uso encargado de completar
@@ -9,28 +12,44 @@ import com.everpath.domain.model.Activity
  */
 class CompleteActivityUseCase(
     private val updateActivityUseCase: UpdateActivityUseCase,
+    private val fetchUserProgressUseCase: FetchUserProgressUseCase,
+    private val fetchAchievementsUseCase: FetchAchievementsUseCase
 ) {
 
     suspend operator fun invoke(
         activity: Activity
     ) {
 
-        if (activity.xpGranted) {
-            updateActivityUseCase(
+        val wasXpGranted = activity.xpGranted
+
+        val completedActivity =
+            if (wasXpGranted) {
                 activity.copy(
                     status =
                         ActivityStatus.COMPLETED
                 )
-            )
-            return
-        }
+
+            } else {
+
+                activity.copy(
+                    status =
+                        ActivityStatus.COMPLETED,
+
+                    xpGranted = true
+                )
+            }
 
         updateActivityUseCase(
-            activity.copy(
-                status =
-                    ActivityStatus.COMPLETED,
-                xpGranted = true
-            )
+            completedActivity
         )
+
+        if (!wasXpGranted) {
+
+            fetchUserProgressUseCase()
+            fetchAchievementsUseCase(
+                UserSession.userId
+            )
+
+        }
     }
 }

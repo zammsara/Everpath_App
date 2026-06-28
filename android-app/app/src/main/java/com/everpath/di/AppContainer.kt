@@ -318,9 +318,17 @@ class AppContainer(
     // Casos de uso compuestos
 
     val completeActivityUseCase =
-        CompleteActivityUseCase(
-            updateActivityUseCase
-        )
+    CompleteActivityUseCase(
+
+    updateActivityUseCase =
+    updateActivityUseCase,
+
+    fetchUserProgressUseCase =
+    fetchUserProgressUseCase,
+
+    fetchAchievementsUseCase =
+    fetchAchievementsUseCase
+    )
 
     val completeGoalNodeUseCase =
         CompleteGoalNodeUseCase(
