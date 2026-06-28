@@ -90,30 +90,24 @@ class GoalRepositoryImpl(
         )
 
         remoteGoals.forEachIndexed { index, goal ->
-
             val existingPosition =
                 goalPositionRepository
                     .getGoalPositionById(
                         goal.id
                     )
-
             if (
                 existingPosition == null
             ) {
 
                 goalPositionRepository
                     .saveGoalPosition(
-
                         GoalPositionEntity(
-
                             goalId = goal.id,
-
                             x =
                                 100f +
                                         (
                                                 index * 250f
                                                 ),
-
                             y = 100f
                         )
                     )
@@ -159,11 +153,30 @@ class GoalRepositoryImpl(
                     )
                 )
 
+        val savedGoal =
+            remoteGoal.toDomain()
+
         goalDao.upsertGoal(
-            remoteGoal
-                .toDomain()
-                .toEntity()
+            savedGoal.toEntity()
         )
+
+        val existingPosition =
+            goalPositionRepository
+                .getGoalPositionById(
+                    savedGoal.id
+                )
+
+        if (existingPosition == null) {
+
+            goalPositionRepository
+                .saveGoalPosition(
+                    GoalPositionEntity(
+                        goalId = savedGoal.id,
+                        x = 100f,
+                        y = 100f
+                    )
+                )
+        }
     }
 
     /**
