@@ -48,6 +48,8 @@ import com.everpath.domain.sync.SyncManager
 import com.everpath.domain.usecase.achievement.FetchAchievementsUseCase
 import com.everpath.domain.usecase.activity.FetchActivitiesByGoalUseCase
 import com.everpath.domain.usecase.activity.FetchActivityByIdUseCase
+import com.everpath.domain.usecase.goal.FetchGoalByIdUseCase
+import com.everpath.domain.usecase.goal.FetchGoalsUseCase
 import com.everpath.domain.usecase.userprogress.FetchUserProgressUseCase
 
 
@@ -185,6 +187,13 @@ class AppContainer(
 
     val getGoalNodeByIdUseCase =
         GetGoalNodeByIdUseCase(goalRepository)
+
+
+    val fetchGoalsUseCase =
+        FetchGoalsUseCase( goalRepository)
+
+    val fetchGoalByIdUseCase =
+        FetchGoalByIdUseCase(goalRepository)
 
     val saveGoalNodeUseCase =
         SaveGoalNodeUseCase(goalRepository)
