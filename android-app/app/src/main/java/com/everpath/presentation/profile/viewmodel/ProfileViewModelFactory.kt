@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.everpath.domain.usecase.achievement.GetAchievementsUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
+import com.everpath.domain.usecase.userprogress.FetchUserProgressUseCase
 import com.everpath.domain.usecase.userprogress.GetLevelProgressUseCase
 import com.everpath.domain.usecase.userprogress.GetUserLevelUseCase
 import com.everpath.domain.usecase.userprogress.GetUserProgressUseCase
@@ -15,6 +16,7 @@ import com.everpath.domain.usecase.userprogress.GetUserProgressUseCase
 class ProfileViewModelFactory(
     private val getGoalNodesUseCase: GetGoalNodesUseCase,
     private val getUserProgressUseCase: GetUserProgressUseCase,
+    private val fetchUserProgressUseCase: FetchUserProgressUseCase,
     private val getUserLevelUseCase: GetUserLevelUseCase,
     private val getAchievementsUseCase: GetAchievementsUseCase,
     private val getLevelProgressUseCase: GetLevelProgressUseCase
@@ -31,12 +33,13 @@ class ProfileViewModelFactory(
                 ProfileViewModel::class.java
             )
         ) {
-
             return ProfileViewModel(
                 getGoalNodesUseCase =
                     getGoalNodesUseCase,
                 getUserProgressUseCase =
                     getUserProgressUseCase,
+                fetchUserProgressUseCase =
+                    fetchUserProgressUseCase,
                 getUserLevelUseCase =
                     getUserLevelUseCase,
                 getAchievementsUseCase =
