@@ -1,6 +1,7 @@
 package com.everpath.data.repository
 
 import com.everpath.data.local.dao.ActivityDao
+import com.everpath.data.local.mapper.toDomain
 import com.everpath.data.local.mapper.toEntity
 import com.everpath.data.remote.datasource.ActivityRemoteDataSource
 import com.everpath.data.remote.mapper.toCreateRequestDto
@@ -8,6 +9,8 @@ import com.everpath.data.remote.mapper.toDomain
 import com.everpath.data.remote.mapper.toUpdateRequestDto
 import com.everpath.domain.model.Activity
 import com.everpath.domain.repository.ActivityRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 /**
  * Repositorio encargado de coordinar la obtención,
@@ -47,27 +50,22 @@ class ActivityRepositoryImpl(
     }
 
     /**
-     * Obtiene todas las actividades pertenecientes
-     * a una meta desde el backend y sincroniza Room.
+     * Observa continuamente las actividades
+     * almacenadas en Room para una meta.
      */
-    override suspend fun getActivitiesByGoal(
+    override fun observeActivitiesByGoal(
         goalId: String
-    ): List<Activity> {
+    ): Flow<List<Activity>> {
 
-        val remoteActivities =
-            remoteDataSource
-                .getActivitiesByGoal(goalId)
-                .map {
+        return activityDao
+            .getActivitiesByGoalId(goalId)
+            .map { activities ->
+
+                activities.map {
                     it.toDomain()
                 }
 
-        activityDao.insertActivities(
-            remoteActivities.map {
-                it.toEntity()
             }
-        )
-
-        return remoteActivities
     }
 
     /**

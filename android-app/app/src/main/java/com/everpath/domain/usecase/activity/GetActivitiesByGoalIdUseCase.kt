@@ -2,22 +2,25 @@ package com.everpath.domain.usecase.activity
 
 import com.everpath.domain.model.Activity
 import com.everpath.domain.repository.ActivityRepository
+import kotlinx.coroutines.flow.Flow
 
 /**
- * Caso de uso encargado de obtener
- * las actividades pertenecientes
- * a una meta.
+ * Caso de uso encargado de observar
+ * continuamente las actividades de
+ * una meta desde Room.
  */
 class GetActivitiesByGoalIdUseCase(
     private val activityRepository: ActivityRepository
 ) {
 
-    suspend operator fun invoke(
+    operator fun invoke(
         goalId: String
-    ): List<Activity> {
+    ): Flow<List<Activity>> {
 
         return activityRepository
-            .getActivitiesByGoal(goalId)
+            .observeActivitiesByGoal(
+                goalId
+            )
 
     }
 }

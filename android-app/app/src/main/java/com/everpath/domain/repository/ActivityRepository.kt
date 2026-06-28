@@ -1,6 +1,7 @@
 package com.everpath.domain.repository
 
 import com.everpath.domain.model.Activity
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Contrato del repositorio de actividades
@@ -19,9 +20,14 @@ interface ActivityRepository {
     ): Activity
 
 
-    suspend fun getActivitiesByGoal(
+    /**
+     * Observa continuamente las actividades
+     * pertenecientes a una meta almacenadas
+     * en la base de datos local.
+     */
+    fun observeActivitiesByGoal(
         goalId: String
-    ): List<Activity>
+    ): Flow<List<Activity>>
 
 
     suspend fun createActivity(
