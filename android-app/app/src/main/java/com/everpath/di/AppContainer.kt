@@ -45,6 +45,7 @@ import com.everpath.data.remote.service.ActivityApiService
 import com.everpath.data.remote.service.GoalApiService
 import com.everpath.data.sync.SyncManagerImpl
 import com.everpath.domain.sync.SyncManager
+import com.everpath.domain.usecase.achievement.FetchAchievementsUseCase
 import com.everpath.domain.usecase.activity.FetchActivitiesByGoalUseCase
 import com.everpath.domain.usecase.activity.FetchActivityByIdUseCase
 import com.everpath.domain.usecase.userprogress.FetchUserProgressUseCase
@@ -305,6 +306,11 @@ class AppContainer(
 
     val getAchievementByIdUseCase =
         GetAchievementByIdUseCase(
+            achievementRepository
+        )
+
+    val fetchAchievementsUseCase =
+        FetchAchievementsUseCase(
             achievementRepository
         )
 

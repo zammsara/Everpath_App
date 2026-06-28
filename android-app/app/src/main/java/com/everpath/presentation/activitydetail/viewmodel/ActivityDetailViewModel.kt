@@ -2,8 +2,10 @@ package com.everpath.presentation.activitydetail.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.everpath.data.session.UserSession
 import com.everpath.domain.enums.ActivityStatus
 import com.everpath.domain.model.Activity
+import com.everpath.domain.usecase.achievement.FetchAchievementsUseCase
 import com.everpath.domain.usecase.activity.DeleteActivityUseCase
 import com.everpath.domain.usecase.activity.FetchActivityByIdUseCase
 import com.everpath.domain.usecase.activity.GetActivityByIdUseCase
@@ -22,7 +24,8 @@ class ActivityDetailViewModel(
     private val updateActivityUseCase: UpdateActivityUseCase,
     private val deleteActivityUseCase: DeleteActivityUseCase,
     private val fetchUserProgressUseCase: FetchUserProgressUseCase,
-    private val fetchActivityByIdUseCase: FetchActivityByIdUseCase,
+    private val fetchAchievementsUseCase: FetchAchievementsUseCase,
+    private val fetchActivityByIdUseCase: FetchActivityByIdUseCase
 ) : ViewModel() {
 
     private val _activity =
@@ -83,7 +86,13 @@ class ActivityDetailViewModel(
                 !wasCompleted &&
                 status == ActivityStatus.COMPLETED
             ) {
+
                 fetchUserProgressUseCase()
+
+                fetchAchievementsUseCase(
+                    UserSession.userId
+                )
+
             }
 
         }

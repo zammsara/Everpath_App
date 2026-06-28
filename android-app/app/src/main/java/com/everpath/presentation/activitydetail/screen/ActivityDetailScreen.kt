@@ -117,6 +117,11 @@ fun ActivityDetailScreen(
                         .appContainer
                         .fetchUserProgressUseCase,
 
+                fetchAchievementsUseCase =
+                    application
+                         .appContainer
+                        .fetchAchievementsUseCase,
+
                 fetchActivityByIdUseCase =
                     application
                         .appContainer
