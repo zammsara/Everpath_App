@@ -44,23 +44,19 @@ class GoalDetailViewModel(
     ) {
 
         viewModelScope.launch {
-
-            getGoalNodeByIdUseCase(
-                goalId
-            ).collect { goal ->
-                _uiState.update {
-                    it.copy(
-                        goal = goal,
-                        isLoading = false
-                    )
+            getGoalNodeByIdUseCase(goalId)
+                .collect { goal ->
+                    _uiState.update {
+                        it.copy(
+                            goal = goal,
+                            isLoading = false
+                        )
+                    }
                 }
-            }
+        }
 
-            viewModelScope.launch {
-                fetchActivitiesByGoalUseCase(
-                    goalId
-                )
-            }
+        viewModelScope.launch {
+            fetchActivitiesByGoalUseCase(goalId)
         }
 
     }

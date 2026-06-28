@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.everpath.domain.enums.ActivityStatus
 import com.everpath.domain.model.Activity
 import com.everpath.domain.usecase.activity.DeleteActivityUseCase
+import com.everpath.domain.usecase.activity.FetchActivityByIdUseCase
 import com.everpath.domain.usecase.activity.GetActivityByIdUseCase
 import com.everpath.domain.usecase.activity.UpdateActivityUseCase
 import com.everpath.domain.usecase.userprogress.FetchUserProgressUseCase
@@ -20,7 +21,8 @@ class ActivityDetailViewModel(
     private val getActivityByIdUseCase: GetActivityByIdUseCase,
     private val updateActivityUseCase: UpdateActivityUseCase,
     private val deleteActivityUseCase: DeleteActivityUseCase,
-    private val fetchUserProgressUseCase: FetchUserProgressUseCase
+    private val fetchUserProgressUseCase: FetchUserProgressUseCase,
+    private val fetchActivityByIdUseCase: FetchActivityByIdUseCase,
 ) : ViewModel() {
 
     private val _activity =
@@ -32,8 +34,8 @@ class ActivityDetailViewModel(
     fun loadActivity(
         activityId: String
     ) {
-
         viewModelScope.launch {
+
             getActivityByIdUseCase(
                 activityId
             ).collect { activity ->
@@ -41,6 +43,12 @@ class ActivityDetailViewModel(
                 _activity.value =
                     activity
             }
+        }
+
+        viewModelScope.launch {
+            fetchActivityByIdUseCase(
+                activityId
+            )
         }
     }
 
@@ -61,11 +69,22 @@ class ActivityDetailViewModel(
                 status = status
             )
 
+        val wasCompleted =
+            currentActivity.status ==
+                    ActivityStatus.COMPLETED
+
         viewModelScope.launch {
 
             updateActivityUseCase(
                 updatedActivity
             )
+
+            if (
+                !wasCompleted &&
+                status == ActivityStatus.COMPLETED
+            ) {
+                fetchUserProgressUseCase()
+            }
 
         }
     }
