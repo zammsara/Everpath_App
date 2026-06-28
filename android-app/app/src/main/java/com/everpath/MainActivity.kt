@@ -19,13 +19,13 @@ class MainActivity : ComponentActivity() {
             (application as EverpathApplication)
                 .appContainer
 
-        lifecycleScope.launch {
-
-            appContainer
-                .syncManager
-                .refresh()
-
-        }
+//        lifecycleScope.launch {
+//
+//            appContainer
+//                .syncManager
+//                .refresh()
+//
+//        }
 
         setContent {
             EverpathTheme {

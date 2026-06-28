@@ -2,6 +2,7 @@ package com.everpath.presentation.today.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.everpath.data.session.UserSession
 import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
 import com.everpath.domain.usecase.userprogress.GetLevelProgressUseCase
@@ -99,7 +100,7 @@ class TodayViewModel(
 
         viewModelScope.launch {
 
-            val progress = getUserProgressUseCase(1L)
+            val progress = getUserProgressUseCase( UserSession.userId )
 
             val xp = progress.xp
 

@@ -3,6 +3,7 @@ package com.everpath.presentation.everpath.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.everpath.data.local.entity.GoalPositionEntity
+import com.everpath.data.session.UserSession
 import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.enums.LifeAreaType
 import com.everpath.domain.model.GoalConnection
@@ -288,7 +289,7 @@ class EverpathViewModel(
         viewModelScope.launch {
             saveGoalNodeUseCase(
                 goal,
-                userId = 1L
+                userId = UserSession.userId
             )
             saveGoalPositionUseCase(position)
         }
