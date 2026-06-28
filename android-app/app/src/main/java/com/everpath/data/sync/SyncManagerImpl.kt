@@ -1,7 +1,9 @@
 package com.everpath.data.sync
 
 import com.everpath.data.session.UserSession
+import com.everpath.domain.repository.AchievementRepository
 import com.everpath.domain.repository.GoalRepository
+import com.everpath.domain.repository.UserProgressRepository
 import com.everpath.domain.sync.SyncManager
 
 /**
@@ -13,7 +15,9 @@ import com.everpath.domain.sync.SyncManager
  */
 class SyncManagerImpl(
 
-    private val goalRepository: GoalRepository
+    private val goalRepository: GoalRepository,
+    private val userProgressRepository: UserProgressRepository,
+    private val achievementRepository: AchievementRepository
 
 ) : SyncManager {
 
@@ -23,9 +27,11 @@ class SyncManagerImpl(
      */
     override suspend fun refresh() {
 
-        goalRepository.fetchGoals(
-            UserSession.userId
-        )
+        val userId = UserSession.userId
+
+        goalRepository.fetchGoals(userId)
+        userProgressRepository.fetchUserProgress()
+        achievementRepository.fetchAchievements(userId)
 
     }
 

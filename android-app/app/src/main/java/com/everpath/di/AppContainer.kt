@@ -176,7 +176,14 @@ class AppContainer(
 
     val syncManager: SyncManager =
         SyncManagerImpl(
-            goalRepository = goalRepository
+            goalRepository =
+                goalRepository,
+
+            userProgressRepository =
+                userProgressRepository,
+
+            achievementRepository =
+                achievementRepository
         )
 
 
