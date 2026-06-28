@@ -6,11 +6,12 @@ import com.everpath.data.local.mapper.toEntity
 import com.everpath.data.remote.datasource.UserProgressRemoteDataSource
 import com.everpath.data.remote.mapper.toDomain
 import com.everpath.data.session.UserSession
-import com.everpath.data.session.UserSession.userId
 import com.everpath.domain.model.UserProgress
 import com.everpath.domain.repository.UserProgressRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import android.util.Log
+import com.everpath.data.remote.util.safeApiCall
 
 /**
  * Implementación híbrida del repositorio
@@ -48,16 +49,35 @@ class UserProgressRepositoryImpl(
     }
 
     /**
-     * Obtiene el progreso desde el backend
-     * y actualiza la copia almacenada en Room.
+     * Sincroniza el progreso del usuario
+     * desde el backend hacia Room.
+     *
+     * Si la sincronización falla, se conserva
+     * la información almacenada localmente
+     * para mantener el funcionamiento
+     * Offline First.
      */
     override suspend fun fetchUserProgress() {
+        val result =
+            safeApiCall(
+                tag = "UserProgressRepository"
+            ) {
+
+                remoteDataSource
+                    .getUserProgress(
+                        UserSession.userId
+                    )
+            }
 
         val remoteProgress =
-            remoteDataSource
-                .getUserProgress(
-                    UserSession.userId
+            result.getOrElse {
+                Log.i(
+                    "UserProgressRepository",
+                    "Sincronización omitida. Se utilizará el progreso almacenado localmente."
                 )
+
+                return
+            }
 
         userProgressDao.upsertUserProgress(
             remoteProgress
@@ -65,4 +85,5 @@ class UserProgressRepositoryImpl(
                 .toEntity()
         )
     }
+
 }
