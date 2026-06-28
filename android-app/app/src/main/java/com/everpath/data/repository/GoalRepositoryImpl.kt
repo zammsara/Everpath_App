@@ -65,6 +65,32 @@ class GoalRepositoryImpl(
             }
     }
 
+
+    private suspend fun createDefaultPositionIfNeeded(
+        goalId: String,
+        x: Float,
+        y: Float
+    ) {
+
+        val existingPosition =
+            goalPositionRepository
+                .getGoalPositionById(
+                    goalId
+                )
+
+        if (existingPosition == null) {
+
+            goalPositionRepository
+                .saveGoalPosition(
+                    GoalPositionEntity(
+                        goalId = goalId,
+                        x = x,
+                        y = y
+                    )
+                )
+        }
+    }
+
     /**
      * Descarga todas las metas del
      * backend y reemplaza completamente
@@ -91,29 +117,11 @@ class GoalRepositoryImpl(
 
         remoteGoals.forEachIndexed { index, goal ->
 
-            val existingPosition =
-                goalPositionRepository
-                    .getGoalPositionById(
-                        goal.id
-                    )
-
-            if (
-                existingPosition == null
-            ) {
-
-                goalPositionRepository
-                    .saveGoalPosition(
-                        GoalPositionEntity(
-                            goalId = goal.id,
-                            x =
-                                100f +
-                                        (
-                                                index * 250f
-                                                ),
-                            y = 100f
-                        )
-                    )
-            }
+            createDefaultPositionIfNeeded(
+                goalId = goal.id,
+                x = 100f + (index * 250f),
+                y = 100f
+            )
         }
     }
 
@@ -162,23 +170,11 @@ class GoalRepositoryImpl(
             savedGoal.toEntity()
         )
 
-        val existingPosition =
-            goalPositionRepository
-                .getGoalPositionById(
-                    savedGoal.id
-                )
-
-        if (existingPosition == null) {
-
-            goalPositionRepository
-                .saveGoalPosition(
-                    GoalPositionEntity(
-                        goalId = savedGoal.id,
-                        x = 100f,
-                        y = 100f
-                    )
-                )
-        }
+        createDefaultPositionIfNeeded(
+            goalId = savedGoal.id,
+            x = 100f,
+            y = 100f
+        )
     }
 
     /**
