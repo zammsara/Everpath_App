@@ -1,5 +1,6 @@
 package com.everpath.data.repository
 
+import android.util.Log
 import com.everpath.data.local.dao.GoalDao
 import com.everpath.data.local.entity.GoalPositionEntity
 import com.everpath.data.local.mapper.toDomain
@@ -8,6 +9,7 @@ import com.everpath.data.remote.datasource.GoalRemoteDataSource
 import com.everpath.data.remote.mapper.toCreateRequestDto
 import com.everpath.data.remote.mapper.toDomain
 import com.everpath.data.remote.mapper.toUpdateRequestDto
+import com.everpath.data.remote.util.safeApiCall
 import com.everpath.domain.model.GoalNode
 import com.everpath.domain.repository.GoalPositionRepository
 import com.everpath.domain.repository.GoalRepository
@@ -100,9 +102,29 @@ class GoalRepositoryImpl(
         userId: Long
     ) {
 
+        val result =
+            safeApiCall(
+                tag = "GoalRepository"
+            ) {
+                goalRemoteDataSource
+                    .getGoalsByUser(userId)
+            }
+
+        if (
+            result.isFailure
+        ) {
+
+            Log.i(
+                "GoalRepository",
+                "Sincronización omitida. Se utilizarán los datos almacenados en Room."
+            )
+
+            return
+
+        }
+
         val remoteGoals =
-            goalRemoteDataSource
-                .getGoalsByUser(userId)
+            result.getOrThrow()
 
         val entities =
             remoteGoals
@@ -134,15 +156,23 @@ class GoalRepositoryImpl(
         goalId: String
     ) {
 
-        val remoteGoal =
-            goalRemoteDataSource
-                .getGoalById(goalId)
+        val result =
+            safeApiCall(
+                tag = "GoalRepository"
+            ) {
+                goalRemoteDataSource
+                    .getGoalById(goalId)
+            }
 
-        goalDao.upsertGoal(
-            remoteGoal
-                .toDomain()
-                .toEntity()
-        )
+        result.getOrNull()?.let { remoteGoal ->
+
+            goalDao.upsertGoal(
+                remoteGoal
+                    .toDomain()
+                    .toEntity()
+            )
+
+        }
     }
 
     /**
@@ -155,13 +185,28 @@ class GoalRepositoryImpl(
         userId: Long
     ) {
 
-        val remoteGoal =
-            goalRemoteDataSource
-                .createGoal(
+        val result =
+            safeApiCall(
+                tag = "GoalRepository"
+            ) {
+                goalRemoteDataSource.createGoal(
                     goalNode.toCreateRequestDto(
                         userId
                     )
                 )
+            }
+
+        val remoteGoal =
+            result.getOrElse {
+
+                Log.i(
+                    "GoalRepository",
+                    "No fue posible crear la meta en el servidor."
+                )
+
+                return
+
+            }
 
         val savedGoal =
             remoteGoal.toDomain()
@@ -186,12 +231,27 @@ class GoalRepositoryImpl(
         goalNode: GoalNode
     ) {
 
-        val remoteGoal =
-            goalRemoteDataSource
-                .updateGoal(
+        val result =
+            safeApiCall(
+                tag = "GoalRepository"
+            ) {
+                goalRemoteDataSource.updateGoal(
                     goalNode.id,
                     goalNode.toUpdateRequestDto()
                 )
+            }
+
+        val remoteGoal =
+            result.getOrElse {
+
+                Log.i(
+                    "GoalRepository",
+                    "No fue posible actualizar la meta en el servidor."
+                )
+
+                return
+
+            }
 
         goalDao.upsertGoal(
             remoteGoal
@@ -208,11 +268,27 @@ class GoalRepositoryImpl(
         goalId: String
     ) {
 
-        goalRemoteDataSource
-            .deleteGoal(goalId)
+        val result =
+            safeApiCall(
+                tag = "GoalRepository"
+            ) {
+                goalRemoteDataSource
+                    .deleteGoal(goalId)
+            }
 
-        goalDao.deleteGoalById(
-            goalId
-        )
+        if (
+            result.isFailure
+        ) {
+
+            Log.i(
+                "GoalRepository",
+                "No fue posible eliminar la meta del servidor."
+            )
+
+            return
+
+        }
+
+        goalDao.deleteGoalById(goalId)
     }
 }
