@@ -53,7 +53,7 @@ class ProfileViewModel(
         viewModelScope.launch {
 
             val goalsDeferred = async { getGoalNodesUseCase().first() }
-            val progressDeferred = async { getUserProgressUseCase().filterNotNull().first() }
+            val progressDeferred = async { getUserProgressUseCase().first() }
             val achievementsDeferred = async { getAchievementsUseCase(UserSession.userId)}
 
             val goals = goalsDeferred.await()
@@ -77,7 +77,7 @@ class ProfileViewModel(
                 if (activityCount == 0) 0f
                 else completedActivityCount.toFloat() / activityCount.toFloat()
 
-            val xp = progress.xp
+            val xp = progress?.xp ?: 0
 
             val level = getUserLevelUseCase(xp)
 
