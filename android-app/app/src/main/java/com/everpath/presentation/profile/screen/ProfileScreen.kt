@@ -51,6 +51,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.everpath.EverpathApplication
+import com.everpath.domain.model.Achievement
 import com.everpath.presentation.profile.viewmodel.ProfileViewModel
 import com.everpath.presentation.profile.viewmodel.ProfileViewModelFactory
 
@@ -130,14 +131,6 @@ fun ProfileScreen(
         uiState.levelProgress
             ?: return
 
-    val achievements =
-        listOf(
-            ProfileAchievement(
-                title = "Primer Paso",
-                description = "Comenzaste tu camino en Everpath.",
-                iconRes = R.drawable.ic_dashboard_star
-            )
-        )
 
     Box(
         modifier =
@@ -202,7 +195,7 @@ fun ProfileScreen(
             )
 
             AchievementsSection(
-                achievements = achievements
+                achievements = uiState.achievements
             )
 
         }
@@ -1127,7 +1120,7 @@ private fun CompletionSummaryCard(
 
 @Composable
 private fun AchievementsSection(
-    achievements: List<ProfileAchievement>
+    achievements: List<Achievement>
 ) {
 
     Column(
@@ -1184,7 +1177,7 @@ private fun AchievementsSection(
 
 @Composable
 private fun AchievementRow(
-    achievement: ProfileAchievement
+    achievement: Achievement
 ) {
 
     Card(
@@ -1226,7 +1219,7 @@ private fun AchievementRow(
                 Image(
                     painter =
                         painterResource(
-                            id = achievement.iconRes
+                            id = R.drawable.ic_dashboard_star
                         ),
                     contentDescription = achievement.title,
                     modifier =
@@ -1272,12 +1265,6 @@ private fun AchievementRow(
     }
 
 }
-
-private data class ProfileAchievement(
-    val title: String,
-    val description: String,
-    val iconRes: Int
-)
 
 private val ProfileBackgroundTop =
     Color(0xFFFCF8FF)
