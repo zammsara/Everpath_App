@@ -29,6 +29,15 @@ interface ActivityRepository {
         goalId: String
     ): Flow<List<Activity>>
 
+    /**
+     * Sincroniza desde el backend todas las
+     * actividades pertenecientes a una meta
+     * y actualiza la base de datos local.
+     */
+    suspend fun fetchActivitiesByGoal(
+        goalId: String
+    )
+
 
     suspend fun createActivity(
         activity: Activity

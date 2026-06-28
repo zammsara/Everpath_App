@@ -68,6 +68,34 @@ class ActivityRepositoryImpl(
             }
     }
 
+
+    /**
+     * Descarga todas las actividades de una meta
+     * desde el backend y actualiza la copia
+     * almacenada en Room.
+     */
+    override suspend fun fetchActivitiesByGoal(
+        goalId: String
+    ) {
+
+        val remoteActivities =
+            remoteDataSource
+                .getActivitiesByGoal(
+                    goalId
+                )
+
+        activityDao.insertActivities(
+
+            remoteActivities.map {
+
+                it.toDomain()
+                    .toEntity()
+
+            }
+        )
+    }
+
+
     /**
      * Crea una nueva actividad en el backend,
      * posteriormente actualiza la copia local.
