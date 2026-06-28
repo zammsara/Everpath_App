@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.everpath.domain.usecase.activity.DeleteActivityUseCase
 import com.everpath.domain.usecase.activity.GetActivityByIdUseCase
 import com.everpath.domain.usecase.activity.UpdateActivityUseCase
+import com.everpath.domain.usecase.userprogress.FetchUserProgressUseCase
 
 /**
  * Factory encargada de crear
@@ -19,7 +20,10 @@ class ActivityDetailViewModelFactory(
     UpdateActivityUseCase,
 
     private val deleteActivityUseCase:
-    DeleteActivityUseCase
+    DeleteActivityUseCase,
+
+    private val fetchUserProgressUseCase:
+    FetchUserProgressUseCase
 
 ) : ViewModelProvider.Factory {
 
@@ -37,8 +41,10 @@ class ActivityDetailViewModelFactory(
                 updateActivityUseCase,
 
             deleteActivityUseCase =
-                deleteActivityUseCase
+                deleteActivityUseCase,
 
+            fetchUserProgressUseCase =
+                fetchUserProgressUseCase
         ) as T
     }
 }

@@ -7,6 +7,7 @@ import com.everpath.domain.model.Activity
 import com.everpath.domain.usecase.activity.DeleteActivityUseCase
 import com.everpath.domain.usecase.activity.GetActivityByIdUseCase
 import com.everpath.domain.usecase.activity.UpdateActivityUseCase
+import com.everpath.domain.usecase.userprogress.FetchUserProgressUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -18,7 +19,8 @@ import kotlinx.coroutines.launch
 class ActivityDetailViewModel(
     private val getActivityByIdUseCase: GetActivityByIdUseCase,
     private val updateActivityUseCase: UpdateActivityUseCase,
-    private val deleteActivityUseCase: DeleteActivityUseCase
+    private val deleteActivityUseCase: DeleteActivityUseCase,
+    private val fetchUserProgressUseCase: FetchUserProgressUseCase
 ) : ViewModel() {
 
     private val _activity =

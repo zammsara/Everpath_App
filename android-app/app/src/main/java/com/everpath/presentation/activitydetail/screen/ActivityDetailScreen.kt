@@ -110,7 +110,12 @@ fun ActivityDetailScreen(
                 deleteActivityUseCase =
                     application
                         .appContainer
-                        .deleteActivityUseCase
+                        .deleteActivityUseCase,
+
+                fetchUserProgressUseCase =
+                    application
+                        .appContainer
+                        .fetchUserProgressUseCase
             )
         }
 
