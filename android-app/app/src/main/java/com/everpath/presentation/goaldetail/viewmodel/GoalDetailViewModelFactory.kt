@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.everpath.domain.usecase.activity.FetchActivitiesByGoalUseCase
 import com.everpath.domain.usecase.goal.DeleteGoalNodeUseCase
+import com.everpath.domain.usecase.goal.FetchGoalByIdUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodeByIdUseCase
 import com.everpath.domain.usecase.goal.UpdateGoalNodeUseCase
 
@@ -15,6 +16,9 @@ class GoalDetailViewModelFactory(
 
     private val getGoalNodeByIdUseCase:
     GetGoalNodeByIdUseCase,
+
+    private val fetchGoalByIdUseCase:
+    FetchGoalByIdUseCase,
 
     private val updateGoalNodeUseCase:
     UpdateGoalNodeUseCase,
@@ -36,6 +40,9 @@ class GoalDetailViewModelFactory(
 
             getGoalNodeByIdUseCase =
                 getGoalNodeByIdUseCase,
+
+            fetchGoalByIdUseCase =
+                fetchGoalByIdUseCase,
 
             updateGoalNodeUseCase =
                 updateGoalNodeUseCase,

@@ -122,6 +122,11 @@ fun GoalDetailScreen(
                         .appContainer
                         .getGoalNodeByIdUseCase,
 
+                fetchGoalByIdUseCase =
+                    application
+                        .appContainer
+                        .fetchGoalByIdUseCase,
+
                 updateGoalNodeUseCase =
                     application
                         .appContainer

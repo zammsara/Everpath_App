@@ -2,8 +2,10 @@ package com.everpath.presentation.profile.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.everpath.data.session.UserSession
 import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.usecase.achievement.GetAchievementsUseCase
+import com.everpath.domain.usecase.goal.FetchGoalsUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
 import com.everpath.domain.usecase.userprogress.FetchUserProgressUseCase
 import com.everpath.domain.usecase.userprogress.GetLevelProgressUseCase
@@ -25,6 +27,7 @@ import kotlinx.coroutines.launch
  */
 class ProfileViewModel(
     private val getGoalNodesUseCase: GetGoalNodesUseCase,
+    private val fetchGoalsUseCase: FetchGoalsUseCase,
     private val getUserProgressUseCase: GetUserProgressUseCase,
     private val fetchUserProgressUseCase: FetchUserProgressUseCase,
     private val getUserLevelUseCase: GetUserLevelUseCase,
@@ -42,8 +45,17 @@ class ProfileViewModel(
         _uiState.asStateFlow()
 
     init {
-        syncUserProgress()
         observeProfile()
+        syncGoals()
+        syncUserProgress()
+    }
+
+    private fun syncGoals() {
+        viewModelScope.launch {
+            fetchGoalsUseCase(
+                UserSession.userId
+            )
+        }
     }
 
     private fun observeProfile() {

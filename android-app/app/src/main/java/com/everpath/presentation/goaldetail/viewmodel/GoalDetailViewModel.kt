@@ -6,6 +6,7 @@ import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.enums.LifeAreaType
 import com.everpath.domain.usecase.activity.FetchActivitiesByGoalUseCase
 import com.everpath.domain.usecase.goal.DeleteGoalNodeUseCase
+import com.everpath.domain.usecase.goal.FetchGoalByIdUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodeByIdUseCase
 import com.everpath.domain.usecase.goal.UpdateGoalNodeUseCase
 import com.everpath.presentation.goaldetail.state.GoalDetailUiState
@@ -19,6 +20,9 @@ class GoalDetailViewModel(
 
     private val getGoalNodeByIdUseCase:
     GetGoalNodeByIdUseCase,
+
+    private val fetchGoalByIdUseCase:
+    FetchGoalByIdUseCase,
 
     private val updateGoalNodeUseCase:
     UpdateGoalNodeUseCase,
@@ -44,21 +48,12 @@ class GoalDetailViewModel(
     ) {
 
         viewModelScope.launch {
-            getGoalNodeByIdUseCase(goalId)
-                .collect { goal ->
-                    _uiState.update {
-                        it.copy(
-                            goal = goal,
-                            isLoading = false
-                        )
-                    }
-                }
+            fetchGoalByIdUseCase(goalId)
         }
 
         viewModelScope.launch {
             fetchActivitiesByGoalUseCase(goalId)
         }
-
     }
 
     fun updateGoal(

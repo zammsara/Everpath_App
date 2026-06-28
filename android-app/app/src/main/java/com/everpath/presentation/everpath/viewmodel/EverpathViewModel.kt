@@ -9,6 +9,7 @@ import com.everpath.domain.enums.LifeAreaType
 import com.everpath.domain.model.GoalConnection
 import com.everpath.domain.model.GoalNode
 import com.everpath.domain.usecase.goal.DeleteGoalNodeUseCase
+import com.everpath.domain.usecase.goal.FetchGoalsUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
 import com.everpath.domain.usecase.goal.SaveGoalNodeUseCase
 import com.everpath.domain.usecase.goal.UpdateGoalNodeUseCase
@@ -29,6 +30,7 @@ import java.util.UUID
 
 class EverpathViewModel(
     private val getGoalNodesUseCase: GetGoalNodesUseCase,
+    private val fetchGoalsUseCase: FetchGoalsUseCase,
     private val saveGoalNodeUseCase: SaveGoalNodeUseCase,
     private val saveGoalPositionUseCase: SaveGoalPositionUseCase,
     private val updateGoalPositionUseCase: UpdateGoalPositionUseCase,
@@ -54,6 +56,15 @@ class EverpathViewModel(
         observeGoals()
         observePositions()
         observeConnections()
+        syncGoals()
+    }
+
+    private fun syncGoals() {
+        viewModelScope.launch {
+            fetchGoalsUseCase(
+                UserSession.userId
+            )
+        }
     }
 
     private fun observeGoals() {
