@@ -142,6 +142,11 @@ fun GoalDetailScreen(
                         .appContainer
                         .getActivitiesByGoalIdUseCase,
 
+                fetchActivitiesByGoalUseCase =
+                    application
+                        .appContainer
+                        .fetchActivitiesByGoalUseCase,
+
                 saveActivityUseCase =
                     application
                         .appContainer

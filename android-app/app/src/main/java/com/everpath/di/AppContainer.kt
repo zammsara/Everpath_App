@@ -45,6 +45,7 @@ import com.everpath.data.remote.service.ActivityApiService
 import com.everpath.data.remote.service.GoalApiService
 import com.everpath.data.sync.SyncManagerImpl
 import com.everpath.domain.sync.SyncManager
+import com.everpath.domain.usecase.activity.FetchActivitiesByGoalUseCase
 
 
 /**
@@ -228,6 +229,11 @@ class AppContainer(
 
     val getActivityByIdUseCase =
         GetActivityByIdUseCase(
+            activityRepository
+        )
+
+    val fetchActivitiesByGoalUseCase =
+        FetchActivitiesByGoalUseCase(
             activityRepository
         )
 

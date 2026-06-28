@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.everpath.domain.enums.ActivityStatus
 import com.everpath.domain.model.Activity
 import com.everpath.domain.usecase.activity.DeleteActivityUseCase
+import com.everpath.domain.usecase.activity.FetchActivitiesByGoalUseCase
 import com.everpath.domain.usecase.activity.GetActivitiesByGoalIdUseCase
 import com.everpath.domain.usecase.activity.SaveActivityUseCase
 import com.everpath.domain.usecase.activity.UpdateActivityUseCase
@@ -18,6 +19,7 @@ import java.util.UUID
 
 class ActivityViewModel(
     private val getActivitiesByGoalIdUseCase: GetActivitiesByGoalIdUseCase,
+    private val fetchActivitiesByGoalUseCase: FetchActivitiesByGoalUseCase,
     private val saveActivityUseCase: SaveActivityUseCase,
     private val updateActivityUseCase: UpdateActivityUseCase,
     private val deleteActivityUseCase: DeleteActivityUseCase
@@ -34,6 +36,12 @@ class ActivityViewModel(
     fun loadActivities(
         goalId: String
     ) {
+
+        viewModelScope.launch {
+            fetchActivitiesByGoalUseCase(
+                goalId
+            )
+        }
 
         viewModelScope.launch {
             getActivitiesByGoalIdUseCase(
