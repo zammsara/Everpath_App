@@ -132,9 +132,7 @@ class TodayViewModel(
      */
     private fun syncUserProgress() {
         viewModelScope.launch {
-            fetchUserProgressUseCase(
-                UserSession.userId
-            )
+            fetchUserProgressUseCase()
         }
     }
 

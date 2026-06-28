@@ -29,10 +29,12 @@ interface UserProgressRepository {
 
     /**
      * Sincroniza el progreso del usuario
-     * desde el backend hacia Room.
+     * actualmente autenticado desde el backend
+     * hacia Room.
+     *
+     * La implementación concreta será la encargada
+     * de resolver qué usuario se encuentra activo.
      */
-    suspend fun fetchUserProgress(
-        userId: Long
-    )
+    suspend fun fetchUserProgress()
 
 }

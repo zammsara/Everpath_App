@@ -5,6 +5,8 @@ import com.everpath.data.local.mapper.toDomain
 import com.everpath.data.local.mapper.toEntity
 import com.everpath.data.remote.datasource.UserProgressRemoteDataSource
 import com.everpath.data.remote.mapper.toDomain
+import com.everpath.data.session.UserSession
+import com.everpath.data.session.UserSession.userId
 import com.everpath.domain.model.UserProgress
 import com.everpath.domain.repository.UserProgressRepository
 import kotlinx.coroutines.flow.Flow
@@ -49,22 +51,18 @@ class UserProgressRepositoryImpl(
      * Obtiene el progreso desde el backend
      * y actualiza la copia almacenada en Room.
      */
-    override suspend fun fetchUserProgress(
-        userId: Long
-    ) {
+    override suspend fun fetchUserProgress() {
 
         val remoteProgress =
             remoteDataSource
                 .getUserProgress(
-                    userId
+                    UserSession.userId
                 )
 
         userProgressDao.upsertUserProgress(
-
             remoteProgress
                 .toDomain()
                 .toEntity()
         )
     }
-
 }

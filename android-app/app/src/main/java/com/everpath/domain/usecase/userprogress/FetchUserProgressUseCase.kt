@@ -3,26 +3,24 @@ package com.everpath.domain.usecase.userprogress
 import com.everpath.domain.repository.UserProgressRepository
 
 /**
- * Caso de uso encargado de sincronizar
- * el progreso del usuario desde el
- * backend hacia Room.
+ * Caso de uso encargado de solicitar
+ * la sincronización del progreso del
+ * usuario actualmente autenticado.
  *
  * No devuelve información.
- * Su única responsabilidad es actualizar
- * la caché local.
+ * Su única responsabilidad consiste
+ * en actualizar la caché local
+ * almacenada mediante Room.
  */
 class FetchUserProgressUseCase(
-    private val repository: UserProgressRepository
+
+    private val repository:
+    UserProgressRepository
+
 ) {
 
-    suspend operator fun invoke(
-        userId: Long
-    ) {
-
-        repository.fetchUserProgress(
-            userId
-        )
-
+    suspend operator fun invoke() {
+        repository.fetchUserProgress()
     }
 
 }
