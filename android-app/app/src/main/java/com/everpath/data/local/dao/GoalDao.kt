@@ -46,6 +46,13 @@ interface GoalDao {
         goal: GoalEntity
     )
 
+    @Insert(
+        onConflict = OnConflictStrategy.REPLACE
+    )
+    suspend fun upsertGoals(
+        goals: List<GoalEntity>
+    )
+
     @Update
     suspend fun updateGoal(
         goal: GoalEntity
@@ -56,20 +63,6 @@ interface GoalDao {
         goal: GoalEntity
     )
 
-    /**
-     * Elimina todas las metas almacenadas
-     * localmente.
-     *
-     * Será utilizado por el repositorio
-     * para reemplazar completamente
-     * la información después de una
-     * sincronización con el backend.
-     */
-    @Query(
-        "DELETE FROM goal_nodes"
-    )
-    suspend fun deleteAllGoals()
-
     @Query(
         "DELETE FROM goal_nodes WHERE id = :goalId"
     )
@@ -77,25 +70,4 @@ interface GoalDao {
         goalId: String
     )
 
-    /**
-     * Reemplaza completamente las metas
-     * almacenadas localmente mediante
-     * una única transacción.
-     *
-     * Garantiza que nunca exista un
-     * estado intermedio donde la base
-     * quede vacía durante la sincronización.
-     */
-    @Transaction
-    suspend fun replaceGoals(
-        goals: List<GoalEntity>
-    ) {
-
-        deleteAllGoals()
-
-        insertGoals(
-            goals
-        )
-
-    }
 }
