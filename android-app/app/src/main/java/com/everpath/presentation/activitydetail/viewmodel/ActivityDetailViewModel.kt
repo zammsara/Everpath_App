@@ -60,14 +60,11 @@ class ActivityDetailViewModel(
             )
 
         viewModelScope.launch {
+
             updateActivityUseCase(
                 updatedActivity
             )
 
-            _activity.value =
-                getActivityByIdUseCase(
-                    currentActivity.id
-                )
         }
     }
 
