@@ -107,6 +107,11 @@ fun ActivityDetailScreen(
                         .appContainer
                         .updateActivityUseCase,
 
+                completeActivityUseCase =
+                    application
+                        .appContainer
+                        .completeActivityUseCase,
+
                 deleteActivityUseCase =
                     application
                         .appContainer

@@ -2,10 +2,10 @@ package com.everpath.presentation.activitydetail.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.everpath.data.session.UserSession
 import com.everpath.domain.enums.ActivityStatus
 import com.everpath.domain.model.Activity
 import com.everpath.domain.usecase.achievement.FetchAchievementsUseCase
+import com.everpath.domain.usecase.activity.CompleteActivityUseCase
 import com.everpath.domain.usecase.activity.DeleteActivityUseCase
 import com.everpath.domain.usecase.activity.FetchActivityByIdUseCase
 import com.everpath.domain.usecase.activity.GetActivityByIdUseCase
@@ -20,12 +20,15 @@ import kotlinx.coroutines.launch
  * el detalle y edición de actividades.
  */
 class ActivityDetailViewModel(
+
     private val getActivityByIdUseCase: GetActivityByIdUseCase,
     private val updateActivityUseCase: UpdateActivityUseCase,
+    private val completeActivityUseCase: CompleteActivityUseCase,
     private val deleteActivityUseCase: DeleteActivityUseCase,
     private val fetchUserProgressUseCase: FetchUserProgressUseCase,
     private val fetchAchievementsUseCase: FetchAchievementsUseCase,
     private val fetchActivityByIdUseCase: FetchActivityByIdUseCase
+
 ) : ViewModel() {
 
     private val _activity =
@@ -72,29 +75,21 @@ class ActivityDetailViewModel(
                 status = status
             )
 
-        val wasCompleted =
-            currentActivity.status ==
-                    ActivityStatus.COMPLETED
-
         viewModelScope.launch {
-
-            updateActivityUseCase(
-                updatedActivity
-            )
-
             if (
-                !wasCompleted &&
+                currentActivity.status != ActivityStatus.COMPLETED &&
                 status == ActivityStatus.COMPLETED
             ) {
 
-                fetchUserProgressUseCase()
-
-                fetchAchievementsUseCase(
-                    UserSession.userId
+                completeActivityUseCase(
+                    updatedActivity
                 )
 
+            } else {
+                updateActivityUseCase(
+                    updatedActivity
+                )
             }
-
         }
     }
 
