@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -44,31 +45,90 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.everpath.R
 import kotlin.math.roundToInt
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.everpath.EverpathApplication
+import com.everpath.presentation.profile.viewmodel.ProfileViewModel
+import com.everpath.presentation.profile.viewmodel.ProfileViewModelFactory
 
 @Suppress("UNUSED_PARAMETER")
 @Composable
 fun ProfileScreen(
-    navController: NavHostController? = null,
-    userName: String = "Usuario Everpath",
-    level: Int = 2,
-    xp: Int = 240,
-    nextLevelXp: Int = 257,
-    goalCount: Int = 3,
-    completedGoalCount: Int = 0,
-    activityCount: Int = 1,
-    completedActivityCount: Int = 0,
-    globalProgress: Float = 0f
+    navController: NavHostController? = null
 ) {
 
-    val levelProgress =
-        if (nextLevelXp <= 0) {
-            0f
-        } else {
-            xp.toFloat() / nextLevelXp.toFloat()
-        }.coerceIn(
-            0f,
-            1f
+    val application =
+        LocalContext.current.applicationContext
+                as EverpathApplication
+
+    val factory =
+        remember {
+
+            ProfileViewModelFactory(
+                getGoalNodesUseCase =
+                    application
+                        .appContainer
+                        .getGoalNodesUseCase,
+
+                getUserProgressUseCase =
+                    application
+                        .appContainer
+                        .getUserProgressUseCase,
+
+                fetchUserProgressUseCase =
+                    application
+                        .appContainer
+                        .fetchUserProgressUseCase,
+
+                getUserLevelUseCase =
+                    application
+                        .appContainer
+                        .getUserLevelUseCase,
+
+                getAchievementsUseCase =
+                    application
+                        .appContainer
+                        .getAchievementsUseCase,
+
+                getLevelProgressUseCase =
+                    application
+                        .appContainer
+                        .getLevelProgressUseCase
+            )
+
+        }
+
+    val viewModel: ProfileViewModel =
+        viewModel(
+            factory = factory
         )
+
+    val uiState by
+    viewModel
+        .uiState
+        .collectAsStateWithLifecycle()
+
+    if (
+        uiState.isLoading
+    ) {
+        Box(
+            modifier =
+                Modifier
+                    .fillMaxSize(),
+            contentAlignment =
+                Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+        return
+    }
+
+    val levelProgress =
+        uiState.levelProgress
+            ?: return
 
     val achievements =
         listOf(
@@ -113,32 +173,32 @@ fun ProfileScreen(
         ) {
 
             ProfileHeader(
-                userName = userName,
-                level = level,
-                xp = xp
+                userName = "Usuario Everpath",
+                level = uiState.level,
+                xp = uiState.xp
             )
 
             LevelProgressHeroCard(
-                level = level,
-                xp = xp,
-                nextLevelXp = nextLevelXp,
-                progress = levelProgress
+                level = uiState.level,
+                xp = uiState.xp,
+                nextLevelXp = levelProgress.requiredXpForNextLevel,
+                progress = levelProgress.progress
             )
 
             ProfileStatsCard(
-                goalCount = goalCount,
-                completedGoalCount = completedGoalCount,
-                activityCount = activityCount,
-                completedActivityCount = completedActivityCount
+                goalCount = uiState.goalCount,
+                completedGoalCount = uiState.completedGoalCount,
+                activityCount = uiState.activityCount,
+                completedActivityCount = uiState.completedActivityCount
             )
 
             GeneralProgressMiniCard(
-                progress = globalProgress
+                progress = uiState.globalProgress
             )
 
             CompletionSummaryCard(
-                completedGoalCount = completedGoalCount,
-                completedActivityCount = completedActivityCount
+                completedGoalCount = uiState.completedGoalCount,
+                completedActivityCount = uiState.completedActivityCount
             )
 
             AchievementsSection(
