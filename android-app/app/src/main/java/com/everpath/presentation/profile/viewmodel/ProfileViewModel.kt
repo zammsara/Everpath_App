@@ -6,6 +6,7 @@ import com.everpath.data.session.UserSession
 import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.usecase.achievement.GetAchievementsUseCase
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
+import com.everpath.domain.usecase.userprogress.FetchUserProgressUseCase
 import com.everpath.domain.usecase.userprogress.GetLevelProgressUseCase
 import com.everpath.domain.usecase.userprogress.GetUserLevelUseCase
 import com.everpath.domain.usecase.userprogress.GetUserProgressUseCase
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -26,6 +28,7 @@ import kotlinx.coroutines.launch
 class ProfileViewModel(
     private val getGoalNodesUseCase: GetGoalNodesUseCase,
     private val getUserProgressUseCase: GetUserProgressUseCase,
+    private val fetchUserProgressUseCase: FetchUserProgressUseCase,
     private val getUserLevelUseCase: GetUserLevelUseCase,
     private val getLevelProgressUseCase: GetLevelProgressUseCase,
     private val getAchievementsUseCase: GetAchievementsUseCase
@@ -41,6 +44,7 @@ class ProfileViewModel(
         _uiState.asStateFlow()
 
     init {
+        syncUserProgress()
         loadProfile()
     }
 
@@ -49,7 +53,7 @@ class ProfileViewModel(
         viewModelScope.launch {
 
             val goalsDeferred = async { getGoalNodesUseCase().first() }
-            val progressDeferred = async { getUserProgressUseCase(UserSession.userId)}
+            val progressDeferred = async { getUserProgressUseCase().filterNotNull().first() }
             val achievementsDeferred = async { getAchievementsUseCase(UserSession.userId)}
 
             val goals = goalsDeferred.await()
@@ -93,6 +97,19 @@ class ProfileViewModel(
                     isLoading = false
                 )
             }
+        }
+    }
+
+    /**
+     * Solicita la sincronización del
+     * progreso del usuario desde el
+     * backend hacia Room.
+     */
+    private fun syncUserProgress() {
+        viewModelScope.launch {
+            fetchUserProgressUseCase(
+                UserSession.userId
+            )
         }
     }
 }
