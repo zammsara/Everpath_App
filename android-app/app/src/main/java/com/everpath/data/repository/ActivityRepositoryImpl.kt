@@ -93,6 +93,30 @@ class ActivityRepositoryImpl(
 
 
     /**
+     * Observa continuamente una actividad
+     * almacenada en Room.
+     *
+     * La UI nunca consulta directamente
+     * el backend, sino que observa los
+     * cambios producidos sobre la base
+     * de datos local.
+     */
+    override fun observeActivityById(
+        activityId: String
+    ): Flow<Activity?> {
+        return activityDao
+            .observeActivityById(
+                activityId
+            )
+            .map { activity ->
+
+                activity?.toDomain()
+
+            }
+    }
+
+
+    /**
      * Descarga todas las actividades de una meta
      * desde el backend y actualiza la copia
      * almacenada en Room.

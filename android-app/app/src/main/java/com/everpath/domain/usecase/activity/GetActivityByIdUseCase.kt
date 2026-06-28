@@ -2,16 +2,19 @@ package com.everpath.domain.usecase.activity
 
 import com.everpath.domain.model.Activity
 import com.everpath.domain.repository.ActivityRepository
+import kotlinx.coroutines.flow.Flow
 
 class GetActivityByIdUseCase(
     private val activityRepository: ActivityRepository
 ) {
 
-    suspend operator fun invoke(
+    operator fun invoke(
         activityId: String
-    ): Activity? {
+    ): Flow<Activity?> {
 
-        return activityRepository
-            .getActivityById(activityId)
+        return activityRepository.observeActivityById(
+            activityId
+        )
+
     }
 }

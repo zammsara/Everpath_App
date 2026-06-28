@@ -32,14 +32,14 @@ class ActivityDetailViewModel(
     ) {
 
         viewModelScope.launch {
+            getActivityByIdUseCase(
+                activityId
+            ).collect { activity ->
 
-            _activity.value =
-                getActivityByIdUseCase(
-                    activityId
-                )
-
+                _activity.value =
+                    activity
+            }
         }
-
     }
 
     fun updateActivity(

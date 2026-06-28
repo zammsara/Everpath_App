@@ -38,6 +38,18 @@ interface ActivityRepository {
         goalId: String
     )
 
+    /**
+     * Observa continuamente una actividad
+     * almacenada localmente.
+     *
+     * La UI deberá consumir este Flow para
+     * mantenerse sincronizada automáticamente
+     * con Room.
+     */
+    fun observeActivityById(
+        activityId: String
+    ): Flow<Activity?>
+
 
     suspend fun createActivity(
         activity: Activity

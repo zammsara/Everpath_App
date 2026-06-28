@@ -23,6 +23,23 @@ interface ActivityDao {
         goalId: String
     ): Flow<List<ActivityEntity>>
 
+    /**
+     * Observa continuamente una actividad
+     * almacenada en Room.
+     *
+     * Este método será utilizado por la capa
+     * de presentación para implementar el
+     * patrón Offline First, donde la UI
+     * observa exclusivamente la base de datos
+     * local.
+     */
+    @Query(
+        "SELECT * FROM activities WHERE id = :activityId"
+    )
+    fun observeActivityById(
+        activityId: String
+    ): Flow<ActivityEntity?>
+
     @Query(
         "SELECT * FROM activities WHERE id = :activityId"
     )
