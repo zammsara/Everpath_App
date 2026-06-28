@@ -4,14 +4,18 @@ import com.everpath.domain.model.Achievement
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Contrato del repositorio encargado de consultar
- * los achievements desbloqueados por un usuario.
+ * Contrato encargado de gestionar los
+ * achievements del usuario siguiendo
+ * la estrategia Offline First.
  *
- * Los achievements representan un estado derivado
- * calculado automáticamente por el backend a partir
- * del progreso del usuario, por lo que este
- * repositorio únicamente expone operaciones
- * de lectura.
+ * Los achievements son calculados por
+ * el backend y almacenados localmente
+ * para que la interfaz observe
+ * exclusivamente Room.
+ *
+ * La sincronización se realiza mediante
+ * operaciones fetch mientras la lectura
+ * continua se realiza mediante Flow.
  */
 interface AchievementRepository {
 

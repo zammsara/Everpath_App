@@ -4,20 +4,20 @@ import com.everpath.domain.model.UserProgress
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Contrato encargado de definir
- * las operaciones disponibles
- * para sincronizar el progreso
- * global del usuario.
+ * Contrato encargado de sincronizar el
+ * progreso global del usuario siguiendo
+ * la estrategia Offline First.
  *
- * El backend constituye la fuente
- * de verdad para la experiencia (XP),
- * mientras que Android únicamente
- * mantiene una copia local sincronizada.
+ * El backend representa la fuente oficial
+ * de verdad para el progreso.
  *
- * El nivel y el progreso visual
- * continúan calculándose mediante
- * los casos de uso del dominio.
+ * Room mantiene una copia sincronizada
+ * utilizada por la interfaz mediante Flow.
+ *
+ * La sincronización remota se realiza
+ * mediante operaciones fetch.
  */
+
 interface UserProgressRepository {
 
     /**

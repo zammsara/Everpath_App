@@ -17,14 +17,20 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 /**
- * Repositorio encargado de coordinar la
- * persistencia local mediante Room y la
- * comunicación remota mediante Retrofit.
+ * Implementación híbrida del repositorio
+ * de metas.
  *
- * Implementa la estrategia Offline First,
- * donde la UI observa exclusivamente la
- * base de datos local mientras el repositorio
- * sincroniza la información con el backend.
+ * Flujo de trabajo:
+ *
+ * Backend
+ *      ↓
+ * safeApiCall()
+ *      ↓
+ * Room
+ *      ↓
+ * Flow
+ *      ↓
+ * UI
  */
 class GoalRepositoryImpl(
 

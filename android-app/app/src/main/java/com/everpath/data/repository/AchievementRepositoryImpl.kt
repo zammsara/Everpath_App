@@ -20,6 +20,9 @@ import kotlinx.coroutines.flow.map
  * Los achievements son calculados exclusivamente
  * por el backend y almacenados localmente para
  * soportar la estrategia Offline First.
+ *
+ *  la interfaz consume únicamente
+ *  observeAchievements().
  */
 class AchievementRepositoryImpl(
     private val achievementDao: AchievementDao,

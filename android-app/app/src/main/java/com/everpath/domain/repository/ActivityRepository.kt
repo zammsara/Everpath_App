@@ -4,14 +4,20 @@ import com.everpath.domain.model.Activity
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Contrato del repositorio de actividades
- * del dominio.
+ * Contrato del repositorio encargado de gestionar
+ * actividades siguiendo la arquitectura
+ * Offline First de Everpath.
  *
- * Define todas las operaciones relacionadas
- * con actividades sin exponer detalles
- * de implementación como Room,
- * Retrofit o cualquier otra fuente
- * de datos.
+ * La interfaz de usuario observa únicamente
+ * Room mediante Flow.
+ *
+ * Los métodos fetch sincronizan información
+ * desde el backend hacia la base local.
+ *
+ * Las operaciones create, update y delete
+ * sincronizan primero el servidor y después
+ * actualizan Room utilizando la respuesta
+ * oficial del backend.
  */
 interface ActivityRepository {
 

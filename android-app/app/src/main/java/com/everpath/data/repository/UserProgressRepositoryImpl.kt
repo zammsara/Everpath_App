@@ -24,6 +24,9 @@ import com.everpath.data.remote.util.safeApiCall
  *    el backend.
  * 3. Actualiza la caché local.
  * 4. Devuelve el modelo de dominio.
+ *
+ *  La interfaz nunca consume directamente
+ *  respuestas provenientes del backend.
  */
 class UserProgressRepositoryImpl(
 

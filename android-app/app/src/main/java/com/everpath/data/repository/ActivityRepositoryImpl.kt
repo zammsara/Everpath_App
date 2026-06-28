@@ -15,13 +15,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 /**
- * Repositorio encargado de coordinar la obtención,
- * creación, actualización y eliminación de actividades.
+ * Implementación híbrida del repositorio
+ * de actividades.
  *
- * Esta implementación centraliza la comunicación entre
- * la fuente remota (Retrofit) y el almacenamiento local (Room),
- * manteniendo sincronizada la información utilizada por
- * el resto de la aplicación.
+ * Sigue una estrategia Offline First
+ * donde Room constituye la única fuente
+ * consumida por la interfaz.
+ *
+ * Las sincronizaciones actualizan
+ * exclusivamente la base de datos local.
  */
 class ActivityRepositoryImpl(
 

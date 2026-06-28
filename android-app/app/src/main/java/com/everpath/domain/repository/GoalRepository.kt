@@ -5,17 +5,29 @@ import kotlinx.coroutines.flow.Flow
 
 /**
  * Contrato del repositorio encargado de gestionar
- * las operaciones relacionadas con metas dentro
- * del dominio de Everpath.
+ * las metas de Everpath siguiendo una estrategia
+ * Offline First.
  *
- * El repositorio expone dos tipos de operaciones:
+ * Todos los repositorios híbridos del proyecto
+ * siguen la misma estructura:
  *
- * - Observación local mediante Room (Flow).
- * - Sincronización con el backend REST.
+ * 1. observe...()
+ *    Expone información almacenada en Room
+ *    mediante Flow para mantener sincronizada
+ *    la interfaz de usuario.
  *
- * La implementación concreta será responsable
- * de coordinar Room y Retrofit manteniendo
- * una estrategia Offline First.
+ * 2. fetch...()
+ *    Descarga información desde el backend
+ *    y actualiza exclusivamente la base de
+ *    datos local.
+ *
+ * 3. create / update / delete
+ *    Ejecutan la operación remota y utilizan
+ *    la respuesta oficial del servidor para
+ *    sincronizar posteriormente Room.
+ *
+ * La UI nunca consume directamente respuestas
+ * provenientes de la API REST.
  */
 interface GoalRepository {
 
