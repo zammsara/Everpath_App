@@ -62,6 +62,7 @@ import com.everpath.domain.usecase.auth.LoginUseCase
 import com.everpath.domain.usecase.auth.RegisterUseCase
 import com.everpath.presentation.login.viewmodel.LoginViewModelFactory
 import com.everpath.presentation.register.viewmodel.RegisterViewModelFactory
+import com.everpath.presentation.splash.viewmodel.SplashViewModelFactory
 
 
 /**
@@ -437,6 +438,14 @@ class AppContainer(
 
             sessionManager =
                 sessionManager
+
+        )
+
+    val splashViewModelFactory =
+        SplashViewModelFactory(
+
+            restoreSessionUseCase =
+                restoreSessionUseCase
 
         )
 
