@@ -2,6 +2,7 @@ package com.everpath.data.repository
 
 import android.util.Log
 import com.everpath.data.local.dao.GoalDao
+import com.everpath.data.local.entity.GoalEntity
 import com.everpath.data.local.entity.GoalPositionEntity
 import com.everpath.data.local.mapper.toDomain
 import com.everpath.data.local.mapper.toEntity
@@ -100,6 +101,26 @@ class GoalRepositoryImpl(
     }
 
     /**
+     * Sincroniza una meta evitando utilizar
+     * REPLACE para conservar las entidades
+     * relacionadas (posiciones y conexiones).
+     */
+    private suspend fun saveGoalSafely(
+        entity: GoalEntity
+    ) {
+
+        val updatedRows =
+            goalDao.updateGoal(entity)
+
+        if (updatedRows == 0) {
+
+            goalDao.insertGoal(entity)
+
+        }
+
+    }
+
+    /**
      * Descarga todas las metas del
      * backend y reemplaza completamente
      * la información almacenada en Room.
@@ -132,16 +153,15 @@ class GoalRepositoryImpl(
         val remoteGoals =
             result.getOrThrow()
 
-        val entities =
-            remoteGoals
-                .map {
-                    it.toDomain()
-                        .toEntity()
-                }
+        remoteGoals.forEach { remoteGoal ->
 
-        goalDao.upsertGoals(
-            entities
-        )
+            saveGoalSafely(
+
+                remoteGoal
+                    .toDomain()
+                    .toEntity()
+            )
+        }
 
         remoteGoals.forEachIndexed { index, goal ->
 
@@ -172,10 +192,11 @@ class GoalRepositoryImpl(
 
         result.getOrNull()?.let { remoteGoal ->
 
-            goalDao.upsertGoal(
+            saveGoalSafely(
                 remoteGoal
                     .toDomain()
                     .toEntity()
+
             )
 
         }
@@ -217,7 +238,7 @@ class GoalRepositoryImpl(
         val savedGoal =
             remoteGoal.toDomain()
 
-        goalDao.upsertGoal(
+        saveGoalSafely(
             savedGoal.toEntity()
         )
 
@@ -259,10 +280,11 @@ class GoalRepositoryImpl(
 
             }
 
-        goalDao.upsertGoal(
+        saveGoalSafely(
             remoteGoal
                 .toDomain()
                 .toEntity()
+
         )
     }
 

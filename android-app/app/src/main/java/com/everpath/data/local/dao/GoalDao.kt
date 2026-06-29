@@ -39,24 +39,22 @@ interface GoalDao {
         goals: List<GoalEntity>
     )
 
-    @Insert(
-        onConflict = OnConflictStrategy.REPLACE
-    )
-    suspend fun upsertGoal(
-        goal: GoalEntity
-    )
-
-    @Insert(
-        onConflict = OnConflictStrategy.REPLACE
-    )
-    suspend fun upsertGoals(
-        goals: List<GoalEntity>
-    )
-
+    /**
+     * Actualiza una meta existente.
+     *
+     * Devuelve la cantidad de filas modificadas.
+     * Si devuelve 0 significa que la meta
+     * aún no existe en Room.
+     */
     @Update
     suspend fun updateGoal(
         goal: GoalEntity
-    )
+    ): Int
+
+    @Update
+    suspend fun updateGoals(
+        goals: List<GoalEntity>
+    ): Int
 
     @Delete
     suspend fun deleteGoal(
