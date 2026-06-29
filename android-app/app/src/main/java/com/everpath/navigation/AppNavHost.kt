@@ -1,5 +1,7 @@
 package com.everpath.navigation
 
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.everpath.di.AppContainer
 import com.everpath.presentation.activitydetail.screen.ActivityDetailScreen
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,18 +14,65 @@ import com.everpath.presentation.today.screen.TodayScreen
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.everpath.presentation.login.screen.LoginScreen
+import com.everpath.presentation.register.screen.RegisterScreen
 
 @Composable
 fun AppNavHost(
     navController: NavHostController,
+    appContainer: AppContainer,
     modifier: Modifier = Modifier
 ) {
     NavHost(
+
         navController = navController,
+
         startDestination =
-            AppDestination.Everpath.route,
+            AppDestination.Login.route,
+
         modifier = modifier
     ) {
+
+        composable(
+            route =
+                AppDestination.Login.route
+        ) {
+
+            LoginScreen(
+
+                viewModel = viewModel(
+                    factory =
+                        appContainer
+                            .loginViewModelFactory
+                ),
+
+                onLoginSuccess = {
+
+                    navController.navigate(
+                        AppDestination.Everpath.route
+                    ) {
+
+                        popUpTo(
+                            AppDestination.Login.route
+                        ) {
+                            inclusive = true
+                        }
+
+                    }
+
+                },
+
+                onNavigateToRegister = {
+
+                    navController.navigate(
+                        AppDestination.Register.route
+                    )
+
+                }
+
+            )
+
+        }
 
         composable(
             route =
@@ -135,6 +184,46 @@ fun AppNavHost(
 
         }
 
+        composable(
+            route =
+                AppDestination.Register.route
+        ) {
+
+            RegisterScreen(
+
+                viewModel = viewModel(
+
+                    factory =
+                        appContainer
+                            .registerViewModelFactory
+
+                ),
+
+                onRegisterSuccess = {
+
+                    navController.navigate(
+                        AppDestination.Everpath.route
+                    ) {
+
+                        popUpTo(
+                            AppDestination.Login.route
+                        ) {
+                            inclusive = true
+                        }
+
+                    }
+
+                },
+
+                onNavigateToLogin = {
+
+                    navController.popBackStack()
+                }
+            )
+        }
+
+
     }
+
 
 }

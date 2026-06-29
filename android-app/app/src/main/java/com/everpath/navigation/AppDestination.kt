@@ -8,6 +8,14 @@ sealed class AppDestination(
         route = "everpath"
     )
 
+    data object Login : AppDestination(
+        route = "login"
+    )
+
+    data object Register : AppDestination(
+        route = "register"
+    )
+
     data object GoalDetail : AppDestination(
         route = "goal_detail/{goalId}"
     ) {

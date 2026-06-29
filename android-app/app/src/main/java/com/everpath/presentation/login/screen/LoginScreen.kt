@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.everpath.presentation.login.viewmodel.LoginViewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,6 +11,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -31,17 +31,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -211,7 +208,13 @@ private fun LoginScreenContent(
                             onEmailChanged,
                         modifier =
                             Modifier.fillMaxWidth(),
+                        enabled = !isLoading,
                         singleLine = true,
+                        keyboardOptions =
+                            KeyboardOptions(
+                                keyboardType = KeyboardType.Email,
+                                imeAction = ImeAction.Next
+                            ),
                         leadingIcon = {
 
                             Icon(
@@ -219,18 +222,11 @@ private fun LoginScreenContent(
                                 null
                             )
                         },
-
                         placeholder = {
                             Text(
                                 "Correo electrónico"
                             )
-                        },
-
-                        keyboardOptions =
-                            KeyboardOptions(
-                                keyboardType =
-                                    KeyboardType.Email
-                            )
+                        }
                     )
 
                     Spacer(
@@ -241,7 +237,19 @@ private fun LoginScreenContent(
                         value = password,
                         onValueChange = onPasswordChanged,
                         modifier = Modifier.fillMaxWidth(),
+                        enabled = !isLoading,
                         singleLine = true,
+                        keyboardOptions =
+                            KeyboardOptions(
+                                keyboardType = KeyboardType.Password,
+                                imeAction = ImeAction.Done
+                            ),
+                        keyboardActions =
+                            KeyboardActions(
+                                onDone = {
+                                    onLoginClicked()
+                                }
+                            ),
                         leadingIcon = {
                             Icon(
                                 Icons.Default.Lock,
@@ -289,8 +297,11 @@ private fun LoginScreenContent(
                     Text(
                         text = "¿Olvidaste tu contraseña?",
                         modifier = Modifier
-                            .align(Alignment.End),
-
+                            .align(Alignment.End)
+                            .clickable {
+                                // Commit futuro:
+                                // Recuperar contraseña
+                            },
                         color = EverpathPrimary,
                         fontSize = 13.sp
 
@@ -324,7 +335,10 @@ private fun LoginScreenContent(
                             .fillMaxWidth()
                             .height(56.dp),
 
-                        enabled = !isLoading,
+                        enabled =
+                            !isLoading &&
+                                    email.isNotBlank() &&
+                                    password.isNotBlank(),
 
                         colors =
                             ButtonDefaults.buttonColors(

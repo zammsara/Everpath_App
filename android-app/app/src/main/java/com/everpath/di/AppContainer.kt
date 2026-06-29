@@ -54,6 +54,14 @@ import com.everpath.domain.usecase.auth.RestoreSessionUseCase
 import com.everpath.domain.usecase.goal.FetchGoalByIdUseCase
 import com.everpath.domain.usecase.goal.FetchGoalsUseCase
 import com.everpath.domain.usecase.userprogress.FetchUserProgressUseCase
+import com.everpath.data.remote.datasource.AuthRemoteDataSource
+import com.everpath.data.remote.service.AuthApiService
+import com.everpath.data.repository.AuthRepositoryImpl
+import com.everpath.domain.repository.AuthRepository
+import com.everpath.domain.usecase.auth.LoginUseCase
+import com.everpath.domain.usecase.auth.RegisterUseCase
+import com.everpath.presentation.login.viewmodel.LoginViewModelFactory
+import com.everpath.presentation.register.viewmodel.RegisterViewModelFactory
 
 
 /**
@@ -77,7 +85,7 @@ class AppContainer(
         )
 
 
-    //Auth
+    // Auth
 
     val restoreSessionUseCase =
         RestoreSessionUseCase(
@@ -88,7 +96,6 @@ class AppContainer(
         LogoutUseCase(
             sessionManager
         )
-
 
     // Base de datos
 
@@ -118,6 +125,13 @@ class AppContainer(
                 ActivityApiService::class.java
             )
 
+    private val authApiService =
+        RetrofitProvider
+            .retrofit
+            .create(
+                AuthApiService::class.java
+            )
+
 
     // Remote Data Sources
 
@@ -129,6 +143,11 @@ class AppContainer(
     private val activityRemoteDataSource =
         ActivityRemoteDataSource(
             activityApiService
+        )
+
+    private val authRemoteDataSource =
+        AuthRemoteDataSource(
+            authApiService
         )
 
     private val userProgressRemoteDataSource =
@@ -196,6 +215,24 @@ class AppContainer(
 
             achievementRemoteDataSource =
                 achievementRemoteDataSource
+        )
+
+    private val authRepository:
+            AuthRepository =
+
+        AuthRepositoryImpl(
+            authRemoteDataSource =
+                authRemoteDataSource
+        )
+
+    val loginUseCase =
+        LoginUseCase(
+            authRepository
+        )
+
+    val registerUseCase =
+        RegisterUseCase(
+            authRepository
         )
 
 
@@ -376,6 +413,31 @@ class AppContainer(
     val completeGoalNodeUseCase =
         CompleteGoalNodeUseCase(
             updateGoalNodeUseCase
+        )
+
+
+    // ViewModel Factory
+
+    val loginViewModelFactory =
+        LoginViewModelFactory(
+
+            loginUseCase =
+                loginUseCase,
+
+            sessionManager =
+                sessionManager
+
+        )
+
+    val registerViewModelFactory =
+        RegisterViewModelFactory(
+
+            registerUseCase =
+                registerUseCase,
+
+            sessionManager =
+                sessionManager
+
         )
 
 }
