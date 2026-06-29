@@ -28,7 +28,7 @@ fun AppNavHost(
         navController = navController,
 
         startDestination =
-            AppDestination.Login.route,
+            AppDestination.Splash.route,
 
         modifier = modifier
     ) {
