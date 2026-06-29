@@ -39,6 +39,38 @@ class LoginViewModel(
     val uiState: StateFlow<LoginUiState> =
         _uiState.asStateFlow()
 
+
+    /**
+     * Actualiza el correo electrónico
+     * introducido por el usuario.
+     */
+    fun onEmailChanged(
+        email: String
+    ) {
+
+        _uiState.update {
+            it.copy(
+                email = email
+            )
+        }
+    }
+
+    /**
+     * Actualiza la contraseña
+     * introducida por el usuario.
+     */
+    fun onPasswordChanged(
+        password: String
+    ) {
+
+        _uiState.update {
+            it.copy(
+                password = password
+            )
+        }
+    }
+
+
     /**
      * Ejecuta el proceso de autenticación.
      */
