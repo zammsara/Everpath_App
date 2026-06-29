@@ -90,4 +90,16 @@ interface ActivityDao {
     suspend fun deleteActivityById(
         activityId: String
     )
+
+    @Query(
+        """
+    DELETE FROM activities
+    WHERE goalId = :goalId
+    AND id NOT IN (:activityIds)
+    """
+    )
+    suspend fun deleteActivitiesNotIn(
+        goalId: String,
+        activityIds: List<String>
+    )
 }

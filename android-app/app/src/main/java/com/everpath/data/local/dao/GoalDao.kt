@@ -71,4 +71,16 @@ interface GoalDao {
         goalId: String
     )
 
+    @Query(
+        """
+    DELETE FROM goal_nodes
+    WHERE userId = :userId
+    AND id NOT IN (:goalIds)
+    """
+    )
+    suspend fun deleteGoalsNotIn(
+        userId: Long,
+        goalIds: List<String>
+    )
+
 }
