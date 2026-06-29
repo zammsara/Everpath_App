@@ -1,5 +1,6 @@
 package com.everpath.presentation.splash.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.everpath.domain.sync.SyncManager

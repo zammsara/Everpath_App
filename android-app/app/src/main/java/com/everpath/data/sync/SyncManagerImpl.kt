@@ -1,5 +1,6 @@
 package com.everpath.data.sync
 
+import android.util.Log
 import com.everpath.data.session.UserSession
 import com.everpath.domain.repository.AchievementRepository
 import com.everpath.domain.repository.ActivityRepository
