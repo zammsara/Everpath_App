@@ -62,11 +62,20 @@ suspend inline fun <T> safeApiCall(
             tag,
             when (exception.code()) {
 
-                401 -> "No autorizado para acceder al recurso."
+                400 ->
+                    "Solicitud inválida."
 
-                404 -> "El recurso solicitado no existe."
+                401 ->
+                    "No autorizado para acceder al recurso."
 
-                500 -> "El servidor presentó un error interno."
+                404 ->
+                    "El recurso solicitado no existe."
+
+                409 ->
+                    "El recurso ya existe."
+
+                500 ->
+                    "El servidor presentó un error interno."
 
                 else ->
                     "Error HTTP ${exception.code()}."
