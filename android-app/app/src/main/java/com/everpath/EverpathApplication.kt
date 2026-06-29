@@ -12,5 +12,6 @@ class EverpathApplication : Application() {
         super.onCreate()
 
         appContainer = AppContainer(this)
+        appContainer.restoreSessionUseCase()
     }
 }
