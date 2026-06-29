@@ -60,6 +60,7 @@ import com.everpath.data.repository.AuthRepositoryImpl
 import com.everpath.domain.repository.AuthRepository
 import com.everpath.domain.usecase.auth.LoginUseCase
 import com.everpath.domain.usecase.auth.RegisterUseCase
+import com.everpath.domain.usecase.database.ClearLocalDatabaseUseCase
 import com.everpath.presentation.login.viewmodel.LoginViewModelFactory
 import com.everpath.presentation.register.viewmodel.RegisterViewModelFactory
 import com.everpath.presentation.splash.viewmodel.SplashViewModelFactory
@@ -85,19 +86,6 @@ class AppContainer(
             context
         )
 
-
-    // Auth
-
-    val restoreSessionUseCase =
-        RestoreSessionUseCase(
-            sessionManager
-        )
-
-    val logoutUseCase =
-        LogoutUseCase(
-            sessionManager
-        )
-
     // Base de datos
 
     private val database: EverpathDatabase =
@@ -109,6 +97,26 @@ class AppContainer(
             .fallbackToDestructiveMigration()
             .build()
 
+    private val clearLocalDatabaseUseCase =
+        ClearLocalDatabaseUseCase(
+            database
+        )
+
+
+    // Auth
+
+    val restoreSessionUseCase =
+        RestoreSessionUseCase(
+            sessionManager
+        )
+
+    val logoutUseCase =
+        LogoutUseCase(
+
+            sessionManager = sessionManager,
+            clearLocalDatabaseUseCase = clearLocalDatabaseUseCase
+
+        )
 
     // Api Services
 
