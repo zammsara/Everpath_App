@@ -112,6 +112,7 @@ class EverpathViewModel(
             updateGoalPositionUseCase(
                 GoalPositionEntity(
                     goalId = goalId,
+                    userId = UserSession.userId,
                     x = x,
                     y = y
                 )
@@ -180,6 +181,7 @@ class EverpathViewModel(
             updateGoalPositionUseCase(
                 GoalPositionEntity(
                     goalId = goalId,
+                    userId = UserSession.userId,
                     x = finalPosition.x,
                     y = finalPosition.y
                 )
