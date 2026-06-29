@@ -49,6 +49,7 @@ import com.everpath.domain.sync.SyncManager
 import com.everpath.domain.usecase.achievement.FetchAchievementsUseCase
 import com.everpath.domain.usecase.activity.FetchActivitiesByGoalUseCase
 import com.everpath.domain.usecase.activity.FetchActivityByIdUseCase
+import com.everpath.domain.usecase.auth.RestoreSessionUseCase
 import com.everpath.domain.usecase.goal.FetchGoalByIdUseCase
 import com.everpath.domain.usecase.goal.FetchGoalsUseCase
 import com.everpath.domain.usecase.userprogress.FetchUserProgressUseCase
@@ -72,6 +73,11 @@ class AppContainer(
     val sessionManager =
         SessionManager(
             context
+        )
+
+    val restoreSessionUseCase =
+        RestoreSessionUseCase(
+            sessionManager
         )
 
 
