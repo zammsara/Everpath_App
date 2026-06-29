@@ -34,10 +34,17 @@ class SyncManagerImpl(
 
         goalRepository.fetchGoals(userId)
 
-        goalRepository
-            .observeGoals()
-            .first()
-            .forEach { goal ->
+        try {
+            goalRepository.fetchGoals(userId)
+        } catch (_: Exception) {
+        }
+
+        val goals =
+            goalRepository
+                .observeGoals()
+                .first()
+
+        goals.forEach { goal ->
 
                 activityRepository
                     .fetchActivitiesByGoal(
@@ -45,8 +52,15 @@ class SyncManagerImpl(
                     )
             }
 
-        userProgressRepository.fetchUserProgress()
-        achievementRepository.fetchAchievements(userId)
+        try {
+            userProgressRepository.fetchUserProgress()
+        } catch (_: Exception) {
+        }
+
+        try {
+            achievementRepository.fetchAchievements(userId)
+        } catch (_: Exception) {
+        }
 
     }
 

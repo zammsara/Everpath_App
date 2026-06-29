@@ -21,6 +21,6 @@ object ApiConstants {
      * utilizará el servidor local.
      */
     const val BASE_URL =
-        "http://192.168.1.8:8080/"
+        "http://10.0.20.208:8080/"
 
 }

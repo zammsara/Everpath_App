@@ -43,11 +43,20 @@ class SplashViewModel(
         }
 
         viewModelScope.launch {
+
             val hasSession = restoreSessionUseCase()
 
             if (hasSession) {
 
-                syncManager.refresh()
+                // Lanzar la sincronización en segundo plano
+                launch {
+
+                    try {
+                        syncManager.refresh()
+                    } catch (_: Exception) {
+                    }
+                }
+
                 _uiState.update {
                     it.copy(
                         isLoading = false,
