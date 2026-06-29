@@ -247,10 +247,14 @@ class AppContainer(
 
     // Sincronización
 
-    val syncManager: SyncManager =
+    val syncManager =
         SyncManagerImpl(
+
             goalRepository =
                 goalRepository,
+
+            activityRepository =
+                activityRepository,
 
             userProgressRepository =
                 userProgressRepository,

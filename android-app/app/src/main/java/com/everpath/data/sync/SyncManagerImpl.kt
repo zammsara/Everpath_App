@@ -2,9 +2,11 @@ package com.everpath.data.sync
 
 import com.everpath.data.session.UserSession
 import com.everpath.domain.repository.AchievementRepository
+import com.everpath.domain.repository.ActivityRepository
 import com.everpath.domain.repository.GoalRepository
 import com.everpath.domain.repository.UserProgressRepository
 import com.everpath.domain.sync.SyncManager
+import kotlinx.coroutines.flow.first
 
 /**
  * Implementación principal del mecanismo
@@ -14,8 +16,8 @@ import com.everpath.domain.sync.SyncManager
  * backend hacia la base de datos local.
  */
 class SyncManagerImpl(
-
     private val goalRepository: GoalRepository,
+    private val activityRepository: ActivityRepository,
     private val userProgressRepository: UserProgressRepository,
     private val achievementRepository: AchievementRepository
 
@@ -30,6 +32,18 @@ class SyncManagerImpl(
         val userId = UserSession.userId
 
         goalRepository.fetchGoals(userId)
+
+        goalRepository
+            .observeGoals()
+            .first()
+            .forEach { goal ->
+
+                activityRepository
+                    .fetchActivitiesByGoal(
+                        goal.id
+                    )
+            }
+
         userProgressRepository.fetchUserProgress()
         achievementRepository.fetchAchievements(userId)
 
