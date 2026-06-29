@@ -16,6 +16,7 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.everpath.presentation.login.screen.LoginScreen
 import com.everpath.presentation.register.screen.RegisterScreen
+import com.everpath.presentation.splash.screen.SplashScreen
 
 @Composable
 fun AppNavHost(
@@ -32,6 +33,53 @@ fun AppNavHost(
 
         modifier = modifier
     ) {
+
+        composable(
+            route =
+                AppDestination.Splash.route
+        ) {
+
+            SplashScreen(
+
+                viewModel = viewModel(
+                    factory =
+                        appContainer
+                            .splashViewModelFactory
+
+                ),
+
+                onSessionRestored = {
+
+                    navController.navigate(
+                        AppDestination.Everpath.route
+                    ) {
+                        popUpTo(
+                            AppDestination.Splash.route
+                        ) {
+                            inclusive = true
+                        }
+                    }
+                },
+
+                onSessionNotFound = {
+
+                    navController.navigate(
+                        AppDestination.Login.route
+                    ) {
+
+                        popUpTo(
+                            AppDestination.Splash.route
+                        ) {
+                            inclusive = true
+                        }
+
+                    }
+
+                }
+
+            )
+
+        }
 
         composable(
             route =
