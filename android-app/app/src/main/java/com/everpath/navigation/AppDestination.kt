@@ -8,6 +8,10 @@ sealed class AppDestination(
         route = "everpath"
     )
 
+    data object Splash : AppDestination(
+        route = "splash"
+    )
+
     data object Login : AppDestination(
         route = "login"
     )
