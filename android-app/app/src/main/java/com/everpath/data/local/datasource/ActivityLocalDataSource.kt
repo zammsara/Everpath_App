@@ -2,6 +2,7 @@ package com.everpath.data.local.datasource
 
 import com.everpath.data.local.dao.ActivityDao
 import com.everpath.data.local.entity.ActivityEntity
+import com.everpath.data.session.UserSession
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -35,7 +36,8 @@ class ActivityLocalDataSource(
     ): ActivityEntity? {
 
         return activityDao.getActivityById(
-            activityId
+            activityId = activityId,
+            userId = UserSession.userId
         )
     }
 
