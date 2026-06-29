@@ -160,10 +160,16 @@ class GoalRepositoryImpl(
         val remoteGoals =
             result.getOrThrow()
 
+        val remoteGoalIds =
+            remoteGoals.map { it.id }
+
+        goalDao.deleteGoalsNotIn(
+            userId = userId,
+            goalIds = remoteGoalIds
+        )
+
         remoteGoals.forEach { remoteGoal ->
-
             saveGoalSafely(
-
                 remoteGoal
                     .toDomain()
                     .toEntity()
@@ -171,7 +177,6 @@ class GoalRepositoryImpl(
         }
 
         remoteGoals.forEachIndexed { index, goal ->
-
             createDefaultPositionIfNeeded(
                 goalId = goal.id,
                 x = 100f + (index * 250f),

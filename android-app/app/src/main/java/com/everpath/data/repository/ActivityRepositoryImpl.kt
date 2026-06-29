@@ -154,6 +154,14 @@ class ActivityRepositoryImpl(
         val remoteActivities =
             result.getOrThrow()
 
+        val remoteActivityIds =
+            remoteActivities.map { it.id }
+
+        activityDao.deleteActivitiesNotIn(
+            goalId = goalId,
+            activityIds = remoteActivityIds
+        )
+
         activityDao.insertActivities(
             remoteActivities.map {
                 it.toDomain()
