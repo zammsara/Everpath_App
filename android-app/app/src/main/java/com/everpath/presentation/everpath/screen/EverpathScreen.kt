@@ -45,11 +45,6 @@ fun EverpathScreen(
                         .appContainer
                         .getGoalNodesUseCase,
 
-                fetchGoalsUseCase =
-                    application
-                        .appContainer
-                        .fetchGoalsUseCase,
-
                 saveGoalNodeUseCase =
                     application
                         .appContainer

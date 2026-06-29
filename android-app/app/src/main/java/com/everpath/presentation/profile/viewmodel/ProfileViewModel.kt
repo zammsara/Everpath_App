@@ -2,7 +2,6 @@ package com.everpath.presentation.profile.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.everpath.data.session.UserSession
 import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.usecase.achievement.GetAchievementsUseCase
 import com.everpath.domain.usecase.goal.FetchGoalsUseCase
@@ -12,12 +11,10 @@ import com.everpath.domain.usecase.userprogress.GetLevelProgressUseCase
 import com.everpath.domain.usecase.userprogress.GetUserLevelUseCase
 import com.everpath.domain.usecase.userprogress.GetUserProgressUseCase
 import com.everpath.presentation.profile.state.ProfileUiState
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -27,9 +24,7 @@ import kotlinx.coroutines.launch
  */
 class ProfileViewModel(
     private val getGoalNodesUseCase: GetGoalNodesUseCase,
-    private val fetchGoalsUseCase: FetchGoalsUseCase,
     private val getUserProgressUseCase: GetUserProgressUseCase,
-    private val fetchUserProgressUseCase: FetchUserProgressUseCase,
     private val getUserLevelUseCase: GetUserLevelUseCase,
     private val getLevelProgressUseCase: GetLevelProgressUseCase,
     private val getAchievementsUseCase: GetAchievementsUseCase
@@ -46,16 +41,6 @@ class ProfileViewModel(
 
     init {
         observeProfile()
-        syncGoals()
-        syncUserProgress()
-    }
-
-    private fun syncGoals() {
-        viewModelScope.launch {
-            fetchGoalsUseCase(
-                UserSession.userId
-            )
-        }
     }
 
     private fun observeProfile() {
@@ -169,16 +154,4 @@ class ProfileViewModel(
         }
     }
 
-
-
-    /**
-     * Solicita la sincronización del
-     * progreso del usuario desde el
-     * backend hacia Room.
-     */
-    private fun syncUserProgress() {
-        viewModelScope.launch {
-            fetchUserProgressUseCase()
-        }
-    }
 }

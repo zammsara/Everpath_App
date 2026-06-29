@@ -49,11 +49,6 @@ fun TodayScreen() {
                         .appContainer
                         .getUserProgressUseCase,
 
-                fetchUserProgressUseCase =
-                    application
-                        .appContainer
-                        .fetchUserProgressUseCase,
-
                 getUserLevelUseCase =
                     application
                         .appContainer

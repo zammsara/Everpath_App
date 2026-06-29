@@ -4,13 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.everpath.domain.enums.ActivityStatus
 import com.everpath.domain.model.Activity
-import com.everpath.domain.usecase.achievement.FetchAchievementsUseCase
 import com.everpath.domain.usecase.activity.CompleteActivityUseCase
 import com.everpath.domain.usecase.activity.DeleteActivityUseCase
 import com.everpath.domain.usecase.activity.FetchActivityByIdUseCase
 import com.everpath.domain.usecase.activity.GetActivityByIdUseCase
 import com.everpath.domain.usecase.activity.UpdateActivityUseCase
-import com.everpath.domain.usecase.userprogress.FetchUserProgressUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -25,8 +23,6 @@ class ActivityDetailViewModel(
     private val updateActivityUseCase: UpdateActivityUseCase,
     private val completeActivityUseCase: CompleteActivityUseCase,
     private val deleteActivityUseCase: DeleteActivityUseCase,
-    private val fetchUserProgressUseCase: FetchUserProgressUseCase,
-    private val fetchAchievementsUseCase: FetchAchievementsUseCase,
     private val fetchActivityByIdUseCase: FetchActivityByIdUseCase
 
 ) : ViewModel() {

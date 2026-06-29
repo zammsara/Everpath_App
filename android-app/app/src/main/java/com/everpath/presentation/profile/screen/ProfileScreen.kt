@@ -74,20 +74,10 @@ fun ProfileScreen(
                         .appContainer
                         .getGoalNodesUseCase,
 
-                fetchGoalsUseCase =
-                    application
-                        .appContainer
-                        .fetchGoalsUseCase,
-
                 getUserProgressUseCase =
                     application
                         .appContainer
                         .getUserProgressUseCase,
-
-                fetchUserProgressUseCase =
-                    application
-                        .appContainer
-                        .fetchUserProgressUseCase,
 
                 getUserLevelUseCase =
                     application

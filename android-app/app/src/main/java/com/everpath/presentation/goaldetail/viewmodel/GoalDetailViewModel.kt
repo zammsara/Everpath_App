@@ -48,6 +48,17 @@ class GoalDetailViewModel(
     ) {
 
         viewModelScope.launch {
+            getGoalNodeByIdUseCase(goalId)
+                .collect { goal ->
+                    _uiState.update {
+                        it.copy(
+                            goal = goal
+                        )
+                    }
+                }
+        }
+
+        viewModelScope.launch {
             fetchGoalByIdUseCase(goalId)
         }
 

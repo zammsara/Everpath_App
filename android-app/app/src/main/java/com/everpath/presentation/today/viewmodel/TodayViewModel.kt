@@ -2,10 +2,8 @@ package com.everpath.presentation.today.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.everpath.data.session.UserSession
 import com.everpath.domain.enums.GoalStatus
 import com.everpath.domain.usecase.goal.GetGoalNodesUseCase
-import com.everpath.domain.usecase.userprogress.FetchUserProgressUseCase
 import com.everpath.domain.usecase.userprogress.GetLevelProgressUseCase
 import com.everpath.domain.usecase.userprogress.GetUserLevelUseCase
 import com.everpath.domain.usecase.userprogress.GetUserProgressUseCase
@@ -25,7 +23,6 @@ import kotlinx.coroutines.launch
 class TodayViewModel(
     private val getGoalNodesUseCase: GetGoalNodesUseCase,
     private val getUserProgressUseCase:  GetUserProgressUseCase,
-    private val fetchUserProgressUseCase: FetchUserProgressUseCase,
     private val getUserLevelUseCase: GetUserLevelUseCase,
     private val getLevelProgressUseCase: GetLevelProgressUseCase
 
@@ -40,7 +37,6 @@ class TodayViewModel(
 
     init {
         loadDashboard()
-        syncUserProgress()
         observeUserProgress()
     }
 
@@ -124,17 +120,5 @@ class TodayViewModel(
                 }
         }
     }
-
-
-    /**
-     * Solicita la sincronización del
-     * progreso del usuario con el backend.
-     */
-    private fun syncUserProgress() {
-        viewModelScope.launch {
-            fetchUserProgressUseCase()
-        }
-    }
-
 
 }

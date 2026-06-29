@@ -23,7 +23,6 @@ import com.everpath.domain.usecase.goalposition.UpdateGoalPositionUseCase
  */
 class EverpathViewModelFactory(
     private val getGoalNodesUseCase: GetGoalNodesUseCase,
-    private val fetchGoalsUseCase: FetchGoalsUseCase,
     private val saveGoalNodeUseCase: SaveGoalNodeUseCase,
     private val updateGoalNodeUseCase: UpdateGoalNodeUseCase,
     private val saveGoalPositionUseCase: SaveGoalPositionUseCase,
@@ -48,7 +47,6 @@ class EverpathViewModelFactory(
 
             return EverpathViewModel(
                 getGoalNodesUseCase = getGoalNodesUseCase,
-                fetchGoalsUseCase = fetchGoalsUseCase,
                 saveGoalNodeUseCase = saveGoalNodeUseCase,
                 updateGoalNodeUseCase = updateGoalNodeUseCase,
                 saveGoalPositionUseCase = saveGoalPositionUseCase,
