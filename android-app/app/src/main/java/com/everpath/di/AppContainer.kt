@@ -458,8 +458,8 @@ class AppContainer(
     val splashViewModelFactory =
         SplashViewModelFactory(
 
-            restoreSessionUseCase =
-                restoreSessionUseCase
+            restoreSessionUseCase =restoreSessionUseCase,
+            syncManager = syncManager
 
         )
 

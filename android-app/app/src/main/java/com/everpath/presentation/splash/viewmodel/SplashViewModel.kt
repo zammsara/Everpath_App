@@ -2,7 +2,7 @@ package com.everpath.presentation.splash.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.everpath.data.session.UserSession
+import com.everpath.domain.sync.SyncManager
 import com.everpath.domain.usecase.auth.RestoreSessionUseCase
 import com.everpath.presentation.splash.state.SplashUiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,8 +16,8 @@ import kotlinx.coroutines.launch
  * la sesión del usuario al iniciar la app.
  */
 class SplashViewModel(
-
-    private val restoreSessionUseCase: RestoreSessionUseCase
+    private val restoreSessionUseCase: RestoreSessionUseCase,
+    private val syncManager: SyncManager
 
 ) : ViewModel() {
 
@@ -42,12 +42,11 @@ class SplashViewModel(
         }
 
         viewModelScope.launch {
-
-            val hasSession =
-                restoreSessionUseCase()
+            val hasSession = restoreSessionUseCase()
 
             if (hasSession) {
 
+                syncManager.refresh()
                 _uiState.update {
                     it.copy(
                         isLoading = false,
@@ -63,7 +62,6 @@ class SplashViewModel(
                         hasSession = false
                     )
                 }
-
             }
 
         }

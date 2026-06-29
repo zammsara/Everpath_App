@@ -3,6 +3,7 @@ package com.everpath.presentation.splash.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.everpath.domain.sync.SyncManager
 import com.everpath.domain.usecase.auth.RestoreSessionUseCase
 
 /**
@@ -11,9 +12,8 @@ import com.everpath.domain.usecase.auth.RestoreSessionUseCase
  * con sus dependencias.
  */
 class SplashViewModelFactory(
-
-    private val restoreSessionUseCase:
-    RestoreSessionUseCase
+    private val restoreSessionUseCase: RestoreSessionUseCase,
+    private val syncManager: SyncManager
 
 ) : ViewModelProvider.Factory {
 
@@ -31,9 +31,8 @@ class SplashViewModelFactory(
         ) {
 
             return SplashViewModel(
-
-                restoreSessionUseCase =
-                    restoreSessionUseCase
+                restoreSessionUseCase =  restoreSessionUseCase,
+                syncManager = syncManager
 
             ) as T
 
