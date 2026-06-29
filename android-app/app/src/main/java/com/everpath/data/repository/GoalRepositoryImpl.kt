@@ -11,6 +11,7 @@ import com.everpath.data.remote.mapper.toCreateRequestDto
 import com.everpath.data.remote.mapper.toDomain
 import com.everpath.data.remote.mapper.toUpdateRequestDto
 import com.everpath.data.remote.util.safeApiCall
+import com.everpath.data.session.UserSession
 import com.everpath.domain.model.GoalNode
 import com.everpath.domain.repository.GoalPositionRepository
 import com.everpath.domain.repository.GoalRepository
@@ -48,7 +49,9 @@ class GoalRepositoryImpl(
     override fun observeGoals(): Flow<List<GoalNode>> {
 
         return goalDao
-            .getAllGoals()
+            .getAllGoals(
+                UserSession.userId
+            )
             .map { goals ->
 
                 goals.map {
@@ -66,7 +69,10 @@ class GoalRepositoryImpl(
     ): Flow<GoalNode?> {
 
         return goalDao
-            .getGoalById(goalId)
+            .getGoalById(
+                goalId = goalId,
+                userId = UserSession.userId
+            )
             .map { goal ->
 
                 goal?.toDomain()
@@ -93,6 +99,7 @@ class GoalRepositoryImpl(
                 .saveGoalPosition(
                     GoalPositionEntity(
                         goalId = goalId,
+                        userId = UserSession.userId,
                         x = x,
                         y = y
                     )

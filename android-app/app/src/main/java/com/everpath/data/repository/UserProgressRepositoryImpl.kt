@@ -43,11 +43,11 @@ class UserProgressRepositoryImpl(
             Flow<UserProgress?> {
 
         return userProgressDao
-            .getUserProgress()
+            .getUserProgress(
+                UserSession.userId
+            )
             .map { progress ->
-
                 progress?.toDomain()
-
             }
     }
 

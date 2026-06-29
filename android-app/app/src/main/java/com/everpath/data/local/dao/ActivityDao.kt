@@ -35,11 +35,11 @@ interface ActivityDao {
      */
     @Query(
         "SELECT * FROM activities " +
-                "WHERE goalId = :goalId " +
+                "WHERE id = :activityId " +
                 "AND userId = :userId"
     )
     fun observeActivityById(
-        goalId: String,
+        activityId: String,
         userId: Long
     ): Flow<ActivityEntity?>
 

@@ -9,6 +9,7 @@ import com.everpath.data.remote.mapper.toCreateRequestDto
 import com.everpath.data.remote.mapper.toDomain
 import com.everpath.data.remote.mapper.toUpdateRequestDto
 import com.everpath.data.remote.util.safeApiCall
+import com.everpath.data.session.UserSession
 import com.everpath.domain.model.Activity
 import com.everpath.domain.repository.ActivityRepository
 import kotlinx.coroutines.flow.Flow
@@ -61,7 +62,10 @@ class ActivityRepositoryImpl(
                 )
 
                 return activityDao
-                    .getActivityById(activityId)
+                    .getActivityById(
+                        activityId = activityId,
+                        userId = UserSession.userId
+                    )
                     ?.toDomain()
                     ?: throw it
             }
@@ -108,7 +112,8 @@ class ActivityRepositoryImpl(
     ): Flow<Activity?> {
         return activityDao
             .observeActivityById(
-                activityId
+                activityId = activityId,
+                userId = UserSession.userId
             )
             .map { activity ->
 

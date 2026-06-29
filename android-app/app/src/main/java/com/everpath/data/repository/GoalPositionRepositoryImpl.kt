@@ -2,6 +2,7 @@ package com.everpath.data.repository
 
 import com.everpath.data.local.dao.GoalPositionDao
 import com.everpath.data.local.entity.GoalPositionEntity
+import com.everpath.data.session.UserSession
 import com.everpath.domain.repository.GoalPositionRepository
 import kotlinx.coroutines.flow.Flow
 
@@ -12,7 +13,9 @@ class GoalPositionRepositoryImpl(
     override fun getGoalPositions():
             Flow<List<GoalPositionEntity>> {
 
-        return goalPositionDao.getAllPositions()
+        return goalPositionDao.getAllPositions(
+            UserSession.userId
+        )
     }
 
     override suspend fun getGoalPositionById(
@@ -20,7 +23,10 @@ class GoalPositionRepositoryImpl(
     ): GoalPositionEntity? {
 
         return goalPositionDao
-            .getPositionByGoalId(goalId)
+            .getPositionByGoalId(
+                goalId = goalId,
+                userId = UserSession.userId
+            )
     }
 
     override suspend fun saveGoalPosition(

@@ -7,6 +7,7 @@ import com.everpath.data.local.mapper.toEntity
 import com.everpath.data.remote.datasource.AchievementRemoteDataSource
 import com.everpath.data.remote.mapper.toDomain
 import com.everpath.data.remote.util.safeApiCall
+import com.everpath.data.session.UserSession
 import com.everpath.domain.model.Achievement
 import com.everpath.domain.repository.AchievementRepository
 import kotlinx.coroutines.flow.Flow
@@ -86,7 +87,9 @@ class AchievementRepositoryImpl(
             Flow<List<Achievement>> {
 
         return achievementDao
-            .getAchievements()
+            .getAchievements(
+                UserSession.userId
+            )
             .map { achievements ->
 
                 achievements.map {
@@ -101,7 +104,8 @@ class AchievementRepositoryImpl(
 
         return achievementDao
             .getAchievementById(
-                achievementId
+                id = achievementId,
+                userId = UserSession.userId
             )
             ?.toDomain()
     }
