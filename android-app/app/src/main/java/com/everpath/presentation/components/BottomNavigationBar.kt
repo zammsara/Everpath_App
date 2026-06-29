@@ -91,31 +91,6 @@ fun BottomNavigationBar(
 
         )
 
-        NavigationBarItem(
-            selected =
-                currentRoute ==
-                        AppDestination.Quests.route,
-
-            onClick = {
-
-                navController.navigate(
-                    AppDestination.Quests.route
-                )
-
-            },
-
-            icon = {
-                Icon(
-                    imageVector = Icons.Default.Star,
-                    contentDescription = null
-                )
-            },
-
-            label = {
-                Text("Misiones")
-            }
-
-        )
 
         NavigationBarItem(
             selected =
