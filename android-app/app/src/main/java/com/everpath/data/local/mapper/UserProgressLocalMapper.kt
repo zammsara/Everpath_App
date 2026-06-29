@@ -1,6 +1,8 @@
 package com.everpath.data.local.mapper
 
+import android.R.attr.id
 import com.everpath.data.local.entity.UserProgressEntity
+import com.everpath.data.session.UserSession
 import com.everpath.domain.model.UserProgress
 
 /**
@@ -20,7 +22,7 @@ fun UserProgress.toEntity():
         UserProgressEntity {
 
     return UserProgressEntity(
-        id = id,
+        userId = UserSession.userId,
         xp = xp
     )
 

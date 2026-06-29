@@ -1,6 +1,7 @@
 package com.everpath.data.local.mapper
 
 import com.everpath.data.local.entity.AchievementEntity
+import com.everpath.data.session.UserSession
 import com.everpath.domain.model.Achievement
 
 /**
@@ -24,6 +25,7 @@ fun Achievement.toEntity():
 
     return AchievementEntity(
         id = id,
+        userId = UserSession.userId,
         title = title,
         description = description,
         unlocked = unlocked,

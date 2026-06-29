@@ -9,6 +9,8 @@ data class GoalEntity(
     @PrimaryKey
     val id: String,
 
+    val userId: Long,
+
     val title: String,
 
     val description: String,

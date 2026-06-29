@@ -28,6 +28,8 @@ data class ActivityEntity(
     @PrimaryKey
     val id: String,
 
+    val userId: Long,
+
     val goalId: String,
 
     val title: String,

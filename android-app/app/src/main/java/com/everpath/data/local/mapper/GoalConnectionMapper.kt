@@ -1,6 +1,7 @@
 package com.everpath.data.local.mapper
 
 import com.everpath.data.local.entity.GoalConnectionEntity
+import com.everpath.data.session.UserSession
 import com.everpath.domain.model.GoalConnection
 
 /**
@@ -20,6 +21,7 @@ fun GoalConnection.toEntity(): GoalConnectionEntity {
 
     return GoalConnectionEntity(
         id = id,
+        userId = UserSession.userId,
         sourceGoalId = sourceGoalId,
         targetGoalId = targetGoalId
     )

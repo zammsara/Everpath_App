@@ -15,14 +15,17 @@ import kotlinx.coroutines.flow.Flow
 interface GoalDao {
 
     @Transaction
-    @Query("SELECT * FROM goal_nodes")
-    fun getAllGoals(): Flow<List<GoalWithActivities>>
+    @Query("SELECT * FROM goal_nodes\n" +
+            "WHERE userId = :userId")
+    fun getAllGoals(userId: Long): Flow<List<GoalWithActivities>>
 
     @Transaction
     @Query(
-        "SELECT * FROM goal_nodes WHERE id = :goalId"
+        "SELECT * FROM goal_nodes " +
+                "WHERE id = :goalId " +
+                "AND userId = :userId"
     )
-    fun getGoalById(         goalId: String
+    fun getGoalById(goalId: String, userId: Long
     ): Flow<GoalWithActivities?>
 
     @Insert(

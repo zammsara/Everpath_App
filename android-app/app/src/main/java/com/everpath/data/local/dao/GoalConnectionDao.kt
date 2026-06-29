@@ -15,9 +15,10 @@ import kotlinx.coroutines.flow.Flow
 interface GoalConnectionDao {
 
     @Query(
-        "SELECT * FROM goal_connections"
+        "SELECT * FROM goal_connections " +
+                "WHERE userId = :userId"
     )
-    fun getAllConnections():
+    fun getAllConnections(userId: Long):
             Flow<List<GoalConnectionEntity>>
 
     @Insert(

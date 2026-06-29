@@ -37,6 +37,8 @@ data class GoalConnectionEntity(
     @PrimaryKey
     val id: String,
 
+    val userId: Long,
+
     val sourceGoalId: String,
 
     val targetGoalId: String

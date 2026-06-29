@@ -1,6 +1,7 @@
 package com.everpath.data.local.mapper
 
 import com.everpath.data.local.entity.ActivityEntity
+import com.everpath.data.session.UserSession
 import com.everpath.domain.enums.ActivityStatus
 import com.everpath.domain.model.Activity
 
@@ -24,6 +25,7 @@ fun Activity.toEntity(): ActivityEntity {
 
     return ActivityEntity(
         id = id,
+        userId = UserSession.userId,
         goalId = goalId,
         title = title,
         description = description,

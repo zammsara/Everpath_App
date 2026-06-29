@@ -34,17 +34,23 @@ interface ActivityDao {
      * local.
      */
     @Query(
-        "SELECT * FROM activities WHERE id = :activityId"
+        "SELECT * FROM activities " +
+                "WHERE goalId = :goalId " +
+                "AND userId = :userId"
     )
     fun observeActivityById(
-        activityId: String
+        goalId: String,
+        userId: Long
     ): Flow<ActivityEntity?>
 
     @Query(
-        "SELECT * FROM activities WHERE id = :activityId"
+        "SELECT * FROM activities " +
+                "WHERE id = :activityId " +
+                "AND userId = :userId"
     )
     suspend fun getActivityById(
-        activityId: String
+        activityId: String,
+        userId: Long
     ): ActivityEntity?
 
     @Insert(

@@ -22,15 +22,19 @@ import kotlinx.coroutines.flow.Flow
 interface UserProgressDao {
 
     @Query(
-        "SELECT * FROM user_progress LIMIT 1"
+        "SELECT * FROM user_progress " +
+                "WHERE userId = :userId " +
+                "LIMIT 1"
     )
-    fun getUserProgress():
+    fun getUserProgress(userId: Long):
             Flow<UserProgressEntity?>
 
     @Query(
-        "SELECT * FROM user_progress LIMIT 1"
+        "SELECT * FROM user_progress " +
+                "WHERE userId = :userId " +
+                "LIMIT 1"
     )
-    suspend fun getCurrentUserProgress():
+    suspend fun getCurrentUserProgress(userId: Long):
             UserProgressEntity?
 
     @Insert(

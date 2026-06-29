@@ -26,6 +26,8 @@ data class GoalPositionEntity(
     @PrimaryKey
     val goalId: String,
 
+    val userId: Long,
+
     val x: Float,
 
     val y: Float

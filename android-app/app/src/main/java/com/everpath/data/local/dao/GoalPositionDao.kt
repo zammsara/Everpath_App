@@ -15,16 +15,20 @@ import kotlinx.coroutines.flow.Flow
 interface GoalPositionDao {
 
     @Query(
-        "SELECT * FROM goal_positions"
+        "SELECT * FROM goal_positions " +
+                "WHERE userId = :userId"
     )
-    fun getAllPositions():
+    fun getAllPositions(userId: Long):
             Flow<List<GoalPositionEntity>>
 
     @Query(
-        "SELECT * FROM goal_positions WHERE goalId = :goalId"
+        "SELECT * FROM goal_positions " +
+                "WHERE goalId = :goalId " +
+                "AND userId = :userId"
     )
     suspend fun getPositionByGoalId(
-        goalId: String
+        goalId: String,
+        userId: Long
     ): GoalPositionEntity?
 
     @Insert(

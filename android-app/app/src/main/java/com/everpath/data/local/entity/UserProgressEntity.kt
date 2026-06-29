@@ -14,7 +14,7 @@ import androidx.room.PrimaryKey
 data class UserProgressEntity(
 
     @PrimaryKey
-    val id: Int = 1,
+    val userId: Long,
 
     val xp: Int
 

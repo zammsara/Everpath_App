@@ -15,16 +15,20 @@ import kotlinx.coroutines.flow.Flow
 interface AchievementDao {
 
     @Query(
-        "SELECT * FROM achievements"
+        "SELECT * FROM achievements " +
+                "WHERE userId = :userId"
     )
-    fun getAchievements():
+    fun getAchievements(userId: Long):
             Flow<List<AchievementEntity>>
 
     @Query(
-        "SELECT * FROM achievements WHERE id = :id"
+        "SELECT * FROM achievements " +
+                "WHERE id = :id " +
+                "AND userId = :userId"
     )
     suspend fun getAchievementById(
-        id: String
+        id: String,
+        userId: Long
     ): AchievementEntity?
 
     @Insert(
