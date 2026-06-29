@@ -2,6 +2,7 @@ package com.everpath.data.local.datasource
 
 import com.everpath.data.local.dao.UserProgressDao
 import com.everpath.data.local.entity.UserProgressEntity
+import com.everpath.data.session.UserSession
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -22,7 +23,9 @@ class UserProgressLocalDataSource(
     fun getUserProgress():
             Flow<UserProgressEntity?> {
 
-        return userProgressDao.getUserProgress()
+        return userProgressDao.getUserProgress(
+            UserSession.userId
+        )
     }
 
 
@@ -30,7 +33,9 @@ class UserProgressLocalDataSource(
             UserProgressEntity? {
 
         return userProgressDao
-            .getCurrentUserProgress()
+            .getCurrentUserProgress(
+                UserSession.userId
+            )
     }
 
 

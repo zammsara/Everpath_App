@@ -3,6 +3,7 @@ package com.everpath.data.local.datasource
 import com.everpath.data.local.dao.GoalDao
 import com.everpath.data.local.entity.GoalEntity
 import com.everpath.data.local.relation.GoalWithActivities
+import com.everpath.data.session.UserSession
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -29,7 +30,9 @@ class GoalLocalDataSource(
     fun getAllGoals():
             Flow<List<GoalWithActivities>> {
 
-        return goalDao.getAllGoals()
+        return goalDao.getAllGoals(
+            UserSession.userId
+        )
 
     }
 
@@ -39,7 +42,8 @@ class GoalLocalDataSource(
     ): Flow<GoalWithActivities?> {
 
         return goalDao.getGoalById(
-            goalId
+            goalId = goalId,
+            userId = UserSession.userId
         )
 
     }
