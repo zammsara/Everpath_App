@@ -1,23 +1,29 @@
 package com.everpath.data.remote.mapper
 
 import com.everpath.data.remote.dto.auth.LoginResponseDto
+import com.everpath.data.remote.dto.auth.RegisterResponseDto
 import com.everpath.domain.model.User
 
 /**
- * Mapper encargado de convertir
+ * Mapper encargado de transformar
  * respuestas remotas de autenticación
  * hacia modelos del dominio.
  */
+
 fun LoginResponseDto.toDomain(): User {
 
     return User(
-
         id = id,
-
         name = name,
-
         email = email
-
     )
+}
 
+fun RegisterResponseDto.toDomain(): User {
+
+    return User(
+        id = id,
+        name = name,
+        email = email
+    )
 }
