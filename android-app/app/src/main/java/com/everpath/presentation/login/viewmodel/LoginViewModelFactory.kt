@@ -3,6 +3,7 @@ package com.everpath.presentation.login.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.everpath.data.session.SessionManager
+import com.everpath.domain.sync.SyncManager
 import com.everpath.domain.usecase.auth.LoginUseCase
 
 /**
@@ -16,7 +17,8 @@ import com.everpath.domain.usecase.auth.LoginUseCase
  */
 class LoginViewModelFactory(
     private val loginUseCase: LoginUseCase,
-    private val sessionManager: SessionManager
+    private val sessionManager: SessionManager,
+    private val syncManager: SyncManager
 
 ) : ViewModelProvider.Factory {
 
@@ -36,7 +38,8 @@ class LoginViewModelFactory(
 
             return LoginViewModel(
                 loginUseCase = loginUseCase,
-                sessionManager = sessionManager
+                sessionManager = sessionManager,
+                syncManager = syncManager
 
             ) as T
 

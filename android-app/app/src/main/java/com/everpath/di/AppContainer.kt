@@ -434,7 +434,10 @@ class AppContainer(
                 loginUseCase,
 
             sessionManager =
-                sessionManager
+                sessionManager,
+
+            syncManager =
+                syncManager
 
         )
 
@@ -445,7 +448,10 @@ class AppContainer(
                 registerUseCase,
 
             sessionManager =
-                sessionManager
+                sessionManager,
+
+            syncManager =
+                syncManager
 
         )
 

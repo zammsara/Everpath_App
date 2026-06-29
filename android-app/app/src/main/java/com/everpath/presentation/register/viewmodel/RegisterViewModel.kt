@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.everpath.data.session.SessionManager
 import com.everpath.data.session.UserSession
+import com.everpath.domain.sync.SyncManager
 import com.everpath.domain.usecase.auth.RegisterUseCase
 import com.everpath.presentation.register.state.RegisterUiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,8 +28,8 @@ import kotlinx.coroutines.launch
 class RegisterViewModel(
 
     private val registerUseCase: RegisterUseCase,
-
-    private val sessionManager: SessionManager
+    private val sessionManager: SessionManager,
+    private val syncManager: SyncManager
 
 ) : ViewModel() {
 
@@ -81,10 +82,8 @@ class RegisterViewModel(
                 .onSuccess { user ->
 
                     sessionManager.saveSession(user)
-
-                    UserSession.initialize(
-                        user.id
-                    )
+                    UserSession.initialize(user.id)
+                    syncManager.refresh()
 
                     _uiState.update {
                         it.copy(
