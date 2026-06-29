@@ -1,23 +1,48 @@
 package com.everpath.data.session
 
 /**
- * Mantiene la información de la sesión
- * actualmente utilizada por la aplicación.
+ * Mantiene la información mínima
+ * de la sesión actualmente activa.
  *
- * Durante esta etapa del proyecto existe
- * un único usuario de pruebas, por lo que
- * el identificador permanece fijo.
- *
- * En futuras versiones este objeto será
- * actualizado automáticamente al iniciar
- * sesión mediante autenticación.
+ * El valor se inicializa durante el
+ * arranque de la aplicación a partir
+ * de SessionManager y posteriormente
+ * puede actualizarse después de un
+ * inicio o cierre de sesión.
  */
 object UserSession {
 
+    private var currentUserId: Long? = null
+
     /**
      * Identificador del usuario
-     * actualmente autenticado.
+     * autenticado actualmente.
      */
-    var userId: Long = 7L
+    val userId: Long
+        get() = currentUserId
+            ?: error(
+                "UserSession no ha sido inicializada."
+            )
 
+    /**
+     * Inicializa la sesión activa.
+     */
+    fun initialize(
+        userId: Long
+    ) {
+        currentUserId =
+            userId
+    }
+
+
+    fun isInitialized():
+            Boolean {
+        return currentUserId != null
+
+    }
+
+
+    fun clear() {
+        currentUserId = null
+    }
 }
