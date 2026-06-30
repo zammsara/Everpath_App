@@ -273,9 +273,3 @@ File → Open
 ## Objetivo del Proyecto
 
 Everpath nace con el propósito de ofrecer una forma más visual y estructurada de gestionar objetivos personales. El proyecto combina técnicas de organización, seguimiento de progreso y arquitectura moderna de desarrollo móvil para construir una aplicación mantenible, escalable y preparada para futuras expansiones.
-
----
-
-## Equipo de Desarrollo
-
-Proyecto desarrollado como parte de una iniciativa académica de desarrollo de software móvil utilizando tecnologías modernas del ecosistema Android y backend basado en Spring Boot.
